@@ -13,10 +13,14 @@ public class Main extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("View.fxml"));
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+        // stage is top-level JavaFX container (window)
+        Parent root = FXMLLoader.load(getClass().getResource("View.fxml")); // root node of the scene graph
+        Scene scene = new Scene(root); // initialize scene (container for all content) with root node
+
+        // stage (window) information
+        stage.setTitle("JavaFX Application"); // title bar
+        stage.setScene(scene); 
+        stage.show(); 
     }
 
     public static void main(String[] args) {
