@@ -12,7 +12,7 @@ public class Main extends Application {
     Model model;    
     
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) throws Exception { // main entry point for JavaFX application
         // stage is top-level JavaFX container (window)
         Parent root = FXMLLoader.load(getClass().getResource("View.fxml")); // root node of the scene graph
         Scene scene = new Scene(root); // initialize scene (container for all content) with root node
@@ -24,12 +24,7 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
-        launch(args);
-        System.out.println("Hello, World!");
-        Scanner input = new Scanner(System.in);
-        System.out.print("Enter a number: ");
-        int number = input.nextInt();
-        System.out.println("You entered: " + number);
+        launch(args); // main JavaFX application thread
         // // main loop
         // do
         // {
