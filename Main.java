@@ -24,7 +24,9 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
-        launch(args); // main JavaFX application thread
+        // code here runs before JavaFX application thread
+        launch(args); // main JavaFX application thread (blocking)
+        // code here runs only after the GUI closes
         // // main loop
         // do
         // {

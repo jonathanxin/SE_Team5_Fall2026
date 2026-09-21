@@ -9,7 +9,8 @@
             "name": "Launch Main Program",
             "request": "launch",
             "mainClass": "Main",
-            "vmArgs": "--module-path lib --add-modules javafx.controls,javafx.graphics,javafx.fxml -Djava.library.path=bin",
+            // "vmArgs": "--module-path lib --add-modules javafx.controls,javafx.graphics,javafx.fxml -Djava.library.path=bin",
+            "vmArgs": "--enable-native-access=ALL-UNNAMED"
         }
     ]
 }
