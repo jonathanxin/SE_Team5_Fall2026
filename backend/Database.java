@@ -11,13 +11,4 @@ public class Database {
 
         return DriverManager.getConnection(url, user, password);
     }
-
-    public static void main(String[] args) {
-        try (Connection connection = connect()) {
-            System.out.println("Connected to photon database.");
-        } catch (SQLException e) {
-            System.out.println("Database connection failed.");
-            e.printStackTrace();
-        }
-    }
 }
