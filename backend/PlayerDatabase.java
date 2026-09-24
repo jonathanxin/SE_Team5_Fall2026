@@ -5,7 +5,7 @@ import java.sql.SQLException;
 
 public class PlayerDatabase {
 
-    public static String findPlayerById(int id) {
+    public String findPlayerById(int id) {
         String sql = "SELECT codename FROM players WHERE id = ?";
 
         try (Connection connection = Database.connect();
@@ -27,7 +27,7 @@ public class PlayerDatabase {
         return null;
     }
 
-    public static boolean addPlayer(int id, String codename) {
+    public boolean addPlayer(int id, String codename) {
         String sql = "INSERT INTO players (id, codename) VALUES (?, ?)";
 
         try (Connection connection = Database.connect();
@@ -42,16 +42,6 @@ public class PlayerDatabase {
             System.out.println("Player addition failed.");
             e.printStackTrace();
             return false;
-        }
-    }
-
-    public static void main(String[] args) {
-        String codename = findPlayerById(2);
-
-        if (codename != null) {
-            System.out.println("Player found: " + codename);
-        } else {
-            System.out.println("Player not found.");
         }
     }
 }
