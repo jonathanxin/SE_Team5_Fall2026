@@ -4,107 +4,120 @@
 <?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="500.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
-   <center>
-      <VBox>
-         <children>
-            <HBox alignment="CENTER">
+<StackPane prefHeight="500.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
+   <children>
+      <BorderPane prefHeight="500.0" prefWidth="500.0">
+         <center>
+            <VBox>
                <children>
-                  <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefWidth="250.0" text="GREEN TEAM" textAlignment="CENTER" HBox.hgrow="ALWAYS" />
-                  <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefWidth="250.0" text="RED TEAM" HBox.hgrow="ALWAYS" />
+                  <HBox alignment="CENTER">
+                     <children>
+                        <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefWidth="250.0" text="GREEN TEAM" textAlignment="CENTER" HBox.hgrow="ALWAYS" />
+                        <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefWidth="250.0" text="RED TEAM" HBox.hgrow="ALWAYS" />
+                     </children>
+                  </HBox>
+                  <GridPane fx:id="playerGrid" gridLinesVisible="true" VBox.vgrow="ALWAYS">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints />
+                    </rowConstraints>
+                     <children>
+                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="0" GridPane.rowIndex="7" />
+                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="0" GridPane.rowIndex="8" />
+                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="0" GridPane.rowIndex="9" />
+                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="0" GridPane.rowIndex="10" />
+                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="0" GridPane.rowIndex="11" />
+                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="1" GridPane.rowIndex="11" />
+                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="0" GridPane.rowIndex="12" />
+                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="1" GridPane.rowIndex="12" />
+                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="0" GridPane.rowIndex="13" />
+                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="1" GridPane.rowIndex="13" />
+                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="0" GridPane.rowIndex="14" />
+                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="1" GridPane.rowIndex="14" />
+                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="0" GridPane.rowIndex="15" />
+                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="1" GridPane.rowIndex="15" />
+                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="0" GridPane.rowIndex="16" />
+                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="1" GridPane.rowIndex="16" />
+                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="0" GridPane.rowIndex="17" />
+                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="1" GridPane.rowIndex="17" />
+                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="0" GridPane.rowIndex="18" />
+                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="1" GridPane.rowIndex="18" />
+                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="0" GridPane.rowIndex="19" />
+                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="1" GridPane.rowIndex="19" />
+                     </children>
+                  </GridPane>
                </children>
-            </HBox>
-            <GridPane fx:id="playerGrid" gridLinesVisible="true" VBox.vgrow="ALWAYS">
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-              </columnConstraints>
-              <rowConstraints>
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints />
-              </rowConstraints>
-               <children>
-                  <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-                  <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-                  <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-                  <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-                  <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-                  <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                  <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="0" GridPane.rowIndex="4" />
-                  <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                  <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="0" GridPane.rowIndex="5" />
-                  <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                  <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="0" GridPane.rowIndex="6" />
-                  <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                  <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="0" GridPane.rowIndex="7" />
-                  <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-                  <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="0" GridPane.rowIndex="8" />
-                  <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="1" GridPane.rowIndex="8" />
-                  <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="0" GridPane.rowIndex="9" />
-                  <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="1" GridPane.rowIndex="9" />
-                  <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="0" GridPane.rowIndex="10" />
-                  <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="1" GridPane.rowIndex="10" />
-                  <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="0" GridPane.rowIndex="11" />
-                  <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="1" GridPane.rowIndex="11" />
-                  <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="0" GridPane.rowIndex="12" />
-                  <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="1" GridPane.rowIndex="12" />
-                  <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="0" GridPane.rowIndex="13" />
-                  <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="1" GridPane.rowIndex="13" />
-                  <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="0" GridPane.rowIndex="14" />
-                  <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="1" GridPane.rowIndex="14" />
-                  <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="0" GridPane.rowIndex="15" />
-                  <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="1" GridPane.rowIndex="15" />
-                  <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="0" GridPane.rowIndex="16" />
-                  <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="1" GridPane.rowIndex="16" />
-                  <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="0" GridPane.rowIndex="17" />
-                  <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="1" GridPane.rowIndex="17" />
-                  <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="0" GridPane.rowIndex="18" />
-                  <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="1" GridPane.rowIndex="18" />
-                  <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="0" GridPane.rowIndex="19" />
-                  <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="1" GridPane.rowIndex="19" />
-               </children>
-            </GridPane>
-         </children>
-      </VBox>
-   </center>
-   <top>
-      <Label text="Edit Current Game" BorderPane.alignment="CENTER" />
-   </top>
-   <bottom>
-      <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-        <buttons>
-          <Button fx:id="changeNetworkButton" focusTraversable="false" mnemonicParsing="false" onAction="#changeNetworkButtonPress" text="Change Network">
-               <graphic>
-                  <TextField fx:id="networkAddress" focusTraversable="false" promptText="Enter Network" />
-               </graphic></Button>
-        </buttons>
-      </ButtonBar>
-   </bottom>
-</BorderPane>
+            </VBox>
+         </center>
+         <top>
+            <Label text="Edit Current Game" BorderPane.alignment="CENTER" />
+         </top>
+         <bottom>
+            <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+              <buttons>
+                <Button fx:id="changeNetworkButton" focusTraversable="false" mnemonicParsing="false" onAction="#changeNetworkButtonPress" text="Change Network">
+                     <graphic>
+                        <TextField fx:id="networkAddress" focusTraversable="false" promptText="Enter Network" />
+                     </graphic>
+                  </Button>
+              </buttons>
+            </ButtonBar>
+         </bottom>
+      </BorderPane>
+      <ImageView fx:id="splashScreen" fitHeight="500.0" pickOnBounds="true" preserveRatio="true" visible="false">
+         <image>
+            <Image url="@splashscreen.jpg" />
+         </image>
+      </ImageView>
+   </children>
+</StackPane>

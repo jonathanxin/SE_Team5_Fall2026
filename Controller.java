@@ -1,21 +1,26 @@
 // handles user input and updates model on events
 //  delegates to model by calling corresponding methods
-//  needs a model object
-// forwards model data to view for display
-import javafx.application.Platform;
+// forwards model data to view for display via bindings and listeners
+import javafx.util.Duration;
+import javafx.animation.Animation;
+import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.control.Button;
-import javafx.scene.control.TableView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.Node;
+import javafx.scene.image.ImageView;
 
 public class Controller {
     private Model model;
+
+    public void setModel(Model model) {
+        this.model = model;
+    }
 
     @FXML 
     private GridPane playerGrid;
@@ -26,6 +31,9 @@ public class Controller {
     @FXML
     private TextField networkAddress;
 
+    @FXML
+    private ImageView splashScreen;
+
 
     @FXML
     void changeNetworkButtonPress(ActionEvent event) {
@@ -34,25 +42,51 @@ public class Controller {
         System.out.println("Network address: " + networkAddress.getText());
     }
 
-    public void update() {
-        // Implement the logic to update the controller state
+    public void onSceneReady() {
+        // Implement the logic to update the controller state after the window is initialized
+        // only logic that requires scene or stage information should be placed here (e.g., getParent(), getScene(), getWindow(), getScreenBounds(), etc.)
+
+        StackPane parent = (StackPane) splashScreen.getParent(); // get StackPane (root)
+
+        // bind ImageView to parent to allow resizing of the splash screen image
+        splashScreen.fitWidthProperty().bind(parent.widthProperty());
+        splashScreen.fitHeightProperty().bind(parent.heightProperty());
+
+        // set focus to the first player field 
+        TextField firstField = (TextField) playerGrid.getChildren().get(0);
+        firstField.requestFocus(); // request focus on the first field (focus can only be set after scene and stage are initialized)
     }
 
     public void initialize() {
-        // called by FXMLLoader after the fxml file has been loaded
+        // called by FXMLLoader after the fxml file has been loaded and all @FXML annotated fields have been injected (all elements can be binded, listeners can be added, and properties can be set)
+        // NOTE: initialze() is called before parent layout is attatched to scene or a stage (cannot request window actions (e.g., geting screen bounds), or )
+
+        // change ImageView to be visible (set invisible to allow for easier editing of the FXML file in SceneBuilder)
+        splashScreen.setVisible(true);
+
         // initialize all player fields in playerGrid with properties and listeners
         for (Node node : playerGrid.getChildren()) {
             if (node instanceof TextField playerField) {
                 playerField.setFocusTraversable(false); // prevent default Tab behavior of moving focus to the next field
                 playerField.setMouseTransparent(true); // prevent mouse clicks from stealing focus
-                playerField.focusedProperty().addListener((observable, oldValue, newValue) -> { // bind change listener to each player fields focusedProperty
+                playerField.focusedProperty().addListener((observable, oldValue, newValue) -> { // add change listener to each player fields focusedProperty
                     handlePlayerFieldFocus(new ActionEvent(playerField, null), newValue);
                 });
             }
         }
-        // set focus to the first player field
-        TextField firstField = (TextField) playerGrid.getChildren().get(0);
-        Platform.runLater(firstField::requestFocus); // request focus on the first field after the scene is rendered
+
+        // make splashScreen fade out after 3 seconds and then pop it from the StackPane
+        FadeTransition fadeOut = new FadeTransition(Duration.seconds(3), splashScreen);
+        fadeOut.setFromValue(1.0); // start fully visible
+        fadeOut.setToValue(0.0); // end fully transparent
+        fadeOut.statusProperty().addListener((observable) -> { // add invalidation listner to statusProperty of fadeOut to remove splashScreen from parent StackPane after fade out is complete
+            if (fadeOut.getStatus() == Animation.Status.STOPPED) {
+                StackPane parent = (StackPane) splashScreen.getParent();
+                parent.getChildren().remove(splashScreen);
+                System.out.println("Splash screen removed from parent StackPane");
+            }
+        });
+        fadeOut.play(); // start fade out transition
     }
 
     // called onKeyPress in the player entry fields
@@ -80,6 +114,7 @@ public class Controller {
         // modify playerField properties for invalid entries
         if (!isValid) {
             playerField.setStyle("-fx-border-color: red;"); // change textfield border color to red for invalid entry
+            playerField.clear(); // clear invalid entry
             playerField.setPromptText("Enter Nickname"); // set prompt text to indicate addition of valid player
             // call method to add player to database (TODO: implement actual database addition logic)
         }
@@ -93,6 +128,7 @@ public class Controller {
                 nextField.requestFocus();
             }
             playerField.setMouseTransparent(true); // remove mouse transparenct for completed fields
+            playerField.setStyle(""); // reset textfield border color to default for valid entry
         }
     }
 
