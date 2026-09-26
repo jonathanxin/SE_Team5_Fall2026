@@ -1,3 +1,5 @@
+package src;
+
 // update all sprites
 public class Model {
     public void update() {

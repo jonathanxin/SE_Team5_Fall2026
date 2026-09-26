@@ -1,3 +1,5 @@
+package src;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -21,7 +23,7 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception { // main entry point for JavaFX application
         // stage is top-level JavaFX container (window)
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("View.fxml")); // load FXML file
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/View.fxml")); // loads FXML file
         Parent root = loader.load(); // returns root node of the scene graph (initialize() in Controller is called here)
         controller = loader.getController(); // get the controller instance that FXML loader created
         Scene scene = new Scene(root); // initialize scene (container for all content) with root node (can access scene now (not null))

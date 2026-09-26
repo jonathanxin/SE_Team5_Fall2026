@@ -1,6 +1,9 @@
 // handles user input and updates model on events
 //  delegates to model by calling corresponding methods
 // forwards model data to view for display via bindings and listeners
+
+package src;
+
 import javafx.util.Duration;
 import javafx.animation.Animation;
 import javafx.animation.FadeTransition;
@@ -11,6 +14,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
@@ -49,7 +53,8 @@ public class Controller {
         StackPane parent = (StackPane) splashScreen.getParent(); // get StackPane (root)
 
         // bind ImageView to parent to allow resizing of the splash screen image
-        splashScreen.fitWidthProperty().bind(parent.widthProperty());
+        // splashScreen.fitWidthProperty().bind(parent.widthProperty());
+        parent.prefWidthProperty().bind(splashScreen.fitWidthProperty());
         splashScreen.fitHeightProperty().bind(parent.heightProperty());
 
         // set focus to the first player field 
@@ -58,8 +63,8 @@ public class Controller {
     }
 
     public void initialize() {
-        // called by FXMLLoader after the fxml file has been loaded and all @FXML annotated fields have been injected (all elements can be binded, listeners can be added, and properties can be set)
-        // NOTE: initialze() is called before parent layout is attatched to scene or a stage (cannot request window actions (e.g., geting screen bounds), or )
+        // called by FXMLLoader after the fxml file has been loaded and all @FXML annotated members have been injected (all elements can be binded, listeners can be added, and properties can be set)
+        // NOTE: initialze() is called before parent layout is attatched to scene or a stage (cannot request window actions (e.g., geting screen bounds))
 
         // change ImageView to be visible (set invisible to allow for easier editing of the FXML file in SceneBuilder)
         splashScreen.setVisible(true);
@@ -76,7 +81,8 @@ public class Controller {
         }
 
         // make splashScreen fade out after 3 seconds and then pop it from the StackPane
-        FadeTransition fadeOut = new FadeTransition(Duration.seconds(3), splashScreen);
+        FadeTransition fadeOut = new FadeTransition(Duration.seconds(1), splashScreen);
+        fadeOut.setDelay(Duration.seconds(3)); // delay fade out for 3 seconds
         fadeOut.setFromValue(1.0); // start fully visible
         fadeOut.setToValue(0.0); // end fully transparent
         fadeOut.statusProperty().addListener((observable) -> { // add invalidation listner to statusProperty of fadeOut to remove splashScreen from parent StackPane after fade out is complete
@@ -113,7 +119,7 @@ public class Controller {
         }
         // modify playerField properties for invalid entries
         if (!isValid) {
-            playerField.setStyle("-fx-border-color: red;"); // change textfield border color to red for invalid entry
+            playerField.setStyle("-fx-border-color: red; -fx-border-radius: 3; -fx-padding: 3 6 3 6;"); // change textfield border color to red for invalid entry
             playerField.clear(); // clear invalid entry
             playerField.setPromptText("Enter Nickname"); // set prompt text to indicate addition of valid player
             // call method to add player to database (TODO: implement actual database addition logic)
