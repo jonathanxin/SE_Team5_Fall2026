@@ -10,14 +10,20 @@ public class Main extends Application {
     Controller controller;
     Model model;    
     Networking networking;
+    PlayerDatabase playerDatabase;
 
     @Override 
     public void init() throws Exception {
         // called before start() and before the GUI is initialized (runs on background thread)
+        // setup ntworking
         networking = new Networking(); // initialize networking
         networking.setupUdpSockets(); // setup UDP sockets
         networking.startListening(); // start listening for incoming packets
-        model = new Model(networking); // initialize model with networking
+
+        // setup database
+        playerDatabase = new PlayerDatabase(); // initialize player database
+
+        model = new Model(playerDatabase, networking); // initialize model with networking
     }
 
     @Override 

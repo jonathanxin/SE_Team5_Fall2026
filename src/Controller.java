@@ -12,12 +12,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.KeyCode;
-import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.SocketException;
-import java.nio.charset.StandardCharsets;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
@@ -27,6 +21,7 @@ import javafx.scene.image.ImageView;
 
 public class Controller { 
     private Model model;
+    private Boolean addingPlayer = false; // flag to indicate if a player is being added (temp)
     
     public void setModel(Model model) {  
         this.model = model;
@@ -113,35 +108,50 @@ public class Controller {
 
     // helper method to validate player entry and shift focus on Tab key press
     private void handleTabKeyPress(TextField playerField) {
-        boolean isValid = false; // placeholder for validation result
-        // get player ID
-        String playerId = playerField.getText();
-        System.out.println("Player ID entered: " + playerId); // debug output to console
-        // validate player ID is in database
-        // TODO: implement validation logic here
-        if (playerId != null && !playerId.isEmpty()) {
-            // Example validation logic (replace with actual database check)
-            isValid = true; // Placeholder for actual validation
-        }
-        // modify playerField properties for invalid entries
-        if (!isValid) {
-            playerField.setStyle("-fx-border-color: red; -fx-border-radius: 3; -fx-padding: 3 6 3 6;"); // change textfield border color to red for invalid entry
-            playerField.clear(); // clear invalid entry
-            playerField.setPromptText("Enter Nickname"); // set prompt text to indicate addition of valid player
-            // call method to add player to database (TODO: implement actual database addition logic)
-        }
-        // shift focus to next field if valid
-        else {
-            int currentIndex = playerGrid.getChildren().indexOf(playerField);
-            int nextIndex = (currentIndex + 1) % playerGrid.getChildren().size();
-            if (nextIndex == 0) return; // don't loop back to the first field
-            // prvents invalid cast exception if the next node is not a TextField (Group)
-            if (playerGrid.getChildren().get(nextIndex) instanceof TextField nextField) {
-                nextField.requestFocus();
+        if (!addingPlayer)
+        {
+            // get player ID
+            String playerId = playerField.getText();
+            if (playerId.isEmpty()) {
+                return;
             }
-            playerField.setMouseTransparent(true); // remove mouse transparenct for completed fields
-            playerField.setStyle(""); // reset textfield border color to default for valid entry
+            System.out.println("Player ID entered: " + playerId); // debug output to console
+            // validate player ID is in database
+            Boolean isPlayerInDatabase = model.findPlayerById(Integer.parseInt(playerId)); // call model method to check if player ID is in database
+            if (!isPlayerInDatabase) {
+                playerField.setStyle("-fx-border-color: red; -fx-border-radius: 3; -fx-padding: 3 6 3 6;"); // change textfield border color to red for invalid entry
+                playerField.clear(); // clear invalid entry
+                playerField.setPromptText("Enter Nickname"); // set prompt text to indicate addition of valid player
+                addingPlayer = true; // set flag to indicate that a player is being added
+            }
+            else {
+                changePlayerFieldFocus(playerField); // shift focus to next field if valid
+            }
         }
+        else
+        {
+            // get player nickname
+            String playerNickname = playerField.getText();
+            System.out.println("Player nickname entered: " + playerNickname); // debug output to console
+            // add player to database
+            model.addPlayerToDatabase(playerNickname); // call model method to add player to database
+            changePlayerFieldFocus(playerField); // shift focus to next field if valid
+        }
+    }
+
+    private void changePlayerFieldFocus(TextField playerField) {
+        // private helper method to change the focus of the player field and update the UI accordingly
+        // shift focus to next field if valid
+        addingPlayer = false; // reset flag to indicate that a player is not being added
+        int currentIndex = playerGrid.getChildren().indexOf(playerField);
+        int nextIndex = (currentIndex + 1) % playerGrid.getChildren().size();
+        if (nextIndex == 0) return; // don't loop back to the first field
+        // prvents invalid cast exception if the next node is not a TextField (Group)
+        if (playerGrid.getChildren().get(nextIndex) instanceof TextField nextField) {
+            nextField.requestFocus();
+        }
+        playerField.setMouseTransparent(true); // remove mouse transparenct for completed fields
+        playerField.setStyle(""); // reset textfield border color to default for valid entry
     }
 
     // called when playerFieled changes focus (onFocusChange)
