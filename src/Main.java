@@ -9,16 +9,22 @@ import javafx.stage.Stage;
 public class Main extends Application {
     Controller controller;
     Model model;    
+    Networking networking;
 
-    // @Override 
-    // public void init() throws Exception {
-    //     // called before start() and before the GUI is initialized (runs on background thread)
-    // }
+    @Override 
+    public void init() throws Exception {
+        // called before start() and before the GUI is initialized (runs on background thread)
+        networking = new Networking(); // initialize networking
+        networking.setupUdpSockets(); // setup UDP sockets
+        networking.startListening(); // start listening for incoming packets
+        model = new Model(networking); // initialize model with networking
+    }
 
-    // @Override 
-    // public void stop() throws Exception {
-    //     // called when the application is shutting down
-    // }
+    @Override 
+    public void stop() throws Exception {
+        // called when the application is shutting down
+        networking.closeUdpSockets(); // close UDP sockets
+    }
 
     @Override
     public void start(Stage stage) throws Exception { // main entry point for JavaFX application
@@ -26,6 +32,7 @@ public class Main extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/View.fxml")); // loads FXML file
         Parent root = loader.load(); // returns root node of the scene graph (initialize() in Controller is called here)
         controller = loader.getController(); // get the controller instance that FXML loader created
+        model.setController(controller); // set controller in model
         Scene scene = new Scene(root); // initialize scene (container for all content) with root node (can access scene now (not null))
 
         // stage (window) information
