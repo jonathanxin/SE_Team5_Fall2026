@@ -9,7 +9,7 @@
 |SamekhKusma  |Samekh Kusma |
 
 
--CLONE THE REPOSITORY 
+-Clone the repository
 git clone https://github.com/[https://github.com/jonathanxin/SE_Team5_Fall2026].git
 
--RUN THE INSTALL SCRIPT
+-Run the install script
