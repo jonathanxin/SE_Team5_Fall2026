@@ -1,3 +1,5 @@
+package src;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -10,5 +12,14 @@ public class Database {
         String password = "student";
 
         return DriverManager.getConnection(url, user, password);
+    }
+
+    public static void attemptConnection() {
+        try (Connection connection = connect()) {
+            System.out.println("Connected to photon database.");
+        } catch (SQLException e) {
+            System.out.println("Database connection failed.");
+            e.printStackTrace();
+        }
     }
 }
