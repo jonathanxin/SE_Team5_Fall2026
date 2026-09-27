@@ -19,6 +19,12 @@ public class Controller {
 
     private Model model;
 
+    @FXML
+    private TextField idTextField;
+    
+    @FXML
+    private TextField codenameTextField;
+
     private static final int TRANSMIT_PORT = 7500;
     private static final int RECEIVE_PORT = 7501;
 
