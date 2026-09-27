@@ -20,16 +20,16 @@ public class Model {
         networking.setNetworkAddress(networkAddress);
     }
 
-    public Boolean findPlayerById(int playerId) {
+    public String findPlayerById(int playerId) {
         this.playerId = playerId; // store the player ID for validation
         // forward the player ID to the player database class
         if (playerDatabase.findPlayerById(playerId) == null) {
             System.out.println("Player ID " + playerId + " not found in database.");
-            return false;
+            return null;
         } 
         else {
             System.out.println("Player ID " + playerId + " found in database.");
-            return true;
+            return playerDatabase.findPlayerById(playerId);
         }
     }
 

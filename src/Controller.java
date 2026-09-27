@@ -117,8 +117,8 @@ public class Controller {
             }
             System.out.println("Player ID entered: " + playerId); // debug output to console
             // validate player ID is in database
-            Boolean isPlayerInDatabase = model.findPlayerById(Integer.parseInt(playerId)); // call model method to check if player ID is in database
-            if (!isPlayerInDatabase) {
+            String playerNickname = model.findPlayerById(Integer.parseInt(playerId)); // call model method to find player by ID
+            if (playerNickname == null) {
                 playerField.setStyle("-fx-border-color: red; -fx-border-radius: 3; -fx-padding: 3 6 3 6;"); // change textfield border color to red for invalid entry
                 playerField.clear(); // clear invalid entry
                 playerField.setPromptText("Enter Nickname"); // set prompt text to indicate addition of valid player
@@ -126,6 +126,8 @@ public class Controller {
             }
             else {
                 changePlayerFieldFocus(playerField); // shift focus to next field if valid
+                // replace textField text with player nickname from database
+                playerField.setText(playerNickname); // set textfield text to player nickname
             }
         }
         else
