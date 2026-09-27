@@ -47,6 +47,11 @@ public class Controller {
         model.setNetworkAddress(networkAddressField.getText());
     }
 
+    @FXML
+    void networkAddressFieldOnAction(ActionEvent event) {
+        event.consume(); // prevent dupplicate action events from firing (button press and textfield onAction)
+    }
+
     public void onSceneReady() {
         // Implement the logic to update the controller state after the window is initialized
         // only logic that requires scene or stage information should be placed here (e.g., getParent(), getScene(), getWindow(), getScreenBounds(), etc.)
