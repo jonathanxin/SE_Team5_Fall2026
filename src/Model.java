@@ -33,9 +33,13 @@ public class Model {
         }
     }
 
-    public void addPlayerToDatabase(String codename)
-    // forward the codename to the player database class
-    {
-        playerDatabase.addPlayer(playerId, codename); // add player to database with ID 0 (auto-incremented)
+    public boolean addPlayerToDatabase(String codename) {
+        
+        return playerDatabase.addPlayer(playerId, codename);
+    }
+    
+    public void transmitEquipmentId(int equipmentId) {
+        
+        networking.transmit(equipmentId);
     }
 }
