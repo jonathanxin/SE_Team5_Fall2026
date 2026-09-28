@@ -2,8 +2,6 @@
 //  delegates to model by calling corresponding methods
 // forwards model data to view for display via bindings and listeners
 
-package src;
-
 import javafx.util.Duration;
 import javafx.animation.Animation;
 import javafx.animation.FadeTransition;

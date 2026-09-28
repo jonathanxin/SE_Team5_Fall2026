@@ -1,5 +1,3 @@
-package src;
-
 public class Model {
     private Networking networking;
     private Controller controller;
