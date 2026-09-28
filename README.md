@@ -5,7 +5,7 @@
 |Vonising     |Bradley Ising|
 |michaelchen298|Michael Chen|
 |jonathanxin  |Jonathan Xin |
-|IsaccTempest |Isacc Berry  |
+|IsaacTempest |Isaac Berry  |
 |SamekhKusma  |Samekh Kusma |
 
 
