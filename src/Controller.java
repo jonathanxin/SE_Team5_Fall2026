@@ -22,6 +22,8 @@ import javafx.scene.image.ImageView;
 public class Controller { 
     private Model model;
     private Boolean addingPlayer = false; // flag to indicate if a player is being added (temp)
+    private boolean enteringEquipment = false;
+    private String currentNickname;
     
     public void setModel(Model model) {  
         this.model = model;
@@ -113,36 +115,80 @@ public class Controller {
 
     // helper method to validate player entry and shift focus on Tab key press
     private void handleTabKeyPress(TextField playerField) {
-        if (!addingPlayer)
-        {
-            // get player ID
-            String playerId = playerField.getText();
-            if (playerId.isEmpty()) {
+        String input = playerField.getText().trim();
+    
+        if (input.isEmpty()) {
+            return;
+        }
+    
+        // Final step: collect and transmit the equipment ID.
+        if (enteringEquipment) {
+            int equipmentId;
+    
+            try {
+                equipmentId = Integer.parseInt(input);
+    
+                if (equipmentId < 0) {
+                    throw new NumberFormatException();
+                }
+            } catch (NumberFormatException e) {
+                playerField.clear();
+                playerField.setPromptText("Enter a valid equipment ID");
                 return;
             }
-            System.out.println("Player ID entered: " + playerId); // debug output to console
-            // validate player ID is in database
-            String playerNickname = model.findPlayerById(Integer.parseInt(playerId)); // call model method to find player by ID
-            if (playerNickname == null) {
-                playerField.setStyle("-fx-border-color: red; -fx-border-radius: 3; -fx-padding: 3 6 3 6;"); // change textfield border color to red for invalid entry
-                playerField.clear(); // clear invalid entry
-                playerField.setPromptText("Enter Nickname"); // set prompt text to indicate addition of valid player
-                addingPlayer = true; // set flag to indicate that a player is being added
-            }
-            else {
-                changePlayerFieldFocus(playerField); // shift focus to next field if valid
-                // replace textField text with player nickname from database
-                playerField.setText(playerNickname); // set textfield text to player nickname
-            }
+    
+            model.transmitEquipmentId(equipmentId);
+    
+            playerField.setText(currentNickname);
+            enteringEquipment = false;
+            changePlayerFieldFocus(playerField);
+            return;
         }
-        else
-        {
-            // get player nickname
-            String playerNickname = playerField.getText();
-            System.out.println("Player nickname entered: " + playerNickname); // debug output to console
-            // add player to database
-            model.addPlayerToDatabase(playerNickname); // call model method to add player to database
-            changePlayerFieldFocus(playerField); // shift focus to next field if valid
+    
+        // New player: save their nickname before requesting equipment.
+        if (addingPlayer) {
+            boolean saved = model.addPlayerToDatabase(input);
+    
+            if (!saved) {
+                playerField.setStyle("-fx-border-color: red;");
+                System.err.println("Player was not saved. Check the database.");
+                return;
+            }
+    
+            currentNickname = input;
+            addingPlayer = false;
+            enteringEquipment = true;
+    
+            playerField.clear();
+            playerField.setStyle("");
+            playerField.setPromptText("Enter Equipment ID");
+            return;
+        }
+    
+        // First step: look up the player ID.
+        int playerId;
+    
+        try {
+            playerId = Integer.parseInt(input);
+    
+            if (playerId < 0) {
+                throw new NumberFormatException();
+            }
+        } catch (NumberFormatException e) {
+            playerField.clear();
+            playerField.setPromptText("Enter a valid player ID");
+            return;
+        }
+    
+        currentNickname = model.findPlayerById(playerId);
+        playerField.clear();
+    
+        if (currentNickname == null) {
+            addingPlayer = true;
+            playerField.setPromptText("Enter Nickname");
+        } else {
+            enteringEquipment = true;
+            playerField.setPromptText("Enter Equipment ID");
         }
     }
 
