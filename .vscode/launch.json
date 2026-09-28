@@ -8,11 +8,8 @@
             "type": "java",
             "name": "Launch Main Program",
             "request": "launch",
-            // add java file path to launch program
-            "mainClass": "src.Main",
-            // "projectName": "SE_Team5_Fall2026",
-            // "vmArgs": "--module-path lib --add-modules javafx.controls,javafx.graphics,javafx.fxml -Djava.library.path=bin", // use when modularized
-            "vmArgs": "--enable-native-access=ALL-UNNAMED"
+            "mainClass": "Main",
+            "vmArgs": "--module-path ${workspaceFolder}/.javafx/javafx-sdk-27/lib --add-modules javafx.controls,javafx.fxml -Djava.library.path=${workspaceFolder}/.javafx/javafx-sdk-27/bin --enable-native-access=javafx.graphics"
         }
     ]
 }
