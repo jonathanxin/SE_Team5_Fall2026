@@ -107,7 +107,7 @@
               <buttons>
                 <Button fx:id="changeNetworkButton" focusTraversable="false" mnemonicParsing="false" onAction="#changeNetworkButtonPress" text="Change Network">
                      <graphic>
-                        <TextField fx:id="networkAddressField" focusTraversable="false" promptText="Enter Network" />
+                        <TextField fx:id="networkAddressField" focusTraversable="false" onAction="#networkAddressFieldOnAction" promptText="Enter Network" />
                      </graphic>
                   </Button>
               </buttons>

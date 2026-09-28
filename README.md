@@ -8,3 +8,8 @@
 |IsaccTempest |Isacc Berry  |
 |SamekhKusma  |Samekh Kusma |
 
+
+-Clone the repository
+git clone https://github.com/[https://github.com/jonathanxin/SE_Team5_Fall2026].git
+
+-Run the install script
