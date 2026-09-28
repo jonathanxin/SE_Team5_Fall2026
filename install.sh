@@ -3,7 +3,7 @@ set -e
 
 PROJECT_DIR="$(cd "$(dirname "$0")" && pwd)" #finds the path for the project folder
 JAVAFX_VERSION="27"
-MIN_JAVA_VERSION=21
+MIN_JAVA_VERSION=25
 MIN_CLASS_VERSION=$((MIN_JAVA_VERSION + 44))   #java's numbering is +44
 JAVAFX_DIR="$PROJECT_DIR/.javafx" #a hidden folder to put javafx files in
 LIB_DIR="$JAVAFX_DIR/javafx-sdk-${JAVAFX_VERSION}/lib" 
