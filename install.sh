@@ -1,15 +1,29 @@
 #!/bin/bash
 set -e
-echo "Updating package lists"
-sudo apt-get update -y
-echo "Downloading JDK"
-sudo apt-get install -y openjdk-25-jdk curl unzip
 
-#========================downloading JavaFX========================#
 PROJECT_DIR="$(cd "$(dirname "$0")" && pwd)" #finds the path for the project folder
 JAVAFX_VERSION="27"
+MIN_JAVA_VERSION=21
+MIN_CLASS_VERSION=$((MIN_JAVA_VERSION + 44))   #java's numbering is +44
 JAVAFX_DIR="$PROJECT_DIR/.javafx" #a hidden folder to put javafx files in
 LIB_DIR="$JAVAFX_DIR/javafx-sdk-${JAVAFX_VERSION}/lib" 
+
+echo "Updating package lists"
+sudo apt-get update -y
+
+#========================checking Java========================#
+echo "Checking Java"
+if ! command -v javac || ! command -v java; then
+    echo "Error: Java not found. Please install JDK $MIN_JAVA_VERSION"
+    exit 1
+fi
+CLASS_VERSION=$(java -XshowSettings:properties -version 2>&1 | awk -F'= ' '/java.class.version/ {print int($2)}') #get number after "= "
+if [ -z "$CLASS_VERSION" ] || [ "$CLASS_VERSION" -lt "$MIN_CLASS_VERSION" ]; then
+    echo "Error: This application requires Java $MIN_JAVA_VERSION or newer."
+    exit 1
+fi
+echo "Compatible Java version detected."
+#========================downloading JavaFX========================#
 if [ ! -f "$LIB_DIR/javafx.controls.jar" ]; then #checks if JavaFX is not downloaded
     echo "Downloading JavaFX SDK"
     mkdir -p "$JAVAFX_DIR"
@@ -25,17 +39,4 @@ if [ ! -f "$LIB_DIR/javafx.controls.jar" ]; then
     exit 1
 fi
 echo "JavaFX ready" 
-
-#========================Compiling========================#
-
-rm -rf bin
-mkdir -p bin
-echo "Compiling"
-javac --module-path "$LIB_DIR" --add-modules javafx.controls,javafx.fxml -d bin "$PROJECT_DIR"/*.java
-cp "$PROJECT_DIR"/*.fxml bin/ #view.fxml
-cp "$PROJECT_DIR"/*.jpg bin/ #splashscreen image
-
-
-#========================Running========================#
-echo "Running"
-java --module-path "$LIB_DIR" --add-modules javafx.controls,javafx.fxml -cp bin Main
+echo "Install script finished"
