@@ -33,7 +33,7 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception { // main entry point for JavaFX application
         // stage is top-level JavaFX container (window)
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("View.fxml")); // loads FXML file
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/View.fxml")); // loads FXML file
         Parent root = loader.load(); // returns root node of the scene graph (initialize() in Controller is called here)
         controller = loader.getController(); // get the controller instance that FXML loader created
         model.setController(controller); // set controller in model
