@@ -8,16 +8,16 @@
 |IsaacTempest |Isaac Berry  |
 |SamekhKusma  |Samekh Kusma |
 
--Requires JDK 25+ 
+-Requires JDK 25+ <Enter>
 https://www.oracle.com/java/technologies/downloads/
 
--Clone the repository
+-Clone the repository <Enter>
 git clone https://github.com/[https://github.com/jonathanxin/SE_Team5_Fall2026].git
 
--Enter the directory and run the install script
-chmod +x ./install.sh
+-Enter the directory and run the install script <Enter>
+chmod +x ./install.sh <Enter>
 ./install.sh
 
--Run the build script
-chmod +x ./build.bash
+-Run the build script <Enter>
+chmod +x ./build.bash <Enter>
 ./build.bash
