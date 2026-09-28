@@ -6,7 +6,7 @@ JAVAFX_VERSION="27"
 MIN_JAVA_VERSION=25
 MIN_CLASS_VERSION=$((MIN_JAVA_VERSION + 44))   #java's numbering is +44
 JAVAFX_DIR="$PROJECT_DIR/.javafx" #a hidden folder to put javafx files in
-LIB_DIR="$PROJECT_DIR/lib" 
+LIB_DIR="$JAVAFX_DIR/javafx-sdk-${JAVAFX_VERSION}/lib" 
 
 echo "Updating package lists"
 sudo apt-get update -y
@@ -26,11 +26,10 @@ echo "Compatible Java version detected."
 #========================downloading JavaFX========================#
 if [ ! -f "$LIB_DIR/javafx.controls.jar" ]; then #checks if JavaFX is not downloaded
     echo "Downloading JavaFX SDK"
-    mkdir -p "$JAVAFX_DIR" "$LIB_DIR"
+    mkdir -p "$JAVAFX_DIR"
     curl -fL -o "$JAVAFX_DIR/javafx-sdk.zip" "https://download2.gluonhq.com/openjfx/${JAVAFX_VERSION}/openjfx-${JAVAFX_VERSION}_linux-x64_bin-sdk.zip"
     unzip -q -o "$JAVAFX_DIR/javafx-sdk.zip" -d "$JAVAFX_DIR"
-    cp -r "$JAVAFX_DIR/javafx-sdk-${JAVAFX_VERSION}/lib/." "$LIB_DIR/"
-    rm -rf "$JAVAFX_DIR"
+    rm "$JAVAFX_DIR/javafx-sdk.zip"
 else
     echo "JavaFX SDK already downloaded"
 fi
