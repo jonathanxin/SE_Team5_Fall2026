@@ -39,4 +39,7 @@ if [ ! -f "$LIB_DIR/javafx.controls.jar" ]; then
     exit 1
 fi
 echo "JavaFX ready" 
+#=======================downloading postgresql JDBC driver========================#
+echo "Downloading postgresql JDBC driver"
+curl -fL -o "$PROJECT_DIR/postgresql.jar" "https://jdbc.postgresql.org/download/postgresql-42.7.13.jar"
 echo "Install script finished"
