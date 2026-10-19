@@ -104,11 +104,36 @@ public class Controller {
     // called onKeyPress in the player entry fields
     @FXML
     void handlePlayerFieldKeyPress(KeyEvent event) {
+        if (event.getCode() == KeyCode.F12) {
+            event.consume();
+            clearPlayerEntries();
+            return;
+        }
+
         // process player entry on Tab
         if (event.getCode() == KeyCode.TAB) {
             event.consume(); // prevent default Tab behavior of moving focus to the next field
             handleTabKeyPress((TextField) event.getSource());
         }
+    }
+
+    private void clearPlayerEntries() {
+        for (Node node : playerGrid.getChildren()) {
+            if (node instanceof TextField playerField) {
+                playerField.clear();
+                playerField.setPromptText("Enter Player ID");
+                playerField.setStyle("");
+                playerField.setMouseTransparent(true);
+            }
+        }
+
+        addingPlayer = false;
+        enteringEquipment = false;
+        currentNickname = null;
+
+        TextField firstField = (TextField) playerGrid.getChildren().get(0);
+        firstField.setMouseTransparent(false);
+        firstField.requestFocus();
     }
 
     // helper method to validate player entry and shift focus on Tab key press
