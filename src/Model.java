@@ -1,16 +1,29 @@
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.SortedList;
+
 public class Model {
     private Networking networking;
-    private Controller controller;
+    private PlayerEntryController playerEntryController;
+    private PlayerActionController playerActionController;
     private PlayerDatabase playerDatabase;
     private int playerId; // store the player ID for validation
+    private Main application;
+    private int currentTeam; // 1 for green team, 2 for red team
+    private ObservableList<Player> redTeamList = FXCollections.observableArrayList(Player.extractor);
+    private ObservableList<Player> greenTeamList = FXCollections.observableArrayList(Player.extractor);
 
     public Model(PlayerDatabase playerDatabase, Networking networking) {
         this.playerDatabase = playerDatabase;
         this.networking = networking;
     }
 
-    public void setController(Controller controller) {
-        this.controller = controller;
+    public void setApp(Main application) {
+        this.application = application;
+    }
+
+    public void setController(PlayerEntryController controller) {
+        this.playerEntryController = controller;
     }
 
     public void setNetworkAddress(String networkAddress) {
@@ -21,23 +34,68 @@ public class Model {
     public String findPlayerById(int playerId) {
         this.playerId = playerId; // store the player ID for validation
         // forward the player ID to the player database class
-        if (playerDatabase.findPlayerById(playerId) == null) {
+        String codename = playerDatabase.findPlayerById(playerId);
+        if (codename == null) {
             System.out.println("Player ID " + playerId + " not found in database.");
             return null;
         } 
         else {
             System.out.println("Player ID " + playerId + " found in database.");
-            return playerDatabase.findPlayerById(playerId);
+            addPlayer(codename); // add the player to the model's list
+            return codename;
         }
     }
 
     public boolean addPlayerToDatabase(String codename) {
-        
-        return playerDatabase.addPlayer(playerId, codename);
+        if (playerDatabase.addPlayer(playerId, codename))
+        {
+            addPlayer(codename);
+            return true;
+        } 
+        else
+        {
+            return false;
+        }
     }
     
     public void transmitEquipmentId(int equipmentId) {
         
         networking.transmit(equipmentId);
+    }
+
+    public void changeToPlayerActionScreen() {
+        // code to change to the player action screen
+        try {
+            playerActionController = application.switchScene();
+        } catch (Exception e) {
+            System.out.println("Error switching to Player Action Screen: " + e.getMessage());
+        }
+        playerActionController.setModel(this); // set the model in the new controller
+    }
+
+    public void calculateTeam(int playerIndex) {
+        // calculate the team based on the player index
+        if (playerIndex % 2 == 0) {
+            currentTeam = 1; // green team
+        } else {
+            currentTeam = 2; // red team
+        }
+    }
+
+    public void addPlayer(String codename) {
+        Player player = new Player(codename);
+        if (currentTeam == 1) {
+            greenTeamList.add(player);
+        } else if (currentTeam == 2) {
+            redTeamList.add(player);
+        }
+    }
+
+    public ObservableList<Player> getSortedGreenTeamList() {
+        return greenTeamList;
+    }
+
+    public ObservableList<Player> getSortedRedTeamList() {
+        return redTeamList;
     }
 }
