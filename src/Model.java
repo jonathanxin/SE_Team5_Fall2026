@@ -64,13 +64,14 @@ public class Model {
     }
 
     public void changeToPlayerActionScreen() {
-        // code to change to the player action screen
         try {
             playerActionController = application.switchScene();
+            playerActionController.setModel(this);
+            playerActionController.initializeTeams();
         } catch (Exception e) {
-            System.out.println("Error switching to Player Action Screen: " + e.getMessage());
+            throw new IllegalStateException(
+                    "Could not switch to the Player Action screen.", e);
         }
-        playerActionController.setModel(this); // set the model in the new controller
     }
 
     public void calculateTeam(int playerIndex) {

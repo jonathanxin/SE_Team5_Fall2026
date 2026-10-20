@@ -24,7 +24,7 @@ public class PlayerActionController {
         this.model = model;
     }
 
-    public void initialize() {
+    public void initializeTeams() {
         greenTeamList = model.getSortedGreenTeamList();
         redTeamList = model.getSortedRedTeamList();
         sortedGreenTeamList = new SortedList(greenTeamList);
