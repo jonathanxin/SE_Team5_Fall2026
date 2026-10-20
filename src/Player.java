@@ -29,4 +29,10 @@ public class Player {
 
     // extractor for the ObservableList to listen to changes in the score property for wrapped SortedList
     public static Callback<Player, Observable[]> extractor = player -> new Observable[] {player.scoreProperty()};
+	
+	@Override 
+    public String toString() {
+        return codename + " (Score: " + score.get() + ")";
+        // TODO: temp, properly format the player display in the list view
+    }
 }
