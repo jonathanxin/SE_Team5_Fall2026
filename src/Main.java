@@ -41,7 +41,7 @@ public class Main extends Application {
     public void start(Stage stage) throws Exception { // main entry point for JavaFX application
         // stage is top-level JavaFX container (window)
         this.stage = stage;
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("PlayerEntryView.fxml")); // loads first FXML file (Player Entry Screen)
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/PlayerEntryView.fxml")); // loads first FXML file (Player Entry Screen)
         Parent root = loader.load(); // returns root node of the scene graph (initialize() in Controller is called here)
         playerEntryController = loader.getController(); // get the controller instance that FXML loader created
         model.setController(playerEntryController); // set controller in model
@@ -58,7 +58,7 @@ public class Main extends Application {
     }
 
     public PlayerActionController switchScene() throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("PlayerActionView.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/PlayerActionView.fxml"));
         AnchorPane root = loader.load();
         
         // keep the current stage size when switching scenes
