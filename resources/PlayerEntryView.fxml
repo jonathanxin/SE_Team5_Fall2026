@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<StackPane prefHeight="500.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
+<StackPane prefHeight="500.0" stylesheets="@Styles.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="PlayerEntryController">
    <children>
       <BorderPane prefHeight="500.0" prefWidth="500.0" stylesheets="@Styles.css">
          <center>
@@ -103,15 +103,21 @@
             <Label text="Edit Current Game" BorderPane.alignment="CENTER" />
          </top>
          <bottom>
-            <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-              <buttons>
-                <Button fx:id="changeNetworkButton" focusTraversable="false" mnemonicParsing="false" onAction="#changeNetworkButtonPress" text="Change Network">
-                     <graphic>
-                        <TextField fx:id="networkAddressField" focusTraversable="false" onAction="#networkAddressFieldOnAction" promptText="Enter Network" />
-                     </graphic>
-                  </Button>
-              </buttons>
-            </ButtonBar>
+            <HBox alignment="CENTER" BorderPane.alignment="CENTER">
+               <children>
+                  <ButtonBar>
+                    <buttons>
+                      <Button fx:id="changeNetworkButton" focusTraversable="false" mnemonicParsing="false" onAction="#changeNetworkButtonPress" text="Change Network">
+                           <graphic>
+                              <TextField fx:id="networkAddressField" focusTraversable="false" onAction="#networkAddressFieldOnAction" promptText="Enter Network" />
+                           </graphic>
+                        </Button>
+                        <Button fx:id="startGameButton" focusTraversable="false" mnemonicParsing="false" onAction="#startGameButtonAction" text="Start Game" />
+                        <Button fx:id="clearEntriesButton" focusTraversable="false" mnemonicParsing="false" onAction="#clearEntriesButtonAction" text="Clear Entries" />
+                    </buttons>
+                  </ButtonBar>
+               </children>
+            </HBox>
          </bottom>
       </BorderPane>
       <ImageView fx:id="splashScreen" fitHeight="500.0" pickOnBounds="true" preserveRatio="true" visible="false">

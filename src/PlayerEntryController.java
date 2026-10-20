@@ -1,6 +1,8 @@
 // handles user input and updates model on events
 //  delegates to model by calling corresponding methods
 // forwards model data to view for display via bindings and listeners
+// TODO: center buttons vertically when resizing window
+// TODO: add red borders to player fields when invalid input is entered using CSS
 
 import javafx.util.Duration;
 import javafx.animation.Animation;
@@ -17,7 +19,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 
-public class Controller { 
+public class PlayerEntryController { 
     private Model model;
     private Boolean addingPlayer = false; // flag to indicate if a player is being added (temp)
     private boolean enteringEquipment = false;
@@ -39,6 +41,16 @@ public class Controller {
     @FXML
     private ImageView splashScreen;
 
+    @FXML
+    private Button startGameButton;
+
+    @FXML
+    private Button clearEntriesButton;
+
+    @FXML
+    void clearEntriesButtonAction(ActionEvent event) {
+        // TODO
+    }
 
     @FXML
     void changeNetworkButtonPress(ActionEvent event) {
@@ -114,6 +126,8 @@ public class Controller {
     // helper method to validate player entry and shift focus on Tab key press
     private void handleTabKeyPress(TextField playerField) {
         String input = playerField.getText().trim();
+        // get index of current player field in the grid
+        int currentIndex = playerGrid.getChildren().indexOf(playerField);
     
         if (input.isEmpty()) {
             return;
@@ -140,6 +154,7 @@ public class Controller {
             playerField.setText(currentNickname);
             enteringEquipment = false;
             changePlayerFieldFocus(playerField);
+            model.calculateTeam(currentIndex); // calculate team after equipment ID is transmitted
             return;
         }
     
@@ -215,5 +230,10 @@ public class Controller {
             playerField.setPromptText("Enter Player ID");
             playerField.setMouseTransparent(false); // allow mouse clicks to focus the field
         }
+    }
+
+    @FXML
+    void startGameButtonAction(ActionEvent event) {
+        model.changeToPlayerActionScreen(); // call method in Main to change to the player action screen
     }
 }
