@@ -20,6 +20,7 @@
          <center>
             <VBox>
                <children>
+                  <Label maxWidth="1.7976931348623157E308" text="Enter Player ID and press Tab. Follow the prompts for nickname and equipment ID. Press F12 to clear all players." textAlignment="CENTER" wrapText="true" />
                   <HBox alignment="CENTER">
                      <children>
                         <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefWidth="250.0" text="GREEN TEAM" textAlignment="CENTER" HBox.hgrow="ALWAYS" />
