@@ -3,6 +3,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.scene.input.KeyCode;
 
 public class Main extends Application {
     Controller controller;
@@ -38,6 +39,12 @@ public class Main extends Application {
         controller = loader.getController(); // get the controller instance that FXML loader created
         model.setController(controller); // set controller in model
         Scene scene = new Scene(root); // initialize scene (container for all content) with root node (can access scene now (not null))
+        scene.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.F5) {
+                event.consume(); //if F5 is pressed, signal to not go further through
+                controller.handleF5KeyPress();
+            }
+        });
 
         // stage (window) information
         stage.setTitle("JavaFX Application"); // title bar
