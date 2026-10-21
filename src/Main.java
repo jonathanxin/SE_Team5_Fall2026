@@ -48,6 +48,12 @@ public class Main extends Application {
         stage.setTitle("Photon"); // title bar
         stage.setScene(scene); // set the scene on the stage (can access stage (window) now (not null))
         stage.show();  // real sizes of the scene and stage are now available (can access stage (window) now (not null))
+        // set minumum window size to the that of the splash screen
+        // caluclate window decoration sizes (title bar, borders, etc.) and add to the scene size to get the minimum window size
+        double decorW = stage.getWidth() - scene.getWidth();
+        double decorH = stage.getHeight() - scene.getHeight();
+        stage.setMinWidth(scene.getWidth() + decorW);
+        stage.setMinHeight(scene.getHeight() + decorH);
         // code below runs after GUI is fully initialized and displayed
         playerEntryController.setModel(model); // set model in controller
         playerEntryController.onSceneReady(); // update controller state after window is initialized

@@ -26,9 +26,9 @@ public class PlayerActionController {
     public void initializeTeams() {
         greenTeamList = model.getGreenTeamList();
         redTeamList = model.getRedTeamList();
-        sortedGreenTeamList = new SortedList(greenTeamList);
+        sortedGreenTeamList = new SortedList<>(greenTeamList);
         sortedGreenTeamList.setComparator((p1, p2) -> Integer.compare(p2.getScore(), p1.getScore()));
-        sortedRedTeamList = new SortedList(redTeamList);
+        sortedRedTeamList = new SortedList<>(redTeamList);
         sortedRedTeamList.setComparator((p1, p2) -> Integer.compare(p2.getScore(), p1.getScore()));
         greenTeamListView.setItems(sortedGreenTeamList);
         redTeamListView.setItems(sortedRedTeamList);

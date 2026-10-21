@@ -5,15 +5,14 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@Styles.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="PlayerActionController">
    <children>
       <VBox layoutX="250.0" layoutY="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <HBox VBox.vgrow="ALWAYS">
                <children>
-                  <ListView fx:id="redTeamListView" focusTraversable="false" HBox.hgrow="ALWAYS" />
                   <ListView fx:id="greenTeamListView" focusTraversable="false" HBox.hgrow="ALWAYS" />
+                  <ListView fx:id="redTeamListView" focusTraversable="false" HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
             <ListView fx:id="gameActionsListView" focusTraversable="false" VBox.vgrow="ALWAYS" />

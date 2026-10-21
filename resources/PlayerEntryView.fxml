@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<StackPane prefHeight="500.0" stylesheets="@Styles.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="PlayerEntryController">
+<StackPane stylesheets="@Styles.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="PlayerEntryController">
    <children>
       <BorderPane prefHeight="500.0" prefWidth="500.0" stylesheets="@Styles.css">
          <center>
@@ -100,7 +100,12 @@
             </VBox>
          </center>
          <top>
-            <Label text="Edit Current Game" BorderPane.alignment="CENTER" />
+            <VBox alignment="CENTER" nodeOrientation="LEFT_TO_RIGHT" BorderPane.alignment="CENTER">
+               <children>
+                  <Label text="Edit Current Game" />
+                  <Label text="Press &lt;Tab&gt; to enter player data. Follow the text fields' prompt text for instructions." />
+               </children>
+            </VBox>
          </top>
          <bottom>
             <HBox alignment="CENTER" BorderPane.alignment="CENTER">

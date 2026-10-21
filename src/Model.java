@@ -10,8 +10,8 @@ public class Model {
     private String codename; // store the codename for validation
     private Main application;
     private int currentTeam; // 1 for green team, 2 for red team
-    private ObservableList<Player> redTeamList = FXCollections.observableArrayList(Player.extractor);
-    private ObservableList<Player> greenTeamList = FXCollections.observableArrayList(Player.extractor);
+    private Team redTeam = new Team();
+    private Team greenTeam = new Team();
 
     public Model(PlayerDatabase playerDatabase, Networking networking) {
         this.playerDatabase = playerDatabase;
@@ -87,17 +87,17 @@ public class Model {
         Player player = new Player(playerId, codename);
         currentTeam = calculateTeam(playerIndex);
         if (currentTeam == 1) {
-            greenTeamList.add(player);
+            greenTeam.getTeamList().add(player);
         } else if (currentTeam == 2) {
-            redTeamList.add(player);
+            redTeam.getTeamList().add(player);
         }
     }
 
     public ObservableList<Player> getGreenTeamList() {
-        return greenTeamList;
+        return greenTeam.getTeamList();
     }
 
     public ObservableList<Player> getRedTeamList() {
-        return redTeamList;
+        return redTeam.getTeamList();
     }
 }
