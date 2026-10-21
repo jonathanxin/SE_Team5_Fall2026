@@ -19,6 +19,7 @@ import javafx.scene.image.ImageView;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 
 public class Controller { 
     private Model model;
@@ -126,30 +127,39 @@ public class Controller {
         //start Play Action display
         //start countdown timer
     }
-    private void startCountdown(Label countdownLabel) {
+    private void startCountdown(ImageView countdownImageView) {
         if (countdownTimeline != null) { //if another countdown is running, stop it
             countdownTimeline.stop();
         }
     
-        final int[] count = {3};
-    
-        countdownLabel.setText("3"); //display 3 initially
-    
+       countdownImageView.setImage(
+            new Image(getClass().getResourceAsStream(
+                "/resources/countdown/countdown30.jpg"
+            ))
+        );
+        final int[] secondsLeft = {30};
+        
         countdownTimeline = new Timeline(
             new KeyFrame(Duration.seconds(1), event -> {
-                count[0]--; //decrement until 0 
+                secondsLeft[0]--; //decrement until 0 
     
-                if (count[0] > 0) {
-                    countdownLabel.setText(String.valueOf(count[0]));
+                String imagePath = "/resources/countdown/countdown" + secondsLeft[0] + ".jpg";
+                var imageStream = getClass().getResourceAsStream(imagePath);
+
+                if (imageStream != null) {
+                    countdownImageView.setImage(new Image(imageStream));
                 } else {
-                    countdownLabel.setText("GO!");
+                    System.err.println("Countdown image not found: " + imagePath);
+                }
+    
+                //once its gotten to the last frame, stop
+                if (secondsLeft[0] == 0) {
                     countdownTimeline.stop();
-                    //display "go" at the end, and stop the countdown
                 }
             })
         );
     
-        countdownTimeline.setCycleCount(3);
+        countdownTimeline.setCycleCount(30);
         countdownTimeline.play();
     }
     private void clearPlayerEntries() {
