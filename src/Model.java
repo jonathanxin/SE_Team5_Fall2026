@@ -1,6 +1,5 @@
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.SortedList;
 
 public class Model {
     private Networking networking;
@@ -8,6 +7,7 @@ public class Model {
     private PlayerActionController playerActionController;
     private PlayerDatabase playerDatabase;
     private int playerId; // store the player ID for validation
+    private String codename; // store the codename for validation
     private Main application;
     private int currentTeam; // 1 for green team, 2 for red team
     private ObservableList<Player> redTeamList = FXCollections.observableArrayList(Player.extractor);
@@ -22,8 +22,8 @@ public class Model {
         this.application = application;
     }
 
-    public void setController(PlayerEntryController controller) {
-        this.playerEntryController = controller;
+    public void setplayerEntryController(PlayerEntryController playerEntryController) {
+        this.playerEntryController = playerEntryController;
     }
 
     public void setNetworkAddress(String networkAddress) {
@@ -32,7 +32,7 @@ public class Model {
     }
 
     public String findPlayerById(int playerId) {
-        this.playerId = playerId; // store the player ID for validation
+        this.playerId = playerId; // store the player ID for later use
         // forward the player ID to the player database class
         String codename = playerDatabase.findPlayerById(playerId);
         if (codename == null) {
@@ -41,7 +41,7 @@ public class Model {
         } 
         else {
             System.out.println("Player ID " + playerId + " found in database.");
-            addPlayer(codename); // add the player to the model's list
+            this.codename = codename; // store the codename for later use
             return codename;
         }
     }
@@ -49,7 +49,7 @@ public class Model {
     public boolean addPlayerToDatabase(String codename) {
         if (playerDatabase.addPlayer(playerId, codename))
         {
-            addPlayer(codename);
+            this.codename = codename; // store the codename for later use
             return true;
         } 
         else
@@ -74,17 +74,18 @@ public class Model {
         }
     }
 
-    public void calculateTeam(int playerIndex) {
+    public int calculateTeam(int playerIndex) {
         // calculate the team based on the player index
         if (playerIndex % 2 == 0) {
-            currentTeam = 1; // green team
+            return 1; // green team
         } else {
-            currentTeam = 2; // red team
+            return 2; // red team
         }
     }
 
-    public void addPlayer(String codename) {
-        Player player = new Player(codename);
+    public void addSessionPlayer(int playerIndex) {
+        Player player = new Player(playerId, codename);
+        currentTeam = calculateTeam(playerIndex);
         if (currentTeam == 1) {
             greenTeamList.add(player);
         } else if (currentTeam == 2) {
@@ -92,11 +93,11 @@ public class Model {
         }
     }
 
-    public ObservableList<Player> getSortedGreenTeamList() {
+    public ObservableList<Player> getGreenTeamList() {
         return greenTeamList;
     }
 
-    public ObservableList<Player> getSortedRedTeamList() {
+    public ObservableList<Player> getRedTeamList() {
         return redTeamList;
     }
 }

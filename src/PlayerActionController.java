@@ -1,4 +1,3 @@
-// TODO: sort team lists by player scores
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
@@ -25,8 +24,8 @@ public class PlayerActionController {
     }
 
     public void initializeTeams() {
-        greenTeamList = model.getSortedGreenTeamList();
-        redTeamList = model.getSortedRedTeamList();
+        greenTeamList = model.getGreenTeamList();
+        redTeamList = model.getRedTeamList();
         sortedGreenTeamList = new SortedList(greenTeamList);
         sortedGreenTeamList.setComparator((p1, p2) -> Integer.compare(p2.getScore(), p1.getScore()));
         sortedRedTeamList = new SortedList(redTeamList);

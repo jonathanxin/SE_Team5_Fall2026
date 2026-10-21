@@ -1,7 +1,6 @@
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import javafx.collections.ObservableList;
 
 public class PlayerDatabase {
     public String findPlayerById(int id) {
@@ -22,12 +21,6 @@ public class PlayerDatabase {
                 }
 
             return null;
-    }
-
-    public ObservableList<Player> getPlayers()
-    {
-        // TODO: placeholder for future implementation
-        return null;
     }
 
     public boolean addPlayer(int id, String codename) {

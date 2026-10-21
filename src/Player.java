@@ -5,14 +5,20 @@ import javafx.util.Callback;
 
 public class Player {
     private String codename = "";
+    private int ID = -1;
     private IntegerProperty score = new SimpleIntegerProperty(this, "score", 0);
 
-    public Player(String codename) {
+    public Player(int ID, String codename) {
+        this.ID = ID;
         this.codename = codename;
     }
 
     public String getCodename() {
         return codename;
+    }
+
+    public int getID() {
+        return ID;
     }
 
     public void setScore(int score) {

@@ -1,10 +1,6 @@
 // TODO: create countdown timer for game start
-import java.io.InputStream;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.JavaFXBuilderFactory;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
@@ -44,7 +40,7 @@ public class Main extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/PlayerEntryView.fxml")); // loads first FXML file (Player Entry Screen)
         Parent root = loader.load(); // returns root node of the scene graph (initialize() in Controller is called here)
         playerEntryController = loader.getController(); // get the controller instance that FXML loader created
-        model.setController(playerEntryController); // set controller in model
+        model.setplayerEntryController(playerEntryController); // set controller in model
         model.setApp(this); // set the main application in the model
         Scene scene = new Scene(root); // initialize scene (container for all content) with root node (can access scene now (not null))
 

@@ -3,6 +3,7 @@
 // forwards model data to view for display via bindings and listeners
 // TODO: center buttons vertically when resizing window
 // TODO: add red borders to player fields when invalid input is entered using CSS
+// TODO: set minimum window size
 
 import javafx.util.Duration;
 import javafx.animation.Animation;
@@ -14,7 +15,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
@@ -49,7 +49,7 @@ public class PlayerEntryController {
 
     @FXML
     void clearEntriesButtonAction(ActionEvent event) {
-        // TODO
+        // TODO: merge from main
     }
 
     @FXML
@@ -125,6 +125,7 @@ public class PlayerEntryController {
 
     // helper method to validate player entry and shift focus on Tab key press
     private void handleTabKeyPress(TextField playerField) {
+        int playerId = -1;;
         String input = playerField.getText().trim();
         // get index of current player field in the grid
         int currentIndex = playerGrid.getChildren().indexOf(playerField);
@@ -150,11 +151,10 @@ public class PlayerEntryController {
             }
     
             model.transmitEquipmentId(equipmentId);
-    
             playerField.setText(currentNickname);
             enteringEquipment = false;
+            model.addSessionPlayer(currentIndex); // add player to session's list with the current index
             changePlayerFieldFocus(playerField);
-            model.calculateTeam(currentIndex); // calculate team after equipment ID is transmitted
             return;
         }
     
@@ -178,9 +178,7 @@ public class PlayerEntryController {
             return;
         }
     
-        // First step: look up the player ID.
-        int playerId;
-    
+        // First step: look up the player ID.    
         try {
             playerId = Integer.parseInt(input);
     
