@@ -116,7 +116,12 @@ public class Controller {
             handleTabKeyPress((TextField) event.getSource());
         }
     }
-
+    public void handleF5KeyPress() {
+        System.out.println("F5 pressed: switching to Play Action");
+        //todo
+        //start Play Action display
+        //start countdown timer
+    }
     private void clearPlayerEntries() {
         for (Node node : playerGrid.getChildren()) {
             if (node instanceof TextField playerField) {
