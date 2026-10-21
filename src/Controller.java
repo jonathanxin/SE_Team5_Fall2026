@@ -16,12 +16,16 @@ import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.scene.control.Label;
 
 public class Controller { 
     private Model model;
     private Boolean addingPlayer = false; // flag to indicate if a player is being added (temp)
     private boolean enteringEquipment = false;
     private String currentNickname;
+    private Timeline countdownTimeline;
     
     public void setModel(Model model) {  
         this.model = model;
@@ -118,9 +122,35 @@ public class Controller {
     }
     public void handleF5KeyPress() {
         System.out.println("F5 pressed: switching to Play Action");
-        //todo
+        //todo:
         //start Play Action display
         //start countdown timer
+    }
+    private void startCountdown(Label countdownLabel) {
+        if (countdownTimeline != null) { //if another countdown is running, stop it
+            countdownTimeline.stop();
+        }
+    
+        final int[] count = {3};
+    
+        countdownLabel.setText("3"); //display 3 initially
+    
+        countdownTimeline = new Timeline(
+            new KeyFrame(Duration.seconds(1), event -> {
+                count[0]--; //decrement until 0 
+    
+                if (count[0] > 0) {
+                    countdownLabel.setText(String.valueOf(count[0]));
+                } else {
+                    countdownLabel.setText("GO!");
+                    countdownTimeline.stop();
+                    //display "go" at the end, and stop the countdown
+                }
+            })
+        );
+    
+        countdownTimeline.setCycleCount(3);
+        countdownTimeline.play();
     }
     private void clearPlayerEntries() {
         for (Node node : playerGrid.getChildren()) {
