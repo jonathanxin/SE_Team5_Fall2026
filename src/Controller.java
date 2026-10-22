@@ -123,7 +123,7 @@ public class Controller {
     }
     public void handleF5KeyPress() {
         System.out.println("F5 pressed: switching to Play Action");
-        startCountdown(countdownImageView);
+        startCountdown(countdownImageView); //calls countdown method once f5 is pressed
         
     }
     private void startCountdown(ImageView countdownImageView) {
