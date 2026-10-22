@@ -1,0 +1,3 @@
+#playerGrid .text-field {
+    /* -fx-padding: 0 0 4 0; fixes TextFields clipping each other in GridPane */
+}
