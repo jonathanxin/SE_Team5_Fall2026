@@ -123,15 +123,14 @@ public class Controller {
     }
     public void handleF5KeyPress() {
         System.out.println("F5 pressed: switching to Play Action");
-        //todo:
-        //start Play Action display
-        //start countdown timer
+        startCountdown(countdownImageView);
+        
     }
     private void startCountdown(ImageView countdownImageView) {
         if (countdownTimeline != null) { //if another countdown is running, stop it
             countdownTimeline.stop();
         }
-    
+       //initialize the first frame begining at 30 seconds
        countdownImageView.setImage(
             new Image(getClass().getResourceAsStream(
                 "/resources/countdown/countdown30.jpg"
