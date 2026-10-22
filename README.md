@@ -60,6 +60,8 @@ Follow the on-screen prompts to enter a nickname for a new player and an equipme
 
 Press F12 to clear all player entries.
 
+
+*********** **************
 Previous version of the README
 
 
