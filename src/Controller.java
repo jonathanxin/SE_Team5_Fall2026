@@ -114,6 +114,9 @@ public class Controller {
             clearPlayerEntries();
             return;
         }
+        if (event.getCode() == KeyCode.F5) {
+            event.consume();
+            startCountdown(countdownImageView); //calls countdown method when f5 is pressed
 
         // process player entry on Tab
         if (event.getCode() == KeyCode.TAB) {
@@ -121,11 +124,7 @@ public class Controller {
             handleTabKeyPress((TextField) event.getSource());
         }
     }
-    public void handleF5KeyPress() {
-        System.out.println("F5 pressed: switching to Play Action");
-        startCountdown(countdownImageView); //calls countdown method once f5 is pressed
-        
-    }
+
     private void startCountdown(ImageView countdownImageView) {
         if (countdownTimeline != null) { //if another countdown is running, stop it
             countdownTimeline.stop();
