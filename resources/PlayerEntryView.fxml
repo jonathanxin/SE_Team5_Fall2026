@@ -117,8 +117,8 @@
                               <TextField fx:id="networkAddressField" focusTraversable="false" onAction="#networkAddressFieldOnAction" promptText="Enter Network" />
                            </graphic>
                         </Button>
-                        <Button fx:id="startGameButton" focusTraversable="false" mnemonicParsing="false" onAction="#startGameButtonAction" text="Start Game" />
-                        <Button fx:id="clearEntriesButton" focusTraversable="false" mnemonicParsing="false" onAction="#clearEntriesButtonAction" text="Clear Entries" />
+                        <Button fx:id="startGameButton" focusTraversable="false" mnemonicParsing="false" onAction="#startGameButtonAction" text="(F5) Start Game" />
+                        <Button fx:id="clearEntriesButton" focusTraversable="false" mnemonicParsing="false" onAction="#clearEntriesButtonAction" text="(F12) Clear Entries" />
                     </buttons>
                   </ButtonBar>
                </children>
