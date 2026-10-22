@@ -117,7 +117,7 @@ public class Controller {
         if (event.getCode() == KeyCode.F5) {
             event.consume();
             startCountdown(countdownImageView); //calls countdown method when f5 is pressed
-
+        }
         // process player entry on Tab
         if (event.getCode() == KeyCode.TAB) {
             event.consume(); // prevent default Tab behavior of moving focus to the next field
