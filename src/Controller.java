@@ -273,7 +273,7 @@ public class Controller {
         if (nextIndex == 0) return; // don't loop back to the first field
         // prvents invalid cast exception if the next node is not a TextField (Group)
         if (playerGrid.getChildren().get(nextIndex) instanceof TextField nextField) {
-            playerField.setPromptText("Enter Player ID");
+            nextField.setPromptText("Enter Player ID");
             nextField.requestFocus();
         }
         playerField.setMouseTransparent(true); // remove mouse transparenct for completed fields
