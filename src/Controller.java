@@ -73,6 +73,7 @@ public class Controller {
         
         // set focus to the first player field 
         TextField firstField = (TextField) playerGrid.getChildren().get(0);
+        firstField.setPromptText("Enter Player ID");
         firstField.requestFocus(); // request focus on the first field (focus can only be set after scene and stage are initialized)
     }
 
@@ -272,6 +273,7 @@ public class Controller {
         if (nextIndex == 0) return; // don't loop back to the first field
         // prvents invalid cast exception if the next node is not a TextField (Group)
         if (playerGrid.getChildren().get(nextIndex) instanceof TextField nextField) {
+            playerField.setPromptText("Enter Player ID");
             nextField.requestFocus();
         }
         playerField.setMouseTransparent(true); // remove mouse transparenct for completed fields
@@ -285,7 +287,6 @@ public class Controller {
         // System.out.println("Player field focused: " + playerGrid.getChildren().indexOf(playerField)); // debug output to console
         // set prompt text to "Enter Player ID"
         if (isFocused) {
-            playerField.setPromptText("Enter Player ID");
             playerField.setMouseTransparent(false); // allow mouse clicks to focus the field
         }
     }
