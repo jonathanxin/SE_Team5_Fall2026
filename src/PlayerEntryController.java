@@ -2,12 +2,14 @@
 //  delegates to model by calling corresponding methods
 // forwards model data to view for display via bindings and listeners
 // TODO: center buttons vertically when resizing window
-// TODO: add red borders to player fields when invalid input is entered using CSS
-// TODO: set minimum window size
 
 import javafx.util.Duration;
 import javafx.animation.Animation;
 import javafx.animation.FadeTransition;
+import javafx.beans.binding.BooleanBinding;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.css.PseudoClass;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
@@ -51,6 +53,9 @@ public class PlayerEntryController {
     void clearEntriesButtonAction(ActionEvent event) {
         // TODO: merge from main
     }
+
+    private final static PseudoClass INVALID_DATA = PseudoClass.getPseudoClass("invalid-data");
+    BooleanProperty invalidDataBooleanProperty = new SimpleBooleanProperty(false);
 
     @FXML
     void changeNetworkButtonPress(ActionEvent event) {
@@ -129,12 +134,15 @@ public class PlayerEntryController {
 
     // helper method to validate player entry and shift focus on Tab key press
     private void handleTabKeyPress(TextField playerField) {
-        int playerId = -1;;
+        int playerId = -1;
         String input = playerField.getText().trim();
         // get index of current player field in the grid
         int currentIndex = playerGrid.getChildren().indexOf(playerField);
-        // clear style of the player field to reset any previous invalid data indication
-        playerField.setStyle("");
+        // clear in-line style of the player field to reset any previous invalid data indication
+        // playerField.setStyle("");
+        invalidDataBooleanProperty.setValue(false); // reset invalid data boolean property to false to remove the pseudo-class state for new input
+        BooleanBinding invalidDataCondition = playerField.focusedProperty().and(invalidDataBooleanProperty); // create a BooleanBinding to track the invalid data condition (focused and invalid data)
+        invalidDataCondition.addListener((observable, oldValue, newValue) -> playerField.pseudoClassStateChanged(INVALID_DATA, newValue)); // add change listener to the BooleanBinding to update the pseudo-class state of the player field when the invalid data condition changes
     
         if (input.isEmpty()) {
             return;
@@ -153,10 +161,11 @@ public class PlayerEntryController {
             } catch (NumberFormatException e) {
                 playerField.clear();
                 playerField.setPromptText("Enter a valid equipment ID");
-                invalidDataEffect(playerField);
+                invalidDataBooleanProperty.setValue(true); // set invalidDataBooleanProperty to true to trigger the pseudo-class state change
                 return;
             }
     
+            playerField.setStyle(""); // reset textfield border color to default for valid entry
             model.transmitEquipmentId(equipmentId);
             playerField.setText(currentNickname);
             enteringEquipment = false;
@@ -171,7 +180,7 @@ public class PlayerEntryController {
     
             if (!saved) {
                 System.err.println("Player was not saved. Check the database.");
-                return;
+                // return;
             }
     
             currentNickname = input;
@@ -179,7 +188,7 @@ public class PlayerEntryController {
             enteringEquipment = true;
     
             playerField.clear();
-            playerField.setStyle("");
+            // playerField.setStyle("");
             playerField.setPromptText("Enter Equipment ID");
             return;
         }
@@ -194,10 +203,11 @@ public class PlayerEntryController {
         } catch (NumberFormatException e) {
             playerField.clear();
             playerField.setPromptText("Enter a valid player ID");
-            invalidDataEffect(playerField);
+            invalidDataBooleanProperty.setValue(true); // set invalidDataBooleanProperty to true to trigger the pseudo-class state change
             return;
         }
     
+        playerField.setStyle(""); // reset textfield border color to default for valid entry
         currentNickname = model.findPlayerById(playerId);
         playerField.clear();
     
@@ -222,7 +232,7 @@ public class PlayerEntryController {
             nextField.requestFocus();
         }
         playerField.setMouseTransparent(true); // remove mouse transparency for completed fields
-        playerField.setStyle(""); // reset textfield border color to default for valid entry
+        // playerField.setStyle(""); // reset textfield border color to default for valid entry
     }
 
     // called when playerFieled changes focus (onFocusChange)
@@ -235,13 +245,6 @@ public class PlayerEntryController {
             playerField.setPromptText("Enter Player ID");
             playerField.setMouseTransparent(false); // allow mouse clicks to focus the field
         }
-    }
-
-    void invalidDataEffect(TextField playerField) {
-        // private helper method to indicate invalid data entry in the player field
-        System.out.println(playerField.getInsets());
-        playerField.setStyle("-fx-border-color: red; -fx-border-radius: 5; -fx-padding: 3 6 3 6;"); // set textfield border color to red and adjust padding to account for it
-        System.out.println(playerField.getInsets());
     }
 
     @FXML

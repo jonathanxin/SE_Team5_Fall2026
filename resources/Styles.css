@@ -1,3 +1,7 @@
-#playerGrid .text-field {
-    /* -fx-padding: 0 0 4 0; fixes TextFields clipping each other in GridPane */
+#playerGrid .text-field:focused {
+    /* -fx-focus-color: red; */
+    /* -fx-faint-focus-color: red; */
+}
+.text-field:focused:invalid-data {
+    -fx-focus-color: red;
 }
