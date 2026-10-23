@@ -148,6 +148,7 @@ public class PlayerEntryController {
         if (countdownTimeline != null) { //if another countdown is running, stop it
             countdownTimeline.stop();
         }
+        countdownImageView.setVisible(true);
        //initialize the first frame begining at 30 seconds
        countdownImageView.setImage(
             new Image(getClass().getResourceAsStream(
