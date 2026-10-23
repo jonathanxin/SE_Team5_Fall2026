@@ -168,7 +168,7 @@ public class Controller {
         for (Node node : playerGrid.getChildren()) {
             if (node instanceof TextField playerField) {
                 playerField.clear();
-                playerField.setPromptText("Enter Player ID");
+                playerField.setPromptText("");
                 playerField.setStyle("");
                 playerField.setMouseTransparent(true);
             }
@@ -179,6 +179,7 @@ public class Controller {
         currentNickname = null;
 
         TextField firstField = (TextField) playerGrid.getChildren().get(0);
+        firstField.setPromptText("Enter Player ID");
         firstField.setMouseTransparent(false);
         firstField.requestFocus();
     }
