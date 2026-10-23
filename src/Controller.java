@@ -69,7 +69,8 @@ public class Controller {
         // splashScreen.fitWidthProperty().bind(parent.widthProperty());
         parent.prefWidthProperty().bind(splashScreen.fitWidthProperty());
         splashScreen.fitHeightProperty().bind(parent.heightProperty());
-
+        countdownImageView.fitHeightProperty().bind(parent.heightProperty());
+        
         // set focus to the first player field 
         TextField firstField = (TextField) playerGrid.getChildren().get(0);
         firstField.requestFocus(); // request focus on the first field (focus can only be set after scene and stage are initialized)
