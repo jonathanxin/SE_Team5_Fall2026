@@ -44,6 +44,8 @@ public class Controller {
     @FXML
     private ImageView splashScreen;
 
+    @FXML
+    private ImageView countdownImageView;
 
     @FXML
     void changeNetworkButtonPress(ActionEvent event) {
@@ -129,6 +131,7 @@ public class Controller {
         if (countdownTimeline != null) { //if another countdown is running, stop it
             countdownTimeline.stop();
         }
+        countdownImageView.setVisible(true);
        //initialize the first frame begining at 30 seconds
        countdownImageView.setImage(
             new Image(getClass().getResourceAsStream(
