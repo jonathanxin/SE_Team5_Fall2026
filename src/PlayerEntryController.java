@@ -82,7 +82,7 @@ public class PlayerEntryController {
         // splashScreen.fitWidthProperty().bind(parent.widthProperty());
         parent.prefWidthProperty().bind(splashScreen.fitWidthProperty());
         splashScreen.fitHeightProperty().bind(parent.heightProperty());
-
+        countdownImageView.fitHeightProperty().bind(parent.heightProperty());
         // set minimum window size based on splash screen image size
         parent.setMinWidth(splashScreen.getFitWidth());
         parent.setMinHeight(splashScreen.getFitHeight());
