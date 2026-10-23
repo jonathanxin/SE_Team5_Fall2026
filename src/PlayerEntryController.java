@@ -133,6 +133,8 @@ public class PlayerEntryController {
         String input = playerField.getText().trim();
         // get index of current player field in the grid
         int currentIndex = playerGrid.getChildren().indexOf(playerField);
+        // clear style of the player field to reset any previous invalid data indication
+        playerField.setStyle("");
     
         if (input.isEmpty()) {
             return;
@@ -151,6 +153,7 @@ public class PlayerEntryController {
             } catch (NumberFormatException e) {
                 playerField.clear();
                 playerField.setPromptText("Enter a valid equipment ID");
+                invalidDataEffect(playerField);
                 return;
             }
     
@@ -167,7 +170,6 @@ public class PlayerEntryController {
             boolean saved = model.addPlayerToDatabase(input);
     
             if (!saved) {
-                playerField.setStyle("-fx-border-color: red;");
                 System.err.println("Player was not saved. Check the database.");
                 return;
             }
@@ -192,6 +194,7 @@ public class PlayerEntryController {
         } catch (NumberFormatException e) {
             playerField.clear();
             playerField.setPromptText("Enter a valid player ID");
+            invalidDataEffect(playerField);
             return;
         }
     
@@ -218,7 +221,7 @@ public class PlayerEntryController {
         if (playerGrid.getChildren().get(nextIndex) instanceof TextField nextField) {
             nextField.requestFocus();
         }
-        playerField.setMouseTransparent(true); // remove mouse transparenct for completed fields
+        playerField.setMouseTransparent(true); // remove mouse transparency for completed fields
         playerField.setStyle(""); // reset textfield border color to default for valid entry
     }
 
@@ -232,6 +235,13 @@ public class PlayerEntryController {
             playerField.setPromptText("Enter Player ID");
             playerField.setMouseTransparent(false); // allow mouse clicks to focus the field
         }
+    }
+
+    void invalidDataEffect(TextField playerField) {
+        // private helper method to indicate invalid data entry in the player field
+        System.out.println(playerField.getInsets());
+        playerField.setStyle("-fx-border-color: red; -fx-border-radius: 5; -fx-padding: 3 6 3 6;"); // set textfield border color to red and adjust padding to account for it
+        System.out.println(playerField.getInsets());
     }
 
     @FXML

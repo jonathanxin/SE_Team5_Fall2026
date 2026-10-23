@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -11,6 +12,17 @@
    <children>
       <VBox layoutX="250.0" layoutY="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
+            <HBox alignment="CENTER">
+               <children>
+                  <Label focusTraversable="false" text="Current Player Action" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER">
+               <children>
+                  <Label alignment="CENTER" focusTraversable="false" maxWidth="1.7976931348623157E308" prefWidth="300.0" text="GREEN TEAM" HBox.hgrow="ALWAYS" />
+                  <Label alignment="CENTER" focusTraversable="false" layoutX="10.0" layoutY="10.0" maxWidth="1.7976931348623157E308" prefWidth="300.0" text="RED TEAM" HBox.hgrow="ALWAYS" />
+               </children>
+            </HBox>
             <HBox VBox.vgrow="ALWAYS">
                <children>
                   <TableView fx:id="greenTeamTableView" focusTraversable="false" HBox.hgrow="ALWAYS">

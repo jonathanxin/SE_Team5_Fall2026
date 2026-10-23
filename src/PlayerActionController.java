@@ -1,3 +1,4 @@
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
@@ -13,7 +14,7 @@ public class PlayerActionController {
     private SortedList<Player> sortedRedTeamList;
 
     @FXML
-    private ListView<Player> gameActionsListView;
+    private ListView<String> gameActionsListView;
 
     @FXML
     private TableColumn<Player, Number> greenTeamMemberScore;
@@ -55,9 +56,17 @@ public class PlayerActionController {
         greenTeamMemberScore.setCellValueFactory(player -> player.getValue().scoreProperty());
         redTeamMemberCol.setCellValueFactory(player -> player.getValue().getCodenameProperty());
         redTeamMemberScore.setCellValueFactory(player -> player.getValue().scoreProperty());
-        
+
         // disable selection 
         greenTeamTableView.getSelectionModel().setCellSelectionEnabled(false);
         redTeamTableView.getSelectionModel().setCellSelectionEnabled(false);
+
+        // create data model for the game actions list view
+        ObservableList<String> gameActions = FXCollections.observableArrayList();
+        gameActionsListView.setItems(gameActions);
+        gameActionsListView.scrollTo(gameActions.size() - 1); // scroll to the bottom of the list view when new items are added
+        // TODO: disable selection in the list view
+        // check ScrollBar to respect the scroll position and only auto-scroll if the user is at the bottom of the list view
+
     }
 }

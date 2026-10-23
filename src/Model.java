@@ -87,9 +87,9 @@ public class Model {
         Player player = new Player(playerId, codename);
         currentTeam = calculateTeam(playerIndex);
         if (currentTeam == 1) {
-            greenTeam.getTeamList().add(player);
+            greenTeam.addPlayer(player);
         } else if (currentTeam == 2) {
-            redTeam.getTeamList().add(player);
+            redTeam.addPlayer(player);
         }
     }
 

@@ -50,6 +50,7 @@ public class Main extends Application {
         stage.show();  // real sizes of the scene and stage are now available (can access stage (window) now (not null))
         // set minumum window size to the that of the splash screen
         // caluclate window decoration sizes (title bar, borders, etc.) and add to the scene size to get the minimum window size
+        // TODO: fix minimum Height being too small on Linux
         double decorW = stage.getWidth() - scene.getWidth();
         double decorH = stage.getHeight() - scene.getHeight();
         stage.setMinWidth(scene.getWidth() + decorW);
