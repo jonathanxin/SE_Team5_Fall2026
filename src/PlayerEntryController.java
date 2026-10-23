@@ -1,6 +1,9 @@
 // handles user input and updates model on events
 //  delegates to model by calling corresponding methods
 // forwards model data to view for display via bindings and listeners
+// TODO: center buttons vertically when resizing window
+// TODO: add red borders to player fields when invalid input is entered using CSS
+// TODO: set minimum window size
 
 import javafx.util.Duration;
 import javafx.animation.Animation;
@@ -12,7 +15,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
@@ -21,7 +23,7 @@ import javafx.animation.Timeline;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 
-public class Controller { 
+public class PlayerEntryController { 
     private Model model;
     private Boolean addingPlayer = false; // flag to indicate if a player is being added (temp)
     private boolean enteringEquipment = false;
@@ -44,6 +46,16 @@ public class Controller {
     @FXML
     private ImageView splashScreen;
 
+    @FXML
+    private Button startGameButton;
+
+    @FXML
+    private Button clearEntriesButton;
+
+    @FXML
+    void clearEntriesButtonAction(ActionEvent event) {
+        // TODO: merge from main
+    }
 
     @FXML
     void changeNetworkButtonPress(ActionEvent event) {
@@ -67,6 +79,10 @@ public class Controller {
         // splashScreen.fitWidthProperty().bind(parent.widthProperty());
         parent.prefWidthProperty().bind(splashScreen.fitWidthProperty());
         splashScreen.fitHeightProperty().bind(parent.heightProperty());
+
+        // set minimum window size based on splash screen image size
+        parent.setMinWidth(splashScreen.getFitWidth());
+        parent.setMinHeight(splashScreen.getFitHeight());
 
         // set focus to the first player field 
         TextField firstField = (TextField) playerGrid.getChildren().get(0);
@@ -181,7 +197,10 @@ public class Controller {
 
     // helper method to validate player entry and shift focus on Tab key press
     private void handleTabKeyPress(TextField playerField) {
+        int playerId = -1;;
         String input = playerField.getText().trim();
+        // get index of current player field in the grid
+        int currentIndex = playerGrid.getChildren().indexOf(playerField);
     
         if (input.isEmpty()) {
             return;
@@ -204,9 +223,9 @@ public class Controller {
             }
     
             model.transmitEquipmentId(equipmentId);
-    
             playerField.setText(currentNickname);
             enteringEquipment = false;
+            model.addSessionPlayer(currentIndex); // add player to session's list with the current index
             changePlayerFieldFocus(playerField);
             return;
         }
@@ -231,9 +250,7 @@ public class Controller {
             return;
         }
     
-        // First step: look up the player ID.
-        int playerId;
-    
+        // First step: look up the player ID.    
         try {
             playerId = Integer.parseInt(input);
     
@@ -283,5 +300,10 @@ public class Controller {
             playerField.setPromptText("Enter Player ID");
             playerField.setMouseTransparent(false); // allow mouse clicks to focus the field
         }
+    }
+
+    @FXML
+    void startGameButtonAction(ActionEvent event) {
+        model.changeToPlayerActionScreen(); // call method in Main to change to the player action screen
     }
 }
