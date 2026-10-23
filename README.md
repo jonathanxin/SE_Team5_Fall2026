@@ -10,7 +10,7 @@
 | IsaacTempest | Isaac Berry |
 | SamekhKusma | Samekh Kusma |
 
-Supported Environment
+# Supported Environment
 
 This project is intended to run inside the course Linux virtual machine.
 
@@ -22,7 +22,7 @@ ARM64 / aarch64
 
 This allows the project to run in the Linux VM whether the host computer is Windows, Intel/AMD, or an Apple Silicon Mac.
 
-Requirements
+# Requirements
 
 The install script automatically sets up the required project dependencies, including:
 
@@ -42,7 +42,7 @@ JDK 21 is installed locally inside the project so the application uses the same 
 
 The install script also detects the VM architecture and downloads the appropriate JavaFX files for x86_64 or ARM64 systems.
 
-Installation
+# Installation
 
 Clone the repository:
 
@@ -78,7 +78,7 @@ Install and configure PostgreSQL if needed.
 
 Create the photon database and players table if needed.
 
-Run the Application
+# Run the Application
 
 After installation is complete, run:
 
@@ -90,7 +90,7 @@ If the required project dependencies have not been installed, the build script w
 
 ./install.sh
 
-Player Entry Controls
+# Player Entry Controls
 
 Enter a Player ID and press Tab.
 
