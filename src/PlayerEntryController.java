@@ -47,6 +47,9 @@ public class PlayerEntryController {
     private ImageView splashScreen;
 
     @FXML
+    private ImageView countdownImageView;
+    
+    @FXML
     private Button startGameButton;
 
     @FXML
