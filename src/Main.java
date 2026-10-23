@@ -44,12 +44,6 @@ public class Main extends Application {
         model.setplayerEntryController(playerEntryController); // set controller in model
         model.setApp(this); // set the main application in the model
         Scene scene = new Scene(root); // initialize scene (container for all content) with root node (can access scene now (not null))
-        scene.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.F5) {
-                event.consume(); //if F5 is pressed, signal to not go further through
-                controller.handleF5KeyPress();
-            }
-        });
 
         // stage (window) information
         stage.setTitle("Photon"); // title bar
