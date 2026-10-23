@@ -120,5 +120,6 @@
             <Image url="@splashscreen.jpg" />
          </image>
       </ImageView>
+      <ImageView fx:id="countdownImageView" visible="false" preserveRatio="true" pickOnBounds="false" />
    </children>
 </StackPane>
