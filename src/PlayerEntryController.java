@@ -258,7 +258,7 @@ public class PlayerEntryController {
     
             if (!saved) {
                 System.err.println("Player was not saved. Check the database.");
-                // return;
+                return;
             }
     
             currentNickname = input;

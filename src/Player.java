@@ -15,7 +15,7 @@ public class Player {
         this.setCodename(codename);
     }
 
-    public StringProperty getCodenameProperty() {
+    public StringProperty codenameProperty() {
         return codename;
     }
 
@@ -52,7 +52,6 @@ public class Player {
 	
 	@Override 
     public String toString() { // used as default cell factory for the table view (if no custom cell factory is set)
-        return codename + " (Score: " + score.get() + ")";
-        // TODO: properly format the player display in the table view (use custom cell factory)
+	    return getCodename() + " (Score: " + score.get() + ")";
     }
 }

@@ -52,9 +52,9 @@ public class PlayerActionController {
         // cell factories:
         // cell value factories define what data is displayed in the table view
         // getValue() returns the Player object for the current row
-        greenTeamMemeberCol.setCellValueFactory(player -> player.getValue().getCodenameProperty());
+        greenTeamMemeberCol.setCellValueFactory(player -> player.getValue().codenameProperty());
         greenTeamMemberScore.setCellValueFactory(player -> player.getValue().scoreProperty());
-        redTeamMemberCol.setCellValueFactory(player -> player.getValue().getCodenameProperty());
+        redTeamMemberCol.setCellValueFactory(player -> player.getValue().codenameProperty());
         redTeamMemberScore.setCellValueFactory(player -> player.getValue().scoreProperty());
 
         // disable selection 
@@ -66,7 +66,6 @@ public class PlayerActionController {
         gameActionsListView.setItems(gameActions);
         gameActionsListView.scrollTo(gameActions.size() - 1); // scroll to the bottom of the list view when new items are added
         // TODO: disable selection in the list view
-        // check ScrollBar to respect the scroll position and only auto-scroll if the user is at the bottom of the list view
-
+        // TODO: check ScrollBar to respect the scroll position and only auto-scroll if the user is at the bottom of the list view
     }
 }
