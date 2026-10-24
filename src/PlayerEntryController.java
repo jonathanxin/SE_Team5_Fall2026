@@ -11,6 +11,7 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.css.PseudoClass;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
@@ -20,12 +21,17 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 
 public class PlayerEntryController { 
     private Model model;
     private Boolean addingPlayer = false; // flag to indicate if a player is being added (temp)
     private boolean enteringEquipment = false;
     private String currentNickname;
+    private Timeline countdownTimeline;
     
     public void setModel(Model model) {  
         this.model = model;
@@ -51,11 +57,14 @@ public class PlayerEntryController {
 
     @FXML
     void clearEntriesButtonAction(ActionEvent event) {
-        // TODO: merge from main
+        clearPlayerEntries();
     }
 
     private final static PseudoClass INVALID_DATA = PseudoClass.getPseudoClass("invalid-data");
     BooleanProperty invalidDataBooleanProperty = new SimpleBooleanProperty(false);
+
+    @FXML
+    private ImageView countdownImageView;
 
     @FXML
     void changeNetworkButtonPress(ActionEvent event) {
@@ -83,10 +92,17 @@ public class PlayerEntryController {
         // set minimum window size based on splash screen image size
         parent.setMinWidth(splashScreen.getFitWidth());
         parent.setMinHeight(splashScreen.getFitHeight());
-
+        
         // set focus to the first player field 
         TextField firstField = (TextField) playerGrid.getChildren().get(0);
+        firstField.setPromptText("Enter Player ID");
         firstField.requestFocus(); // request focus on the first field (focus can only be set after scene and stage are initialized)
+
+        // capture scene-wide key presses using a key event filter to prevent nodes from consuming the event instead
+        parent.getScene().addEventFilter(KeyEvent.KEY_PRESSED, event -> handleGlobalKeyPresses(event));
+
+        // bind countdownImageView to to window size to allow resizing of the countdown image
+        countdownImageView.fitHeightProperty().bind(parent.heightProperty());
     }
 
     public void initialize() {
@@ -122,6 +138,16 @@ public class PlayerEntryController {
         fadeOut.play(); // start fade out transition
     }
 
+    private void handleGlobalKeyPresses(KeyEvent event) {
+        if (event.getCode() == KeyCode.F12) {
+            event.consume();
+            clearPlayerEntries();
+        } else if (event.getCode() == KeyCode.F5) {
+            event.consume();
+            startGameButtonAction(null);
+        }
+    }
+
     // called onKeyPress in the player entry fields
     @FXML
     void handlePlayerFieldKeyPress(KeyEvent event) {
@@ -130,6 +156,59 @@ public class PlayerEntryController {
             event.consume(); // prevent default Tab behavior of moving focus to the next field
             handleTabKeyPress((TextField) event.getSource());
         }
+    }
+
+    private void startCountdown(ImageView countdownImageView) {
+        if (countdownTimeline != null) { //if another countdown is running, stop it
+            countdownTimeline.stop();
+        }
+
+        final int[] secondsLeft = {30};
+        countdownImageView.setVisible(true); // make countdown image visible
+        countdownTimeline = new Timeline(
+            new KeyFrame(Duration.seconds(1), event -> {
+                if (secondsLeft[0] < 0) {
+                    countdownTimeline.stop();
+                    return;
+                }
+                String imagePath = "/resources/countdown/countdown" + secondsLeft[0] + ".jpg";
+                var imageStream = getClass().getResourceAsStream(imagePath);
+
+                if (imageStream != null) {
+                    countdownImageView.setImage(new Image(imageStream));
+                } else {
+                    System.err.println("Countdown image not found: " + imagePath);
+                }
+                secondsLeft[0]--; // decrement after displaying the current frame
+            })
+        );
+    
+        countdownTimeline.statusProperty().addListener((observable) -> { // add invalidation listner to statusProperty of countdownTimeline to change to the player action screen after countdown is complete
+            if (countdownTimeline.getStatus() == Animation.Status.STOPPED) {
+                model.changeToPlayerActionScreen(); // call method in Main to change to the player action screen
+            }
+        });
+        countdownTimeline.setCycleCount(32);
+        countdownTimeline.play();
+    }
+
+    private void clearPlayerEntries() {
+        for (Node node : playerGrid.getChildren()) {
+            if (node instanceof TextField playerField) {
+                playerField.clear();
+                playerField.setPromptText("");
+            }
+        }
+
+        addingPlayer = false;
+        enteringEquipment = false;
+        currentNickname = null;
+
+        TextField firstField = (TextField) playerGrid.getChildren().get(0);
+        firstField.setPromptText("Enter Player ID");
+        firstField.setMouseTransparent(false);
+        firstField.requestFocus();
+        model.clearSessionPlayers(); // clear the session players in the model
     }
 
     // helper method to validate player entry and shift focus on Tab key press
@@ -165,7 +244,6 @@ public class PlayerEntryController {
                 return;
             }
     
-            playerField.setStyle(""); // reset textfield border color to default for valid entry
             model.transmitEquipmentId(equipmentId);
             playerField.setText(currentNickname);
             enteringEquipment = false;
@@ -207,7 +285,6 @@ public class PlayerEntryController {
             return;
         }
     
-        playerField.setStyle(""); // reset textfield border color to default for valid entry
         currentNickname = model.findPlayerById(playerId);
         playerField.clear();
     
@@ -229,6 +306,7 @@ public class PlayerEntryController {
         if (nextIndex == 0) return; // don't loop back to the first field
         // prvents invalid cast exception if the next node is not a TextField (Group)
         if (playerGrid.getChildren().get(nextIndex) instanceof TextField nextField) {
+            nextField.setPromptText("Enter Player ID");
             nextField.requestFocus();
         }
         playerField.setMouseTransparent(true); // remove mouse transparency for completed fields
@@ -242,13 +320,12 @@ public class PlayerEntryController {
         // System.out.println("Player field focused: " + playerGrid.getChildren().indexOf(playerField)); // debug output to console
         // set prompt text to "Enter Player ID"
         if (isFocused) {
-            playerField.setPromptText("Enter Player ID");
             playerField.setMouseTransparent(false); // allow mouse clicks to focus the field
         }
     }
 
     @FXML
     void startGameButtonAction(ActionEvent event) {
-        model.changeToPlayerActionScreen(); // call method in Main to change to the player action screen
+        startCountdown(countdownImageView); // start the countdown timer
     }
 }

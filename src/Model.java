@@ -1,4 +1,3 @@
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class Model {
@@ -91,6 +90,11 @@ public class Model {
         } else if (currentTeam == 2) {
             redTeam.addPlayer(player);
         }
+    }
+
+    public void clearSessionPlayers() {
+        greenTeam.getTeamList().clear();
+        redTeam.getTeamList().clear();
     }
 
     public ObservableList<Player> getGreenTeamList() {

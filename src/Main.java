@@ -1,4 +1,3 @@
-// TODO: create countdown timer for game start
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -43,6 +42,7 @@ public class Main extends Application {
         model.setplayerEntryController(playerEntryController); // set controller in model
         model.setApp(this); // set the main application in the model
         Scene scene = new Scene(root); // initialize scene (container for all content) with root node (can access scene now (not null))
+
 
         // stage (window) information
         stage.setTitle("Photon"); // title bar
