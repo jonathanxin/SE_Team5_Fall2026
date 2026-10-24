@@ -4,6 +4,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.application.Platform;
+import javafx.beans.value.ObservableValue;
+import javafx.beans.value.ChangeListener;
 
 public class Main extends Application {
     PlayerEntryController playerEntryController;
@@ -51,10 +54,23 @@ public class Main extends Application {
         // set minumum window size to the that of the splash screen
         // caluclate window decoration sizes (title bar, borders, etc.) and add to the scene size to get the minimum window size
         // TODO: fix minimum Height being too small on Linux
-        double decorW = stage.getWidth() - scene.getWidth();
-        double decorH = stage.getHeight() - scene.getHeight();
-        stage.setMinWidth(scene.getWidth() + decorW);
-        stage.setMinHeight(scene.getHeight() + decorH);
+        Runnable updateMinSize = () -> {
+            double decorW = stage.getWidth() - scene.getWidth();
+            double decorH = stage.getHeight() - scene.getHeight();
+            stage.setMinWidth(scene.getWidth() + decorW);
+            stage.setMinHeight(scene.getHeight() + decorH);
+        };
+        updateMinSize.run();
+        // run the code again after a short delay to ensure that the window decorations have been applied
+        stage.heightProperty().addListener(new ChangeListener<>() {
+            @Override 
+            public void changed(ObservableValue<? extends Number> obs, Number oldValue, Number newValue) {
+                if (stage.getHeight() - scene.getHeight() > 0) {
+                    updateMinSize.run();
+                    stage.heightProperty().removeListener(this); // remove the listener after it has run once
+                }
+            }
+        });
         // code below runs after GUI is fully initialized and displayed
         playerEntryController.setModel(model); // set model in controller
         playerEntryController.onSceneReady(); // update controller state after window is initialized
