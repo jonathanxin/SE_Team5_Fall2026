@@ -42,6 +42,10 @@ JDK 21 is installed locally inside the project so the application uses the same 
 
 The install script also detects the VM architecture and downloads the appropriate JavaFX files for x86_64 or ARM64 systems.
 
+The course Linux VM must have internet access and sudo access.
+
+No separate Java or JavaFX installation is required. The install script downloads JDK 21 and JavaFX 21 for the project automatically.
+
 # Installation
 
 Clone the repository:
@@ -95,6 +99,8 @@ If the required project dependencies have not been installed, the build script w
 Enter a Player ID and press Tab.
 
 Follow the on-screen prompts to enter a nickname for a new player and an equipment ID.
+
+Press F5 to start the game countdown.
 
 Press F12 to clear all player entries.
 
