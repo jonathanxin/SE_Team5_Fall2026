@@ -1,18 +1,23 @@
 // handles user input and updates model on events
 //  delegates to model by calling corresponding methods
 // forwards model data to view for display via bindings and listeners
+// TODO: center buttons vertically when resizing window
 
 import javafx.util.Duration;
 import javafx.animation.Animation;
 import javafx.animation.FadeTransition;
+import javafx.beans.binding.BooleanBinding;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.css.PseudoClass;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
@@ -21,7 +26,7 @@ import javafx.animation.Timeline;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 
-public class Controller { 
+public class PlayerEntryController { 
     private Model model;
     private Boolean addingPlayer = false; // flag to indicate if a player is being added (temp)
     private boolean enteringEquipment = false;
@@ -43,6 +48,20 @@ public class Controller {
 
     @FXML
     private ImageView splashScreen;
+
+    @FXML
+    private Button startGameButton;
+
+    @FXML
+    private Button clearEntriesButton;
+
+    @FXML
+    void clearEntriesButtonAction(ActionEvent event) {
+        clearPlayerEntries();
+    }
+
+    private final static PseudoClass INVALID_DATA = PseudoClass.getPseudoClass("invalid-data");
+    BooleanProperty invalidDataBooleanProperty = new SimpleBooleanProperty(false);
 
     @FXML
     private ImageView countdownImageView;
@@ -69,12 +88,21 @@ public class Controller {
         // splashScreen.fitWidthProperty().bind(parent.widthProperty());
         parent.prefWidthProperty().bind(splashScreen.fitWidthProperty());
         splashScreen.fitHeightProperty().bind(parent.heightProperty());
-        countdownImageView.fitHeightProperty().bind(parent.heightProperty());
+
+        // set minimum window size based on splash screen image size
+        parent.setMinWidth(splashScreen.getFitWidth());
+        parent.setMinHeight(splashScreen.getFitHeight());
         
         // set focus to the first player field 
         TextField firstField = (TextField) playerGrid.getChildren().get(0);
         firstField.setPromptText("Enter Player ID");
         firstField.requestFocus(); // request focus on the first field (focus can only be set after scene and stage are initialized)
+
+        // capture scene-wide key presses using a key event filter to prevent nodes from consuming the event instead
+        parent.getScene().addEventFilter(KeyEvent.KEY_PRESSED, event -> handleGlobalKeyPresses(event));
+
+        // bind countdownImageView to to window size to allow resizing of the countdown image
+        countdownImageView.fitHeightProperty().bind(parent.heightProperty());
     }
 
     public void initialize() {
@@ -110,18 +138,19 @@ public class Controller {
         fadeOut.play(); // start fade out transition
     }
 
-    // called onKeyPress in the player entry fields
-    @FXML
-    void handlePlayerFieldKeyPress(KeyEvent event) {
+    private void handleGlobalKeyPresses(KeyEvent event) {
         if (event.getCode() == KeyCode.F12) {
             event.consume();
             clearPlayerEntries();
-            return;
-        }
-        if (event.getCode() == KeyCode.F5) {
+        } else if (event.getCode() == KeyCode.F5) {
             event.consume();
-            startCountdown(countdownImageView); //calls countdown method when f5 is pressed
+            startGameButtonAction(null);
         }
+    }
+
+    // called onKeyPress in the player entry fields
+    @FXML
+    void handlePlayerFieldKeyPress(KeyEvent event) {
         // process player entry on Tab
         if (event.getCode() == KeyCode.TAB) {
             event.consume(); // prevent default Tab behavior of moving focus to the next field
@@ -133,19 +162,15 @@ public class Controller {
         if (countdownTimeline != null) { //if another countdown is running, stop it
             countdownTimeline.stop();
         }
-        countdownImageView.setVisible(true);
-       //initialize the first frame begining at 30 seconds
-       countdownImageView.setImage(
-            new Image(getClass().getResourceAsStream(
-                "/resources/countdown/countdown30.jpg"
-            ))
-        );
+
         final int[] secondsLeft = {30};
-        
+        countdownImageView.setVisible(true); // make countdown image visible
         countdownTimeline = new Timeline(
             new KeyFrame(Duration.seconds(1), event -> {
-                secondsLeft[0]--; //decrement until 0 
-    
+                if (secondsLeft[0] < 0) {
+                    countdownTimeline.stop();
+                    return;
+                }
                 String imagePath = "/resources/countdown/countdown" + secondsLeft[0] + ".jpg";
                 var imageStream = getClass().getResourceAsStream(imagePath);
 
@@ -154,24 +179,24 @@ public class Controller {
                 } else {
                     System.err.println("Countdown image not found: " + imagePath);
                 }
-    
-                //once its gotten to the last frame, stop
-                if (secondsLeft[0] == 0) {
-                    countdownTimeline.stop();
-                }
+                secondsLeft[0]--; // decrement after displaying the current frame
             })
         );
     
-        countdownTimeline.setCycleCount(30);
+        countdownTimeline.statusProperty().addListener((observable) -> { // add invalidation listner to statusProperty of countdownTimeline to change to the player action screen after countdown is complete
+            if (countdownTimeline.getStatus() == Animation.Status.STOPPED) {
+                model.changeToPlayerActionScreen(); // call method in Main to change to the player action screen
+            }
+        });
+        countdownTimeline.setCycleCount(32);
         countdownTimeline.play();
     }
+
     private void clearPlayerEntries() {
         for (Node node : playerGrid.getChildren()) {
             if (node instanceof TextField playerField) {
                 playerField.clear();
                 playerField.setPromptText("");
-                playerField.setStyle("");
-                playerField.setMouseTransparent(true);
             }
         }
 
@@ -183,11 +208,20 @@ public class Controller {
         firstField.setPromptText("Enter Player ID");
         firstField.setMouseTransparent(false);
         firstField.requestFocus();
+        model.clearSessionPlayers(); // clear the session players in the model
     }
 
     // helper method to validate player entry and shift focus on Tab key press
     private void handleTabKeyPress(TextField playerField) {
+        int playerId = -1;
         String input = playerField.getText().trim();
+        // get index of current player field in the grid
+        int currentIndex = playerGrid.getChildren().indexOf(playerField);
+        // clear in-line style of the player field to reset any previous invalid data indication
+        // playerField.setStyle("");
+        invalidDataBooleanProperty.setValue(false); // reset invalid data boolean property to false to remove the pseudo-class state for new input
+        BooleanBinding invalidDataCondition = playerField.focusedProperty().and(invalidDataBooleanProperty); // create a BooleanBinding to track the invalid data condition (focused and invalid data)
+        invalidDataCondition.addListener((observable, oldValue, newValue) -> playerField.pseudoClassStateChanged(INVALID_DATA, newValue)); // add change listener to the BooleanBinding to update the pseudo-class state of the player field when the invalid data condition changes
     
         if (input.isEmpty()) {
             return;
@@ -206,13 +240,14 @@ public class Controller {
             } catch (NumberFormatException e) {
                 playerField.clear();
                 playerField.setPromptText("Enter a valid equipment ID");
+                invalidDataBooleanProperty.setValue(true); // set invalidDataBooleanProperty to true to trigger the pseudo-class state change
                 return;
             }
     
             model.transmitEquipmentId(equipmentId);
-    
             playerField.setText(currentNickname);
             enteringEquipment = false;
+            model.addSessionPlayer(currentIndex); // add player to session's list with the current index
             changePlayerFieldFocus(playerField);
             return;
         }
@@ -222,7 +257,6 @@ public class Controller {
             boolean saved = model.addPlayerToDatabase(input);
     
             if (!saved) {
-                playerField.setStyle("-fx-border-color: red;");
                 System.err.println("Player was not saved. Check the database.");
                 return;
             }
@@ -232,14 +266,12 @@ public class Controller {
             enteringEquipment = true;
     
             playerField.clear();
-            playerField.setStyle("");
+            // playerField.setStyle("");
             playerField.setPromptText("Enter Equipment ID");
             return;
         }
     
-        // First step: look up the player ID.
-        int playerId;
-    
+        // First step: look up the player ID.    
         try {
             playerId = Integer.parseInt(input);
     
@@ -249,6 +281,7 @@ public class Controller {
         } catch (NumberFormatException e) {
             playerField.clear();
             playerField.setPromptText("Enter a valid player ID");
+            invalidDataBooleanProperty.setValue(true); // set invalidDataBooleanProperty to true to trigger the pseudo-class state change
             return;
         }
     
@@ -276,8 +309,8 @@ public class Controller {
             nextField.setPromptText("Enter Player ID");
             nextField.requestFocus();
         }
-        playerField.setMouseTransparent(true); // remove mouse transparenct for completed fields
-        playerField.setStyle(""); // reset textfield border color to default for valid entry
+        playerField.setMouseTransparent(true); // remove mouse transparency for completed fields
+        // playerField.setStyle(""); // reset textfield border color to default for valid entry
     }
 
     // called when playerFieled changes focus (onFocusChange)
@@ -289,5 +322,10 @@ public class Controller {
         if (isFocused) {
             playerField.setMouseTransparent(false); // allow mouse clicks to focus the field
         }
+    }
+
+    @FXML
+    void startGameButtonAction(ActionEvent event) {
+        startCountdown(countdownImageView); // start the countdown timer
     }
 }

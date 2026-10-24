@@ -14,13 +14,12 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<StackPane prefHeight="500.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
+<StackPane stylesheets="@Styles.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="PlayerEntryController">
    <children>
       <BorderPane prefHeight="500.0" prefWidth="500.0" stylesheets="@Styles.css">
          <center>
             <VBox>
                <children>
-                  <Label maxWidth="1.7976931348623157E308" text="Enter Player ID and press Tab. Follow the prompts for nickname and equipment ID. Press F12 to clear all players." textAlignment="CENTER" wrapText="true" />
                   <HBox alignment="CENTER">
                      <children>
                         <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefWidth="250.0" text="GREEN TEAM" textAlignment="CENTER" HBox.hgrow="ALWAYS" />
@@ -101,18 +100,29 @@
             </VBox>
          </center>
          <top>
-            <Label text="Edit Current Game" BorderPane.alignment="CENTER" />
+            <VBox alignment="CENTER" nodeOrientation="LEFT_TO_RIGHT" BorderPane.alignment="CENTER">
+               <children>
+                  <Label text="Edit Current Game" />
+                  <Label text="Press &lt;Tab&gt; to enter player data. Follow the text fields' prompt text for instructions." />
+               </children>
+            </VBox>
          </top>
          <bottom>
-            <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-              <buttons>
-                <Button fx:id="changeNetworkButton" focusTraversable="false" mnemonicParsing="false" onAction="#changeNetworkButtonPress" text="Change Network">
-                     <graphic>
-                        <TextField fx:id="networkAddressField" focusTraversable="false" onAction="#networkAddressFieldOnAction" promptText="Enter Network" />
-                     </graphic>
-                  </Button>
-              </buttons>
-            </ButtonBar>
+            <HBox alignment="CENTER" BorderPane.alignment="CENTER">
+               <children>
+                  <ButtonBar>
+                    <buttons>
+                      <Button fx:id="changeNetworkButton" focusTraversable="false" mnemonicParsing="false" onAction="#changeNetworkButtonPress" text="Change Network">
+                           <graphic>
+                              <TextField fx:id="networkAddressField" focusTraversable="false" onAction="#networkAddressFieldOnAction" promptText="Enter Network" />
+                           </graphic>
+                        </Button>
+                        <Button fx:id="startGameButton" focusTraversable="false" mnemonicParsing="false" onAction="#startGameButtonAction" text="(F5) Start Game" />
+                        <Button fx:id="clearEntriesButton" focusTraversable="false" mnemonicParsing="false" onAction="#clearEntriesButtonAction" text="(F12) Clear Entries" />
+                    </buttons>
+                  </ButtonBar>
+               </children>
+            </HBox>
          </bottom>
       </BorderPane>
       <ImageView fx:id="splashScreen" fitHeight="500.0" pickOnBounds="true" preserveRatio="true" visible="false">
@@ -120,6 +130,6 @@
             <Image url="@splashscreen.jpg" />
          </image>
       </ImageView>
-      <ImageView fx:id="countdownImageView" visible="false" preserveRatio="true" pickOnBounds="false" />
+      <ImageView fx:id="countdownImageView" fitHeight="500.0" pickOnBounds="false" preserveRatio="true" visible="false" />
    </children>
 </StackPane>
