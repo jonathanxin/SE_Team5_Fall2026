@@ -87,11 +87,6 @@ public class PlayerEntryController {
         // bind ImageView to parent to allow resizing of the splash screen image
         splashScreen.fitHeightProperty().bind(parent.heightProperty());
         splashScreen.fitWidthProperty().bind(parent.widthProperty());
-        
-        // set focus to the first player field 
-        TextField firstField = (TextField) playerGrid.getChildren().get(0);
-        firstField.setPromptText("Enter Player ID");
-        firstField.requestFocus(); // request focus on the first field (focus can only be set after scene and stage are initialized)
 
         // capture scene-wide key presses using a key event filter to prevent nodes from consuming the event instead
         parent.getScene().addEventFilter(KeyEvent.KEY_PRESSED, event -> handleGlobalKeyPresses(event));
@@ -135,6 +130,10 @@ public class PlayerEntryController {
                 parent.getChildren().remove(splashScreen);
                 parent.setStyle(""); // reset parent's background fill to default to allow background to show through the letterboxing when resizing the window
                 parent.getChildren().getFirst().setVisible(true); // set BorderPane (first child of StackPane) to visible
+                // set focus to the first player field 
+                TextField firstField = (TextField) playerGrid.getChildren().get(0);
+                firstField.setPromptText("Enter Player ID");
+                firstField.requestFocus(); // request focus on the first field (focus can only be set after scene and stage are initialized)
                 System.out.println("Splash screen removed from parent StackPane");
             }
         });
