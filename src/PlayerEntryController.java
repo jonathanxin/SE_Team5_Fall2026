@@ -85,13 +85,8 @@ public class PlayerEntryController {
         StackPane parent = (StackPane) splashScreen.getParent(); // get StackPane (root)
 
         // bind ImageView to parent to allow resizing of the splash screen image
-        // splashScreen.fitWidthProperty().bind(parent.widthProperty());
-        parent.prefWidthProperty().bind(splashScreen.fitWidthProperty());
         splashScreen.fitHeightProperty().bind(parent.heightProperty());
-
-        // set minimum window size based on splash screen image size
-        parent.setMinWidth(splashScreen.getFitWidth());
-        parent.setMinHeight(splashScreen.getFitHeight());
+        splashScreen.fitWidthProperty().bind(parent.widthProperty());
         
         // set focus to the first player field 
         TextField firstField = (TextField) playerGrid.getChildren().get(0);
@@ -103,14 +98,21 @@ public class PlayerEntryController {
 
         // bind countdownImageView to to window size to allow resizing of the countdown image
         countdownImageView.fitHeightProperty().bind(parent.heightProperty());
+        countdownImageView.fitWidthProperty().bind(parent.widthProperty());
     }
 
     public void initialize() {
         // called by FXMLLoader after the fxml file has been loaded and all @FXML annotated members have been injected (all elements can be binded, listeners can be added, and properties can be set)
         // NOTE: initialze() is called before parent layout is attatched to scene or a stage (cannot request window actions (e.g., geting screen bounds))
 
+        StackPane parent = (StackPane) splashScreen.getParent();
+        
         // change ImageView to be visible (set invisible to allow for easier editing of the FXML file in SceneBuilder)
         splashScreen.setVisible(true);
+        // set parent's background fill to black to prevent background showing through the letterboxing when resizing the window during splash screen display
+        parent.setStyle("-fx-background-color: black;");
+        // set BorderPane to invisible to prevent it from showing through the letterboxing when resizing the window during splash screen display
+        parent.getChildren().getFirst().setVisible(false);
 
         // initialize all player fields in playerGrid with properties and listeners
         for (Node node : playerGrid.getChildren()) {
@@ -130,8 +132,9 @@ public class PlayerEntryController {
         fadeOut.setToValue(0.0); // end fully transparent
         fadeOut.statusProperty().addListener((observable) -> { // add invalidation listner to statusProperty of fadeOut to remove splashScreen from parent StackPane after fade out is complete
             if (fadeOut.getStatus() == Animation.Status.STOPPED) {
-                StackPane parent = (StackPane) splashScreen.getParent();
                 parent.getChildren().remove(splashScreen);
+                parent.setStyle(""); // reset parent's background fill to default to allow background to show through the letterboxing when resizing the window
+                parent.getChildren().getFirst().setVisible(true); // set BorderPane (first child of StackPane) to visible
                 System.out.println("Splash screen removed from parent StackPane");
             }
         });
@@ -162,6 +165,13 @@ public class PlayerEntryController {
         if (countdownTimeline != null) { //if another countdown is running, stop it
             countdownTimeline.stop();
         }
+
+        countdownImageView.setImage(new Image(getClass().getResourceAsStream("/resources/countdown/countdown.jpg")));
+
+        StackPane parent = (StackPane) countdownImageView.getParent(); // get StackPane (root)
+        parent.setStyle("-fx-background-color: black;");
+        // set BorderPane to invisible to prevent it from showing through the letterboxing when resizing the window during countdown display
+        parent.getChildren().getFirst().setVisible(false);
 
         final int[] secondsLeft = {30};
         countdownImageView.setVisible(true); // make countdown image visible
