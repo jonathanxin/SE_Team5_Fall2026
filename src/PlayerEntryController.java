@@ -172,6 +172,7 @@ public class PlayerEntryController {
         // set BorderPane to invisible to prevent it from showing through the letterboxing when resizing the window during countdown display
         parent.getChildren().getFirst().setVisible(false);
 
+        // TODO: look into using a different approach that is not dependent on events after an animation is complete
         final int[] secondsLeft = {30};
         countdownImageView.setVisible(true); // make countdown image visible
         countdownTimeline = new Timeline(

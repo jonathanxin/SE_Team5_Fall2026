@@ -57,9 +57,11 @@ public class PlayerActionController {
         redTeamMemberCol.setCellValueFactory(player -> player.getValue().codenameProperty());
         redTeamMemberScore.setCellValueFactory(player -> player.getValue().scoreProperty());
 
-        // disable selection 
+        // disable selection
         greenTeamTableView.setSelectionModel(null);
+        greenTeamTableView.setMouseTransparent(true);
         redTeamTableView.setSelectionModel(null);
+        redTeamTableView.setMouseTransparent(true);
 
         // create data model for the game actions list view
         ObservableList<String> gameActions = FXCollections.observableArrayList();
