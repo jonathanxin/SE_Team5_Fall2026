@@ -11,7 +11,7 @@ public class Player {
 	private int equipmentId = -1;
     private IntegerProperty score = new SimpleIntegerProperty(this, "score", 0);
 
-    public Player(int ID, String codename) {
+    public Player(int ID, String codename, int equipmentId) {
         this.ID = ID;
 		this.equipmentId = equipmentId;
         this.setCodename(codename);
