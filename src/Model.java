@@ -82,7 +82,7 @@ public class Model {
         }
     }
 
-    public void addSessionPlayer(int playerIndex) {
+    public void addSessionPlayer(int playerIndex, int equipmentId) {
         Player player = new Player(playerId, codename, equipmentId);
         currentTeam = calculateTeam(playerIndex);
         if (currentTeam == 1) {
