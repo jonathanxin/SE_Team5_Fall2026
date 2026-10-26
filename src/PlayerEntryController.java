@@ -159,40 +159,59 @@ public class PlayerEntryController {
     }
 
     private void startCountdown(ImageView countdownImageView) {
-        if (countdownTimeline != null) { //if another countdown is running, stop it
-            countdownTimeline.stop();
+        // Ignore additional F5 presses while counting down.
+        if (countdownTimeline != null
+                && countdownTimeline.getStatus() == Animation.Status.RUNNING) {
+            return;
         }
-
+    
         final int[] secondsLeft = {30};
-        countdownImageView.setVisible(true); // make countdown image visible
+    
+        // Display 30 immediately.
+        showCountdownNumber(30);
+        countdownImageView.setVisible(true);
+    
         countdownTimeline = new Timeline(
             new KeyFrame(Duration.seconds(1), event -> {
-                if (secondsLeft[0] < 0) {
-                    countdownTimeline.stop();
-                    return;
-                }
-                String imagePath = "/resources/countdown/countdown" + secondsLeft[0] + ".jpg";
-                var imageStream = getClass().getResourceAsStream(imagePath);
-
-                if (imageStream != null) {
-                    countdownImageView.setImage(new Image(imageStream));
-                } else {
-                    System.err.println("Countdown image not found: " + imagePath);
-                }
-                secondsLeft[0]--; // decrement after displaying the current frame
+                secondsLeft[0]--;
+                showCountdownNumber(secondsLeft[0]);
             })
         );
     
-        countdownTimeline.statusProperty().addListener((observable) -> { // add invalidation listner to statusProperty of countdownTimeline to change to the player action screen after countdown is complete
-            if (countdownTimeline.getStatus() == Animation.Status.STOPPED) {
-                model.changeToPlayerActionScreen(); // call method in Main to change to the player action screen
-            }
+        countdownTimeline.setCycleCount(30);
+    
+        // Runs only when all 30 seconds finish, not when stop() is called.
+        countdownTimeline.setOnFinished(event -> {
+            countdownImageView.setVisible(false);
+            model.startGame();
         });
-        countdownTimeline.setCycleCount(32);
+    
         countdownTimeline.play();
     }
 
+    private void showCountdownNumber(int seconds) {
+        String imagePath =
+                "/resources/countdown/countdown" + seconds + ".jpg";
+    
+        var imageUrl = getClass().getResource(imagePath);
+    
+        if (imageUrl == null) {
+            throw new IllegalStateException(
+                    "Missing countdown image: " + imagePath);
+        }
+    
+        countdownImageView.setImage(new Image(imageUrl.toExternalForm()));
+    }
+
     private void clearPlayerEntries() {
+
+        if (countdownTimeline != null) {
+            countdownTimeline.stop();
+        }
+
+        countdownImageView.setVisible(false);
+        countdownImageView.setImage(null);
+        
         for (Node node : playerGrid.getChildren()) {
             if (node instanceof TextField playerField) {
                 playerField.clear();
