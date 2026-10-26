@@ -104,4 +104,9 @@ public class Model {
     public ObservableList<Player> getRedTeamList() {
         return redTeam.getTeamList();
     }
+    
+    public void startGame() {
+        networking.transmit(202);
+        changeToPlayerActionScreen();
+    }
 }
