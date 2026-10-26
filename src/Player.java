@@ -8,10 +8,12 @@ import javafx.util.Callback;
 public class Player {
     private StringProperty codename = new SimpleStringProperty(this, "codename", "");
     private int ID = -1;
+	private int equipmentId = -1;
     private IntegerProperty score = new SimpleIntegerProperty(this, "score", 0);
 
     public Player(int ID, String codename) {
         this.ID = ID;
+		this.equipmentId = equipmentId;
         this.setCodename(codename);
     }
 
@@ -34,6 +36,14 @@ public class Player {
     public void setID(int ID) {
         this.ID = ID;
     }
+	
+	public int getEquipmentId() {
+    	return equipmentId;
+	}
+
+	public void setEquipmentId(int equipmentId) {
+    	this.equipmentId = equipmentId;
+	}
 
     public void setScore(int score) {
         this.score.set(score);
