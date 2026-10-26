@@ -83,7 +83,7 @@ public class Model {
     }
 
     public void addSessionPlayer(int playerIndex) {
-        Player player = new Player(playerId, codename);
+        Player player = new Player(playerId, codename, equipmentId);
         currentTeam = calculateTeam(playerIndex);
         if (currentTeam == 1) {
             greenTeam.addPlayer(player);
