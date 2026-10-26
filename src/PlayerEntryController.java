@@ -247,7 +247,7 @@ public class PlayerEntryController {
             model.transmitEquipmentId(equipmentId);
             playerField.setText(currentNickname);
             enteringEquipment = false;
-            model.addSessionPlayer(currentIndex); // add player to session's list with the current index
+            model.addSessionPlayer(currentIndex, equipmentId); // add player to session's list with the current index
             changePlayerFieldFocus(playerField);
             return;
         }
