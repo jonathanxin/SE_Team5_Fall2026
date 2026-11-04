@@ -82,8 +82,8 @@ public class Model {
         }
     }
 
-    public void addSessionPlayer(int playerIndex) {
-        Player player = new Player(playerId, codename);
+    public void addSessionPlayer(int playerIndex, int equipmentId) {
+        Player player = new Player(playerId, codename, equipmentId);
         currentTeam = calculateTeam(playerIndex);
         if (currentTeam == 1) {
             greenTeam.addPlayer(player);
@@ -103,5 +103,10 @@ public class Model {
 
     public ObservableList<Player> getRedTeamList() {
         return redTeam.getTeamList();
+    }
+    
+    public void startGame() {
+        networking.transmit(202);
+        changeToPlayerActionScreen();
     }
 }
