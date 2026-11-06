@@ -16,4 +16,13 @@ public class Team {
     public void addPlayer(Player player) {
         teamList.add(player);
     }
+
+    public Player getplayerByEquipmentId(int equipmentId) {
+        for (Player player : teamList) {
+            if (player.getEquipmentId() == equipmentId) {
+                return player;
+            }
+        }
+        return null; // player not found
+    }
 }

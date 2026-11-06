@@ -67,7 +67,6 @@ public class PlayerActionController {
         ObservableList<String> gameActions = FXCollections.observableArrayList();
         gameActionsListView.setItems(gameActions);
         gameActionsListView.scrollTo(gameActions.size() - 1); // scroll to the bottom of the list view when new items are added
-        // TODO: disable selection in the list view
         // TODO: check ScrollBar to respect the scroll position and only auto-scroll if the user is at the bottom of the list view
     }
 }

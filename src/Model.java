@@ -1,3 +1,4 @@
+// TODO: refactor data to be a single collection where players have team propertys (only sort by team once in PAC)
 import javafx.collections.ObservableList;
 
 public class Model {
@@ -12,8 +13,11 @@ public class Model {
     private Team redTeam = new Team();
     private Team greenTeam = new Team();
 
-    public Model(PlayerDatabase playerDatabase, Networking networking) {
+    public Model(PlayerDatabase playerDatabase) {
         this.playerDatabase = playerDatabase;
+    }
+
+    public void setNetworking(Networking networking) {
         this.networking = networking;
     }
 
@@ -28,6 +32,25 @@ public class Model {
     public void setNetworkAddress(String networkAddress) {
         // forward the network address to the networking class
         networking.setNetworkAddress(networkAddress);
+    }
+
+    public void changePlayerScore(int equipmentId, int scoreChange) {
+        Player player = greenTeam.getplayerByEquipmentId(equipmentId);
+        if (player == null) {
+            player = redTeam.getplayerByEquipmentId(equipmentId);
+        }
+        int newScore = player.getScore() + scoreChange;
+        player.setScore(newScore);
+    }
+
+    public Boolean checkFriendlyFire(int taggingID, int taggedID) {
+        // search the teams for the players with the given equipment IDs
+        Player taggingPlayer = greenTeam.getplayerByEquipmentId(taggingID);
+        Player taggedPlayer = greenTeam.getplayerByEquipmentId(taggedID);
+        if (taggingPlayer == null ^ taggedPlayer == null) {
+            return false;
+        }
+        return true;
     }
 
     public String findPlayerById(int playerId) {

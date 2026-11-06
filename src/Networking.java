@@ -10,10 +10,15 @@ public class Networking {
     private static final int TRANSMIT_PORT = 7500;
     private static final int RECEIVE_PORT = 7501;
 
+    private Model model;
     private DatagramSocket transmitSocket;
     private DatagramSocket receiveSocket; 
     private String networkAddress = "127.0.0.1";
     private volatile boolean listening = false;
+
+    public Networking(Model model) {
+        this.model = model;
+    }
 
     // UDP getter and setter
     public void setNetworkAddress(String networkAddress) {
@@ -97,7 +102,7 @@ public class Networking {
 
                     System.out.println("Received: " + message);
 
-                    // processReceivedData(message);
+                    processReceivedData(message);
 
                 } catch (SocketException e) {
                     if (listening) {
@@ -117,6 +122,35 @@ public class Networking {
         receiveThread.setName("UDP Receive Thread");
         receiveThread.start();
         System.out.println("Receive thread is alive: " + receiveThread.isAlive()); // check if thread is alive
+    }
+
+    private void processReceivedData(String message) {
+        // Process the received data here
+        int taggingID = -1;
+        int taggedID = -1;
+        message = message.trim(); // remove null-terminator 
+        String[] parts = message.split(":");
+        taggingID =Integer.parseInt(parts[0]);
+        taggedID = Integer.parseInt(parts[1]);
+        // transmit equipment ID of the player who got tagged to all players
+        transmit(taggedID);
+        // check for base tagging
+        if (taggedID == 43 || taggedID == 53) {
+            // TODO: implement base tagging logic
+            System.out.println("Base tagging detected: " + taggingID + " tagged " + taggedID);
+            return; // temp
+        }
+        // check for friendly fire
+        if (model.checkFriendlyFire(taggingID, taggedID)) {
+            System.out.println("Friendly fire detected: " + taggingID + " tagged " + taggedID);
+            transmit(taggingID); // also transmit the equipment ID of the offending player
+            model.changePlayerScore(taggingID, -10); // subtract points from the tagging player
+            model.changePlayerScore(taggedID, -10); // subtract points from the tagged player
+        }
+        else {
+            // add points to the tagging player
+            model.changePlayerScore(taggingID, 10);
+        }
     }
 
     // close sockets

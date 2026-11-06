@@ -22,21 +22,24 @@ public class Main extends Application {
 
     @Override 
     public void init() throws Exception {
-        // called before start() and before the GUI is initialized (runs on background thread)
-        // setup ntworking
-        networking = new Networking(); // initialize networking
-        networking.setupUdpSockets(); // setup UDP sockets
-        networking.startListening(); // start listening for incoming packets
+        // called before start() and before the GUI is initialized (called on launcher thread, not JavaFX application thread)
 
         // setup database
         playerDatabase = new PlayerDatabase(); // initialize player database
 
-        model = new Model(playerDatabase, networking); // initialize model with networking
+        model = new Model(playerDatabase); // initialize model with the database
+
+        // setup networking
+        networking = new Networking(model); // initialize networking
+        model.setNetworking(networking); // set networking in model
+        networking.setupUdpSockets(); // setup UDP sockets
+        networking.startListening(); // start listening for incoming packets
     }
 
     @Override 
     public void stop() throws Exception {
         // called when the application is shutting down
+        networking.transmit(221);
         networking.closeUdpSockets(); // close UDP sockets
     }
 

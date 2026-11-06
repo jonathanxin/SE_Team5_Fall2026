@@ -40,14 +40,4 @@ public class PlayerDatabase {
             return false;
         }
     }
-
-    // public static void main(String[] args) {
-    //     String codename = findPlayerById(2);
-
-    //     if (codename != null) {
-    //         System.out.println("Player found: " + codename);
-    //     } else {
-    //         System.out.println("Player not found.");
-    //     }
-    // }
 }
