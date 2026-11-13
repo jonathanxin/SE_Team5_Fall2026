@@ -5,7 +5,10 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@Styles.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="PlayerActionController">
@@ -45,6 +48,23 @@
                   </TableView>
                </children>
             </HBox>
+            <GridPane gridLinesVisible="true" VBox.vgrow="NEVER">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" percentWidth="25.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" percentWidth="25.0" />
+                <ColumnConstraints hgrow="SOMETIMES" percentWidth="25.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" percentWidth="25.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints vgrow="NEVER" />
+              </rowConstraints>
+               <children>
+                  <Label fx:id="greenTeamScore" alignment="CENTER_RIGHT" focusTraversable="false" text="Green Team Score" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.vgrow="NEVER" />
+                  <Label fx:id="redTeamScore" alignment="CENTER_RIGHT" focusTraversable="false" text="Red Team Score" GridPane.columnIndex="3" GridPane.rowIndex="2" GridPane.vgrow="NEVER" />
+               </children>
+            </GridPane>
             <ListView fx:id="gameActionsListView" focusTraversable="false" VBox.vgrow="ALWAYS" />
          </children>
       </VBox>

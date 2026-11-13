@@ -2,6 +2,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -12,6 +13,8 @@ public class PlayerActionController {
     private ObservableList<Player> redTeamList;
     private SortedList<Player> sortedGreenTeamList;
     private SortedList<Player> sortedRedTeamList;
+    private Team greenTeam;
+    private Team redTeam;
 
     @FXML
     private ListView<String> gameActionsListView;
@@ -34,13 +37,21 @@ public class PlayerActionController {
     @FXML
     private TableView<Player> redTeamTableView;
 
+    @FXML
+    private Label redTeamScore;
+    @FXML 
+    private Label greenTeamScore;
+
+
     public void setModel(Model model) {
         this.model = model;
     }
 
     public void initializeTeams() {
-        greenTeamList = model.getGreenTeamList();
-        redTeamList = model.getRedTeamList();
+        greenTeam = model.getGreenTeam();
+        redTeam = model.getRedTeam();
+        greenTeamList = greenTeam.getTeamList();
+        redTeamList = redTeam.getTeamList();
         // using SortedList to respond to changes in the underlying ObservableList and sort by score in descending order (comparator)
         sortedGreenTeamList = new SortedList<>(greenTeamList);
         sortedGreenTeamList.setComparator((p1, p2) -> Integer.compare(p2.getScore(), p1.getScore()));
@@ -68,5 +79,9 @@ public class PlayerActionController {
         gameActionsListView.setItems(gameActions);
         gameActionsListView.scrollTo(gameActions.size() - 1); // scroll to the bottom of the list view when new items are added
         // TODO: check ScrollBar to respect the scroll position and only auto-scroll if the user is at the bottom of the list view
+
+        // bind team score labels to team score properties
+        redTeamScore.textProperty().bind(model.getRedTeam().teamScore().asString());
+        greenTeamScore.textProperty().bind(model.getGreenTeam().teamScore().asString());
     }
 }

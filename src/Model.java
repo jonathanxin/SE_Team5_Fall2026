@@ -1,4 +1,5 @@
 // TODO: refactor data to be a single collection where players have team propertys (only sort by team once in PAC)
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 
 public class Model {
@@ -35,12 +36,14 @@ public class Model {
     }
 
     public void changePlayerScore(int equipmentId, int scoreChange) {
+        // determine
         Player player = greenTeam.getplayerByEquipmentId(equipmentId);
         if (player == null) {
             player = redTeam.getplayerByEquipmentId(equipmentId);
         }
         int newScore = player.getScore() + scoreChange;
-        player.setScore(newScore);
+        Player playerToUpdate = player;
+        Platform.runLater(() -> playerToUpdate.setScore(newScore));
     }
 
     public Boolean checkFriendlyFire(int taggingID, int taggedID) {
@@ -120,12 +123,12 @@ public class Model {
         redTeam.getTeamList().clear();
     }
 
-    public ObservableList<Player> getGreenTeamList() {
-        return greenTeam.getTeamList();
+    public Team getGreenTeam() {
+        return greenTeam;
     }
 
-    public ObservableList<Player> getRedTeamList() {
-        return redTeam.getTeamList();
+    public Team getRedTeam() {
+        return redTeam;
     }
     
     public void startGame() {
