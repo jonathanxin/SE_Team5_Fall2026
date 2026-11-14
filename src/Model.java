@@ -37,8 +37,7 @@ public class Model {
         if (codename == null) {
             System.out.println("Player ID " + playerId + " not found in database.");
             return null;
-        } 
-        else {
+        } else {
             System.out.println("Player ID " + playerId + " found in database.");
             this.codename = codename; // store the codename for later use
             return codename;
@@ -46,19 +45,15 @@ public class Model {
     }
 
     public boolean addPlayerToDatabase(String codename) {
-        if (playerDatabase.addPlayer(playerId, codename))
-        {
+        if (playerDatabase.addPlayer(playerId, codename)) {
             this.codename = codename; // store the codename for later use
             return true;
-        } 
-        else
-        {
+        } else {
             return false;
         }
     }
-    
+
     public void transmitEquipmentId(int equipmentId) {
-        
         networking.transmit(equipmentId);
     }
 
@@ -104,7 +99,30 @@ public class Model {
     public ObservableList<Player> getRedTeamList() {
         return redTeam.getTeamList();
     }
-    
+
+    public boolean isFriendlyFire(int attackerEquipmentId, int targetEquipmentId) {
+        // A player hitting themselves does not count as friendly fire.
+        if (attackerEquipmentId == targetEquipmentId) {
+            return false;
+        }
+
+        // Both equipment IDs must belong to players on the same team.
+        return (hasEquipmentId(greenTeam, attackerEquipmentId)
+                && hasEquipmentId(greenTeam, targetEquipmentId))
+                || (hasEquipmentId(redTeam, attackerEquipmentId)
+                    && hasEquipmentId(redTeam, targetEquipmentId));
+    }
+
+    private boolean hasEquipmentId(Team team, int equipmentId) {
+        // Check the current team roster by equipment ID, not database player ID.
+        for (Player player : team.getTeamList()) {
+            if (player.getEquipmentId() == equipmentId) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void startGame() {
         networking.transmit(202);
         changeToPlayerActionScreen();
