@@ -123,13 +123,27 @@ public class Model {
         return false;
     }
 
-        public int[] getFriendlyFireReplyIds(int attackerEquipmentId, int targetEquipmentId) {
+    public int[] getFriendlyFireReplyIds(int attackerEquipmentId, int targetEquipmentId) {
         if (!isFriendlyFire(attackerEquipmentId, targetEquipmentId)) {
             return new int[0];
         }
 
         // For now, reply with the hit player's ID first, then the tagger's ID.
         return new int[] {targetEquipmentId, attackerEquipmentId};
+    }
+
+    public boolean sendFriendlyFireReplies(int attackerEquipmentId, int targetEquipmentId) {
+        int[] replyIds = getFriendlyFireReplyIds(attackerEquipmentId, targetEquipmentId);
+        if (replyIds.length == 0) {
+            return false;
+        }
+
+        // Send a separate reply for each equipment ID.
+        for (int equipmentId : replyIds) {
+            transmitEquipmentId(equipmentId);
+        }
+
+        return true;
     }
 
     public void startGame() {
