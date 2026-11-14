@@ -122,9 +122,4 @@ curl -fL -o "$JDBC_TEMP" \
 
 mv "$JDBC_TEMP" "$JDBC_JAR"
 
-#=======================setting up database========================#
-chmod +x "$PROJECT_DIR/setup_database.sh"
-
-"$PROJECT_DIR/setup_database.sh"
-
 echo "Install script finished successfully"
