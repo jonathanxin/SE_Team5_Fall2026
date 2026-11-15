@@ -53,12 +53,12 @@ public class PlayerActionController {
         greenTeamList = greenTeam.getTeamList();
         redTeamList = redTeam.getTeamList();
         // using SortedList to respond to changes in the underlying ObservableList and sort by score in descending order (comparator)
-        sortedGreenTeamList = new SortedList<>(greenTeamList);
-        sortedGreenTeamList.setComparator((p1, p2) -> Integer.compare(p2.getScore(), p1.getScore()));
-        sortedRedTeamList = new SortedList<>(redTeamList);
-        sortedRedTeamList.setComparator((p1, p2) -> Integer.compare(p2.getScore(), p1.getScore()));
-        greenTeamTableView.setItems(sortedGreenTeamList);
-        redTeamTableView.setItems(sortedRedTeamList);
+        // sortedGreenTeamList = new SortedList<>(greenTeamList);
+        // sortedGreenTeamList.setComparator((p1, p2) -> Integer.compare(p2.getScore(), p1.getScore()));
+        // sortedRedTeamList = new SortedList<>(redTeamList);
+        // sortedRedTeamList.setComparator((p1, p2) -> Integer.compare(p2.getScore(), p1.getScore()));
+        greenTeamTableView.setItems(greenTeamList);
+        redTeamTableView.setItems(redTeamList);
 
         // cell factories:
         // cell value factories define what data is displayed in the table view

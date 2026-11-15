@@ -48,7 +48,7 @@
                   </TableView>
                </children>
             </HBox>
-            <GridPane gridLinesVisible="true" VBox.vgrow="NEVER">
+            <GridPane VBox.vgrow="NEVER">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" percentWidth="25.0" />
                   <ColumnConstraints hgrow="SOMETIMES" percentWidth="25.0" />
@@ -61,8 +61,10 @@
                   <RowConstraints vgrow="NEVER" />
               </rowConstraints>
                <children>
-                  <Label fx:id="greenTeamScore" alignment="CENTER_RIGHT" focusTraversable="false" text="Green Team Score" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.vgrow="NEVER" />
-                  <Label fx:id="redTeamScore" alignment="CENTER_RIGHT" focusTraversable="false" text="Red Team Score" GridPane.columnIndex="3" GridPane.rowIndex="2" GridPane.vgrow="NEVER" />
+                  <Label fx:id="greenTeamScore" alignment="CENTER_RIGHT" focusTraversable="false" text="Total Score" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.vgrow="NEVER" />
+                  <Label fx:id="redTeamScore" alignment="CENTER_RIGHT" focusTraversable="false" text="Total Score" GridPane.columnIndex="3" GridPane.rowIndex="2" GridPane.vgrow="NEVER" />
+                  <Label text="Green Team Total:" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+                  <Label text="Red Team Total:" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
                </children>
             </GridPane>
             <ListView fx:id="gameActionsListView" focusTraversable="false" VBox.vgrow="ALWAYS" />

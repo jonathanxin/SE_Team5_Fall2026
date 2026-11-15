@@ -99,18 +99,18 @@ public class Model {
         }
     }
 
-    public int calculateTeam(int playerIndex) {
+    public int calculateTeam(int col) {
         // calculate the team based on the player index
-        if (playerIndex % 2 == 0) {
+        if (col == 1) {
             return 1; // green team
         } else {
             return 2; // red team
         }
     }
 
-    public void addSessionPlayer(int playerIndex, int equipmentId) {
+    public void addSessionPlayer(int col, int equipmentId) {
         Player player = new Player(playerId, codename, equipmentId);
-        currentTeam = calculateTeam(playerIndex);
+        currentTeam = calculateTeam(col);
         if (currentTeam == 1) {
             greenTeam.addPlayer(player);
         } else if (currentTeam == 2) {

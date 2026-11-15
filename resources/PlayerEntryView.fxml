@@ -28,50 +28,92 @@
                   </HBox>
                   <GridPane fx:id="playerGrid" VBox.vgrow="ALWAYS">
                     <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="20.0" />
+                      <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="25.0" />
+                      <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
                     </columnConstraints>
                      <children>
-                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.vgrow="ALWAYS" />
                         <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="1" GridPane.rowIndex="0" GridPane.vgrow="ALWAYS" />
-                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS" />
+                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="3" GridPane.rowIndex="0" GridPane.vgrow="ALWAYS" />
                         <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS" />
-                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="0" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS" />
+                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="3" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS" />
                         <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS" />
-                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="0" GridPane.rowIndex="3" GridPane.vgrow="ALWAYS" />
+                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="3" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS" />
                         <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.vgrow="ALWAYS" />
-                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="0" GridPane.rowIndex="4" GridPane.vgrow="ALWAYS" />
+                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="3" GridPane.rowIndex="3" GridPane.vgrow="ALWAYS" />
                         <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="1" GridPane.rowIndex="4" GridPane.vgrow="ALWAYS" />
-                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="0" GridPane.rowIndex="5" GridPane.vgrow="ALWAYS" />
+                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="3" GridPane.rowIndex="4" GridPane.vgrow="ALWAYS" />
                         <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="1" GridPane.rowIndex="5" GridPane.vgrow="ALWAYS" />
-                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="0" GridPane.rowIndex="6" GridPane.vgrow="ALWAYS" />
+                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="3" GridPane.rowIndex="5" GridPane.vgrow="ALWAYS" />
                         <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="1" GridPane.rowIndex="6" GridPane.vgrow="ALWAYS" />
-                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="0" GridPane.rowIndex="7" GridPane.vgrow="ALWAYS" />
+                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="3" GridPane.rowIndex="6" GridPane.vgrow="ALWAYS" />
                         <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="1" GridPane.rowIndex="7" GridPane.vgrow="ALWAYS" />
-                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="0" GridPane.rowIndex="8" GridPane.vgrow="ALWAYS" />
+                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="3" GridPane.rowIndex="7" GridPane.vgrow="ALWAYS" />
                         <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="1" GridPane.rowIndex="8" GridPane.vgrow="ALWAYS" />
-                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="0" GridPane.rowIndex="9" GridPane.vgrow="ALWAYS" />
+                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="3" GridPane.rowIndex="8" GridPane.vgrow="ALWAYS" />
                         <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="1" GridPane.rowIndex="9" GridPane.vgrow="ALWAYS" />
-                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="0" GridPane.rowIndex="10" GridPane.vgrow="ALWAYS" />
+                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="3" GridPane.rowIndex="9" GridPane.vgrow="ALWAYS" />
                         <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="1" GridPane.rowIndex="10" GridPane.vgrow="ALWAYS" />
-                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="0" GridPane.rowIndex="11" GridPane.vgrow="ALWAYS" />
+                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="3" GridPane.rowIndex="10" GridPane.vgrow="ALWAYS" />
                         <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="1" GridPane.rowIndex="11" GridPane.vgrow="ALWAYS" />
-                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="0" GridPane.rowIndex="12" GridPane.vgrow="ALWAYS" />
+                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="3" GridPane.rowIndex="11" GridPane.vgrow="ALWAYS" />
                         <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="1" GridPane.rowIndex="12" GridPane.vgrow="ALWAYS" />
-                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="0" GridPane.rowIndex="13" GridPane.vgrow="ALWAYS" />
+                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="3" GridPane.rowIndex="12" GridPane.vgrow="ALWAYS" />
                         <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="1" GridPane.rowIndex="13" GridPane.vgrow="ALWAYS" />
-                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="0" GridPane.rowIndex="14" GridPane.vgrow="ALWAYS" />
+                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="3" GridPane.rowIndex="13" GridPane.vgrow="ALWAYS" />
                         <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="1" GridPane.rowIndex="14" GridPane.vgrow="ALWAYS" />
-                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="0" GridPane.rowIndex="15" GridPane.vgrow="ALWAYS" />
+                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="3" GridPane.rowIndex="14" GridPane.vgrow="ALWAYS" />
                         <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="1" GridPane.rowIndex="15" GridPane.vgrow="ALWAYS" />
-                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="0" GridPane.rowIndex="16" GridPane.vgrow="ALWAYS" />
+                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="3" GridPane.rowIndex="15" GridPane.vgrow="ALWAYS" />
                         <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="1" GridPane.rowIndex="16" GridPane.vgrow="ALWAYS" />
-                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="0" GridPane.rowIndex="17" GridPane.vgrow="ALWAYS" />
+                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="3" GridPane.rowIndex="16" GridPane.vgrow="ALWAYS" />
                         <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="1" GridPane.rowIndex="17" GridPane.vgrow="ALWAYS" />
-                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="0" GridPane.rowIndex="18" GridPane.vgrow="ALWAYS" />
+                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="3" GridPane.rowIndex="17" GridPane.vgrow="ALWAYS" />
                         <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="1" GridPane.rowIndex="18" GridPane.vgrow="ALWAYS" />
-                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="0" GridPane.rowIndex="19" GridPane.vgrow="ALWAYS" />
+                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="3" GridPane.rowIndex="18" GridPane.vgrow="ALWAYS" />
                         <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="1" GridPane.rowIndex="19" GridPane.vgrow="ALWAYS" />
+                        <TextField onKeyPressed="#handlePlayerFieldKeyPress" GridPane.columnIndex="3" GridPane.rowIndex="19" GridPane.vgrow="ALWAYS" />
+                        <Label text="2" GridPane.rowIndex="1" />
+                        <Label text="1" GridPane.columnIndex="2" />
+                        <Label text="2" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                        <Label layoutX="406.0" layoutY="14.0" text="1" />
+                        <Label text="3" GridPane.rowIndex="2" />
+                        <Label text="3" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                        <Label text="4" GridPane.rowIndex="3" />
+                        <Label text="4" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                        <Label text="5" GridPane.rowIndex="4" />
+                        <Label text="6" GridPane.rowIndex="5" />
+                        <Label text="10" GridPane.columnIndex="2" GridPane.rowIndex="9" />
+                        <Label text="10" GridPane.rowIndex="9" />
+                        <Label text="9" GridPane.columnIndex="2" GridPane.rowIndex="8" />
+                        <Label text="9" GridPane.rowIndex="8" />
+                        <Label text="8" GridPane.columnIndex="2" GridPane.rowIndex="7" />
+                        <Label text="8" GridPane.rowIndex="7" />
+                        <Label text="7" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+                        <Label text="7" GridPane.rowIndex="6" />
+                        <Label text="6" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                        <Label text="5" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                        <Label text="16" GridPane.columnIndex="2" GridPane.rowIndex="15" />
+                        <Label text="16" GridPane.rowIndex="15" />
+                        <Label text="15" GridPane.columnIndex="2" GridPane.rowIndex="14" />
+                        <Label text="15" GridPane.rowIndex="14" />
+                        <Label text="14" GridPane.columnIndex="2" GridPane.rowIndex="13" />
+                        <Label text="14" GridPane.rowIndex="13" />
+                        <Label text="13" GridPane.columnIndex="2" GridPane.rowIndex="12" />
+                        <Label text="12" GridPane.columnIndex="2" GridPane.rowIndex="11" />
+                        <Label text="11" GridPane.columnIndex="2" GridPane.rowIndex="10" />
+                        <Label text="13" GridPane.rowIndex="12" />
+                        <Label text="12" GridPane.rowIndex="11" />
+                        <Label text="11" GridPane.rowIndex="10" />
+                        <Label text="17" GridPane.rowIndex="16" />
+                        <Label text="18" GridPane.rowIndex="17" />
+                        <Label text="19" GridPane.rowIndex="18" />
+                        <Label text="20" GridPane.rowIndex="19" />
+                        <Label text="17" GridPane.columnIndex="2" GridPane.rowIndex="16" />
+                        <Label text="18" GridPane.columnIndex="2" GridPane.rowIndex="17" />
+                        <Label text="19" GridPane.columnIndex="2" GridPane.rowIndex="18" />
+                        <Label text="20" GridPane.columnIndex="2" GridPane.rowIndex="19" />
                      </children>
                      <rowConstraints>
                         <RowConstraints />
