@@ -1,6 +1,4 @@
-// TODO: refactor data to be a single collection where players have team propertys (only sort by team once in PAC)
 import javafx.application.Platform;
-import javafx.collections.ObservableList;
 
 public class Model {
     private Networking networking;
@@ -129,6 +127,38 @@ public class Model {
 
     public Team getRedTeam() {
         return redTeam;
+    }
+
+    public void checkBaseTagging(int taggingID, int taggedID) {
+        // check if the tagging player is on the green team
+        Player greenPlayer = greenTeam.getplayerByEquipmentId(taggingID);
+        if (greenPlayer != null) {
+            // tagging player is on the green team
+            // check if taggedID is the red base and base has not been hit yet
+            if (taggedID == 53 && !greenTeam.getHitBase()) {
+                System.out.println("Green team tagged the red base!");
+                changePlayerScore(taggingID, 100);
+                Platform.runLater(() -> {
+                    greenPlayer.setHitBase(true);
+                });
+                greenTeam.setHitBase(true);  
+                return;
+            }
+        }
+        else {
+            // tagging player is on the red team
+            Player redPlayer = redTeam.getplayerByEquipmentId(taggingID);
+            // check if taggedID is the green base and base has not been hit yet
+            if (taggedID == 43 && !redTeam.getHitBase()) {
+                System.out.println("Red team tagged the green base!");
+                changePlayerScore(taggingID, 100); 
+                Platform.runLater(() -> {
+                    redPlayer.setHitBase(true);
+                });
+                redTeam.setHitBase(true);
+                return;
+            }
+        }
     }
     
     public void startGame() {

@@ -136,8 +136,8 @@ public class Networking {
         transmit(taggedID);
         // check for base tagging
         if (taggedID == 43 || taggedID == 53) {
-            // TODO: implement base tagging logic
             System.out.println("Base tagging detected: " + taggingID + " tagged " + taggedID);
+            model.checkBaseTagging(taggingID, taggedID);
             return; // temp
         }
         // check for friendly fire

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TableColumn?>
@@ -30,7 +31,7 @@
                <children>
                   <TableView fx:id="greenTeamTableView" focusTraversable="false" HBox.hgrow="ALWAYS">
                     <columns>
-                      <TableColumn fx:id="greenTeamMemeberCol" editable="false" prefWidth="75.0" sortable="false" text="Memeber" />
+                      <TableColumn fx:id="greenTeamMemberCol" editable="false" prefWidth="75.0" sortable="false" text="Memeber" />
                       <TableColumn fx:id="greenTeamMemberScore" editable="false" prefWidth="75.0" sortable="false" text="Score" />
                     </columns>
                      <columnResizePolicy>
@@ -61,8 +62,17 @@
                   <RowConstraints vgrow="NEVER" />
               </rowConstraints>
                <children>
-                  <Label fx:id="greenTeamScore" alignment="CENTER_RIGHT" focusTraversable="false" text="Total Score" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.vgrow="NEVER" />
-                  <Label fx:id="redTeamScore" alignment="CENTER_RIGHT" focusTraversable="false" text="Total Score" GridPane.columnIndex="3" GridPane.rowIndex="2" GridPane.vgrow="NEVER" />
+                  <Label fx:id="greenTeamScore" alignment="CENTER_RIGHT" focusTraversable="false" text="Total Score" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.vgrow="NEVER">
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
+                     <padding>
+                        <Insets left="5.0" />
+                     </padding></Label>
+                  <Label fx:id="redTeamScore" alignment="CENTER_RIGHT" focusTraversable="false" text="Total Score" GridPane.columnIndex="3" GridPane.rowIndex="2" GridPane.vgrow="NEVER">
+                     <padding>
+                        <Insets left="5.0" />
+                     </padding></Label>
                   <Label text="Green Team Total:" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
                   <Label text="Red Team Total:" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
                </children>

@@ -1,4 +1,3 @@
-// TODO: add a way to store team score and make it observable so that the GUI can update when the score changes
 import javafx.beans.binding.IntegerBinding;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -6,6 +5,7 @@ import javafx.collections.ObservableList;
 public class Team {
     private ObservableList<Player> teamList;
     private IntegerBinding teamScore;
+    private boolean hitBase;
 
     public Team() {
         teamList = FXCollections.observableArrayList(Player.extractor);
@@ -23,6 +23,7 @@ public class Team {
                 return totalScore;
             }
         };
+        hitBase = false;
     }
 
     public ObservableList<Player> getTeamList() {
@@ -48,5 +49,13 @@ public class Team {
             }
         }
         return null; // player not found
+    }
+
+    public boolean getHitBase() {
+        return hitBase;
+    }
+
+    public void setHitBase(boolean hitBase) {
+        this.hitBase = hitBase;
     }
 }
