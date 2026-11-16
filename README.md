@@ -24,19 +24,14 @@ This allows the project to run in the Linux VM whether the host computer is Wind
 
 # Requirements
 
-The install script automatically sets up the required project dependencies, including:
+The install script sets up these project dependencies:
 
-JDK 21
+- JDK 21
+- JavaFX 21
+- PostgreSQL JDBC driver
 
-JavaFX 21
-
-PostgreSQL
-
-PostgreSQL JDBC driver
-
-photon database
-
-players table
+The application uses the `photon` database already provided in the course VM.
+The install script does not configure PostgreSQL or modify the database.
 
 JDK 21 is installed locally inside the project so the application uses the same Java version regardless of the Java version already installed on the VM.
 
@@ -60,7 +55,6 @@ Make the scripts executable:
 
 chmod +x install.sh
 chmod +x build.bash
-chmod +x setup_database.sh
 
 Run the install script:
 
@@ -77,10 +71,6 @@ Download and configure JDK 21 for the project.
 Download the correct JavaFX 21 files for the VM architecture.
 
 Download the PostgreSQL JDBC driver.
-
-Install and configure PostgreSQL if needed.
-
-Create the photon database and players table if needed.
 
 # Run the Application
 
