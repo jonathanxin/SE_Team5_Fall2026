@@ -5,9 +5,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.application.Platform;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 
 public class PlayerActionController {
     private Model model;
@@ -65,7 +62,7 @@ public class PlayerActionController {
         redTeamTableView.setSelectionModel(null);
 
         // create data model for the game actions list view
-        ObservableList<String> gameActions = FXCollections.observableArrayList();
+        //ObservableList<String> gameActions = FXCollections.observableArrayList(); //I moved this into model 
         gameActionsListView.setItems(model.getGameActions()); //changed this from gameActionsListView.setItems(gameActions); to connect it to model
         gameActionsListView.scrollTo(gameActions.size() - 1); // scroll to the bottom of the list view when new items are added
         // TODO: disable selection in the list view
