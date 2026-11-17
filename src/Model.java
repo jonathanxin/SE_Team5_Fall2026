@@ -159,6 +159,23 @@ public class Model {
 
         gameActions.add(time + " - " + action);
     }
+    public Player findPlayerByEquipmentId(int equipmentId) {
+    // for green team
+    for (Player player : greenTeam.getTeamList()) {
+        if (player.getEquipmentId() == equipmentId) {
+            return player;
+        }
+    }
+
+    // for red team
+    for (Player player : redTeam.getTeamList()) {
+        if (player.getEquipmentId() == equipmentId) {
+            return player;
+        }
+    }
+
+    return null;
+}
 
     public void startGame() {
         networking.transmit(202);
