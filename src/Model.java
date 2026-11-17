@@ -2,6 +2,7 @@ import javafx.collections.ObservableList;
 import javafx.collections.FXCollections;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import javafx.beans.property.IntegerProperty;
 
 public class Model {
     private Networking networking;
@@ -92,8 +93,10 @@ public class Model {
     }
 
     public void clearSessionPlayers() {
-        greenTeam.getTeamList().clear();
-        redTeam.getTeamList().clear();
+        greenTeam.clearTeam();
+        redTeam.clearTeam();
+        //greenTeam.getTeamList().clear();
+        //redTeam.getTeamList().clear();
     }
 
     public ObservableList<Player> getGreenTeamList() {
@@ -259,6 +262,13 @@ public class Model {
     
             transmitEquipmentId(targetId);
         }
+    }
+    public IntegerProperty getGreenTeamScoreProperty() {
+        return greenTeam.teamScoreProperty();
+    }
+    
+    public IntegerProperty getRedTeamScoreProperty() {
+        return redTeam.teamScoreProperty();
     }
 
 
