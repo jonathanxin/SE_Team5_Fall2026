@@ -1,3 +1,4 @@
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
@@ -11,9 +12,9 @@ public class PlayerActionController {
     private ObservableList<Player> redTeamList;
     private SortedList<Player> sortedGreenTeamList;
     private SortedList<Player> sortedRedTeamList;
-
+    
     @FXML
-    private ListView<Player> gameActionsListView;
+    private ListView<String> gameActionsListView;
 
     @FXML
     private TableColumn<Player, Number> greenTeamMemberScore;
@@ -36,7 +37,7 @@ public class PlayerActionController {
     public void setModel(Model model) {
         this.model = model;
     }
-
+    
     public void initializeTeams() {
         greenTeamList = model.getGreenTeamList();
         redTeamList = model.getRedTeamList();
@@ -51,13 +52,20 @@ public class PlayerActionController {
         // cell factories:
         // cell value factories define what data is displayed in the table view
         // getValue() returns the Player object for the current row
-        greenTeamMemeberCol.setCellValueFactory(player -> player.getValue().getCodenameProperty());
+        greenTeamMemeberCol.setCellValueFactory(player -> player.getValue().codenameProperty());
         greenTeamMemberScore.setCellValueFactory(player -> player.getValue().scoreProperty());
-        redTeamMemberCol.setCellValueFactory(player -> player.getValue().getCodenameProperty());
+        redTeamMemberCol.setCellValueFactory(player -> player.getValue().codenameProperty());
         redTeamMemberScore.setCellValueFactory(player -> player.getValue().scoreProperty());
-        
+
         // disable selection 
-        greenTeamTableView.getSelectionModel().setCellSelectionEnabled(false);
-        redTeamTableView.getSelectionModel().setCellSelectionEnabled(false);
+        greenTeamTableView.setSelectionModel(null);
+        redTeamTableView.setSelectionModel(null);
+
+        // create data model for the game actions list view
+        //ObservableList<String> gameActions = FXCollections.observableArrayList(); //I moved this into model 
+        gameActionsListView.setItems(model.getGameActions()); //changed this from gameActionsListView.setItems(gameActions); to connect it to model
+        gameActionsListView.scrollTo(gameActions.size() - 1); // scroll to the bottom of the list view when new items are added
+        // TODO: disable selection in the list view
+        // TODO: check ScrollBar to respect the scroll position and only auto-scroll if the user is at the bottom of the list view
     }
 }

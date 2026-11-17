@@ -24,23 +24,22 @@ This allows the project to run in the Linux VM whether the host computer is Wind
 
 # Requirements
 
-The install script automatically sets up the required project dependencies, including:
+The install script sets up these project dependencies:
 
-JDK 21
+- JDK 21
+- JavaFX 21
+- PostgreSQL JDBC driver
 
-JavaFX 21
-
-PostgreSQL
-
-PostgreSQL JDBC driver
-
-photon database
-
-players table
+The application uses the `photon` database already provided in the course VM.
+The install script does not configure PostgreSQL or modify the database.
 
 JDK 21 is installed locally inside the project so the application uses the same Java version regardless of the Java version already installed on the VM.
 
 The install script also detects the VM architecture and downloads the appropriate JavaFX files for x86_64 or ARM64 systems.
+
+The course Linux VM must have internet access and sudo access.
+
+No separate Java or JavaFX installation is required. The install script downloads JDK 21 and JavaFX 21 for the project automatically.
 
 # Installation
 
@@ -56,7 +55,6 @@ Make the scripts executable:
 
 chmod +x install.sh
 chmod +x build.bash
-chmod +x setup_database.sh
 
 Run the install script:
 
@@ -73,10 +71,6 @@ Download and configure JDK 21 for the project.
 Download the correct JavaFX 21 files for the VM architecture.
 
 Download the PostgreSQL JDBC driver.
-
-Install and configure PostgreSQL if needed.
-
-Create the photon database and players table if needed.
 
 # Run the Application
 
@@ -95,6 +89,8 @@ If the required project dependencies have not been installed, the build script w
 Enter a Player ID and press Tab.
 
 Follow the on-screen prompts to enter a nickname for a new player and an equipment ID.
+
+Press F5 to start the game countdown.
 
 Press F12 to clear all player entries.
 

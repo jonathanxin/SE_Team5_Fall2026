@@ -6,7 +6,7 @@ PROJECT_DIR="$(cd "$(dirname "$0")" && pwd)"
 JAVA_VERSION="21"
 JDK_DIR="$PROJECT_DIR/.jdk"
 
-JAVAFX_VERSION="21.0.2"
+JAVAFX_VERSION="21"
 JAVAFX_DIR="$PROJECT_DIR/.javafx/javafx21"
 
 JDBC_VERSION="42.7.13"
@@ -121,10 +121,5 @@ curl -fL -o "$JDBC_TEMP" \
     "https://jdbc.postgresql.org/download/postgresql-$JDBC_VERSION.jar"
 
 mv "$JDBC_TEMP" "$JDBC_JAR"
-
-#=======================setting up database========================#
-chmod +x "$PROJECT_DIR/setup_database.sh"
-
-"$PROJECT_DIR/setup_database.sh"
 
 echo "Install script finished successfully"

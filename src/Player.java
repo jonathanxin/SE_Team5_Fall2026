@@ -8,14 +8,16 @@ import javafx.util.Callback;
 public class Player {
     private StringProperty codename = new SimpleStringProperty(this, "codename", "");
     private int ID = -1;
+	private int equipmentId = -1;
     private IntegerProperty score = new SimpleIntegerProperty(this, "score", 0);
 
-    public Player(int ID, String codename) {
+    public Player(int ID, String codename, int equipmentId) {
         this.ID = ID;
+		this.equipmentId = equipmentId;
         this.setCodename(codename);
     }
 
-    public StringProperty getCodenameProperty() {
+    public StringProperty codenameProperty() {
         return codename;
     }
 
@@ -34,6 +36,14 @@ public class Player {
     public void setID(int ID) {
         this.ID = ID;
     }
+	
+	public int getEquipmentId() {
+    	return equipmentId;
+	}
+
+	public void setEquipmentId(int equipmentId) {
+    	this.equipmentId = equipmentId;
+	}
 
     public void setScore(int score) {
         this.score.set(score);
@@ -52,7 +62,6 @@ public class Player {
 	
 	@Override 
     public String toString() { // used as default cell factory for the table view (if no custom cell factory is set)
-        return codename + " (Score: " + score.get() + ")";
-        // TODO: properly format the player display in the table view (use custom cell factory)
+	    return getCodename() + " (Score: " + score.get() + ")";
     }
 }

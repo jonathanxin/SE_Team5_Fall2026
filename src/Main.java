@@ -1,11 +1,12 @@
-// TODO: create countdown timer for game start
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import javafx.scene.input.KeyCode;
+import javafx.application.Platform;
+import javafx.beans.value.ObservableValue;
+import javafx.beans.value.ChangeListener;
 
 public class Main extends Application {
     PlayerEntryController playerEntryController;
@@ -44,12 +45,7 @@ public class Main extends Application {
         model.setplayerEntryController(playerEntryController); // set controller in model
         model.setApp(this); // set the main application in the model
         Scene scene = new Scene(root); // initialize scene (container for all content) with root node (can access scene now (not null))
-        scene.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.F5) {
-                event.consume(); //if F5 is pressed, signal to not go further through
-                controller.handleF5KeyPress();
-            }
-        });
+
 
         // stage (window) information
         stage.setTitle("Photon"); // title bar
@@ -57,10 +53,24 @@ public class Main extends Application {
         stage.show();  // real sizes of the scene and stage are now available (can access stage (window) now (not null))
         // set minumum window size to the that of the splash screen
         // caluclate window decoration sizes (title bar, borders, etc.) and add to the scene size to get the minimum window size
-        double decorW = stage.getWidth() - scene.getWidth();
-        double decorH = stage.getHeight() - scene.getHeight();
-        stage.setMinWidth(scene.getWidth() + decorW);
-        stage.setMinHeight(scene.getHeight() + decorH);
+        // TODO: fix minimum Height being too small on Linux
+        Runnable updateMinSize = () -> {
+            double decorW = stage.getWidth() - scene.getWidth();
+            double decorH = stage.getHeight() - scene.getHeight();
+            stage.setMinWidth(scene.getWidth() + decorW);
+            stage.setMinHeight(scene.getHeight() + decorH);
+        };
+        updateMinSize.run();
+        // run the code again after a short delay to ensure that the window decorations have been applied
+        stage.heightProperty().addListener(new ChangeListener<>() {
+            @Override 
+            public void changed(ObservableValue<? extends Number> obs, Number oldValue, Number newValue) {
+                if (stage.getHeight() - scene.getHeight() > 0) {
+                    updateMinSize.run();
+                    stage.heightProperty().removeListener(this); // remove the listener after it has run once
+                }
+            }
+        });
         // code below runs after GUI is fully initialized and displayed
         playerEntryController.setModel(model); // set model in controller
         playerEntryController.onSceneReady(); // update controller state after window is initialized
