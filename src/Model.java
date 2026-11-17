@@ -44,15 +44,15 @@ public class Model {
         Platform.runLater(() -> playerToUpdate.setScore(newScore));
     }
 
-    public Boolean checkFriendlyFire(int taggingID, int taggedID) {
-        // search the teams for the players with the given equipment IDs
-        Player taggingPlayer = greenTeam.getplayerByEquipmentId(taggingID);
-        Player taggedPlayer = greenTeam.getplayerByEquipmentId(taggedID);
-        if (taggingPlayer == null ^ taggedPlayer == null) {
-            return false;
-        }
-        return true;
-    }
+    // public Boolean checkFriendlyFire(int taggingID, int taggedID) {
+    //     // search the teams for the players with the given equipment IDs
+    //     Player taggingPlayer = greenTeam.getplayerByEquipmentId(taggingID);
+    //     Player taggedPlayer = greenTeam.getplayerByEquipmentId(taggedID);
+    //     if (taggingPlayer == null ^ taggedPlayer == null) {
+    //         return false;
+    //     }
+    //     return true;
+    // }
 
     public String findPlayerById(int playerId) {
         this.playerId = playerId; // store the player ID for later use
@@ -171,10 +171,8 @@ public class Model {
 
     private boolean hasEquipmentId(Team team, int equipmentId) {
         // Check the current team roster by equipment ID, not database player ID.
-        for (Player player : team.getTeamList()) {
-            if (player.getEquipmentId() == equipmentId) {
-                return true;
-            }
+        if (team.getplayerByEquipmentId(equipmentId) != null) {
+            return true;
         }
         return false;
     }

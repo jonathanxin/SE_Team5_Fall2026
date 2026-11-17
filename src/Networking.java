@@ -132,24 +132,24 @@ public class Networking {
         String[] parts = message.split(":");
         taggingID =Integer.parseInt(parts[0]);
         taggedID = Integer.parseInt(parts[1]);
-        // transmit equipment ID of the player who got tagged to all players
-        transmit(taggedID);
         // check for base tagging
         if (taggedID == 43 || taggedID == 53) {
             System.out.println("Base tagging detected: " + taggingID + " tagged " + taggedID);
             model.checkBaseTagging(taggingID, taggedID);
-            return; // temp
+            return; 
         }
         // check for friendly fire
-        if (model.checkFriendlyFire(taggingID, taggedID)) {
+        if (model.sendFriendlyFireReplies(taggingID, taggedID)) {
             System.out.println("Friendly fire detected: " + taggingID + " tagged " + taggedID);
-            transmit(taggingID); // also transmit the equipment ID of the offending player
+            // transmit(taggingID); // also transmit the equipment ID of the offending player
             model.changePlayerScore(taggingID, -10); // subtract points from the tagging player
             model.changePlayerScore(taggedID, -10); // subtract points from the tagged player
         }
         else {
             // add points to the tagging player
             model.changePlayerScore(taggingID, 10);
+            // transmit equipment ID of the player who got tagged to all players
+            transmit(taggedID);
         }
     }
 

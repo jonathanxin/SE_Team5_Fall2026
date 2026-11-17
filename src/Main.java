@@ -39,6 +39,9 @@ public class Main extends Application {
     @Override 
     public void stop() throws Exception {
         // called when the application is shutting down
+        // transmit shutdown code three times
+        networking.transmit(221);
+        networking.transmit(221);
         networking.transmit(221);
         networking.closeUdpSockets(); // close UDP sockets
     }
