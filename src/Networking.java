@@ -14,6 +14,7 @@ public class Networking {
     private DatagramSocket receiveSocket; 
     private String networkAddress = "127.0.0.1";
     private volatile boolean listening = false;
+    private Model model;
 
     // UDP getter and setter
     public void setNetworkAddress(String networkAddress) {
@@ -21,6 +22,10 @@ public class Networking {
     }
     public String getNetworkAddress() {
         return networkAddress;
+    }
+
+    public void setModel(Model model) {
+        this.model = model;
     }
 
     // UDP socket methods
@@ -96,7 +101,9 @@ public class Networking {
                     );
 
                     System.out.println("Received: " + message);
-
+                    if (model != null) {
+                        model.processReceivedData(message);
+                    }
                     // processReceivedData(message);
 
                 } catch (SocketException e) {
