@@ -136,6 +136,7 @@ public class Networking {
         if (taggedID == 43 || taggedID == 53) {
             System.out.println("Base tagging detected: " + taggingID + " tagged " + taggedID);
             model.checkBaseTagging(taggingID, taggedID);
+            transmit(taggedID); // transmit the equipment ID of the base that was tagged
             return; 
         }
         // check for friendly fire
