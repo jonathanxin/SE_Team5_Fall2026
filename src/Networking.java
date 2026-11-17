@@ -4,6 +4,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.nio.charset.StandardCharsets;
+import javafx.application.Platform;
 
 public class Networking {
     // UDP socket constants
@@ -102,7 +103,7 @@ public class Networking {
 
                     System.out.println("Received: " + message);
                     if (model != null) {
-                        model.processReceivedData(message);
+                         Platform.runLater(() -> model.processReceivedData(message); //added plaform.runLater to make sure model.processReceivedData runs on the JavaFX application thread rather than the UDP one
                     }
                     // processReceivedData(message);
 
