@@ -5,13 +5,19 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.application.Platform;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 public class PlayerActionController {
     private Model model;
     private ObservableList<Player> greenTeamList;
     private ObservableList<Player> redTeamList;
+    private ObservableList<String> gameActions;
     private SortedList<Player> sortedGreenTeamList;
     private SortedList<Player> sortedRedTeamList;
+
+    private static final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("HH:mm:ss");
 
     @FXML
     private ListView<String> gameActionsListView;
@@ -37,7 +43,7 @@ public class PlayerActionController {
     public void setModel(Model model) {
         this.model = model;
     }
-
+    
     public void initializeTeams() {
         greenTeamList = model.getGreenTeamList();
         redTeamList = model.getRedTeamList();
