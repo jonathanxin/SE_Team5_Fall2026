@@ -15,5 +15,20 @@ public class Team {
 
     public void addPlayer(Player player) {
         teamList.add(player);
+        
+        teamScore.set(teamScore.get() + player.getScore());
+
+        //listen for changes in player score and update the teamscore accordingly
+        player.scoreProperty().addListener((observable, oldValue, newValue) -> {
+            int difference = newValue.intValue() - oldValue.intValue();
+            teamScore.set(teamScore.get() + difference);
+        });
+    }
+    public IntegerProperty teamScoreProperty() {
+        return teamScore;
+    }
+
+    public int getTeamScore() {
+        return teamScore.get();
     }
 }
