@@ -13,12 +13,9 @@ public class PlayerActionController {
     private Model model;
     private ObservableList<Player> greenTeamList;
     private ObservableList<Player> redTeamList;
-    private ObservableList<String> gameActions;
     private SortedList<Player> sortedGreenTeamList;
     private SortedList<Player> sortedRedTeamList;
-
-    private static final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("HH:mm:ss");
-
+    
     @FXML
     private ListView<String> gameActionsListView;
 
@@ -69,7 +66,7 @@ public class PlayerActionController {
 
         // create data model for the game actions list view
         ObservableList<String> gameActions = FXCollections.observableArrayList();
-        gameActionsListView.setItems(gameActions);
+        gameActionsListView.setItems(model.getGameActions()); //changed this from gameActionsListView.setItems(gameActions); to connect it to model
         gameActionsListView.scrollTo(gameActions.size() - 1); // scroll to the bottom of the list view when new items are added
         // TODO: disable selection in the list view
         // TODO: check ScrollBar to respect the scroll position and only auto-scroll if the user is at the bottom of the list view
