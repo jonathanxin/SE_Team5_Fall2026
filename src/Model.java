@@ -160,22 +160,107 @@ public class Model {
         gameActions.add(time + " - " + action);
     }
     public Player findPlayerByEquipmentId(int equipmentId) {
-    // for green team
-    for (Player player : greenTeam.getTeamList()) {
-        if (player.getEquipmentId() == equipmentId) {
-            return player;
+        // for green team
+        for (Player player : greenTeam.getTeamList()) {
+            if (player.getEquipmentId() == equipmentId) {
+                return player;
+            }
+        }
+    
+        // for red team
+        for (Player player : redTeam.getTeamList()) {
+            if (player.getEquipmentId() == equipmentId) {
+                return player;
+            }
+        }
+    
+        return null;
+    }
+    
+    public void processReceivedData(String message) {
+        // Separate attacker target IDs
+        String[] ids = message.split(":");
+    
+        // error checking for more than 2 ids
+        if (ids.length != 2) {
+            System.out.println("Invalid game message: " + message);
+            return;
+        }
+    
+        int attackerId;
+        int targetId;
+        
+        // Convert IDs from strings to ints
+        try {
+            attackerId = Integer.parseInt(ids[0].trim());
+            targetId = Integer.parseInt(ids[1].trim());
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid equipment ID: " + message);
+            return;
+        }
+    
+        //find attacker
+        Player attacker = findPlayerByEquipmentId(attackerId);
+    
+        if (attacker == null) {
+            System.out.println("Attacker not found: " + attackerId);
+            return;
+        }
+    
+        // red base
+        if (targetId == 43) {
+            if (hasEquipmentId(greenTeam, attackerId)) {
+            attacker.setScore(attacker.getScore() + 100);
+            addGameAction(attacker.getCodename()
+                    + " scored the red base (+100 points)");
+            } else {
+                addGameAction(attacker.getCodename()
+                        + " hit the red base");
+            }
+    
+            transmitEquipmentId(attackerId);
+            return;
+        }
+        //green base
+        if (targetId == 53) {
+            if (hasEquipmentId(redTeam, attackerId)) {
+            attacker.setScore(attacker.getScore() + 100);
+            addGameAction(attacker.getCodename()
+                    + " scored the green base (+100 points)");
+            } else {
+                addGameAction(attacker.getCodename()
+                        + " hit the green base");
+            }
+    
+            transmitEquipmentId(attackerId);
+            return;
+        }
+    
+        //find the target player
+        Player target = findPlayerByEquipmentId(targetId);
+    
+        if (target == null) {
+            System.out.println("Target not found: " + targetId);
+            return;
+        }
+    
+        // check for friendly fire
+       if (isFriendlyFire(attackerId, targetId)) {
+            attacker.setScore(attacker.getScore() - 10); //removes 10 points from the person who hit their teammate
+            target.setScore(target.getScore() - 10); //removes 10 points from teammate
+
+            addGameAction("FRIENDLY FIRE: " + attacker.getCodename() + " hit " + target.getCodename() + " (-10 points each)");
+            sendFriendlyFireReplies(attackerId, targetId);
+
+        } else { //normal hit on enemy team
+            attacker.setScore(attacker.getScore() + 10); //add 10
+    
+            addGameAction(attacker.getCodename() + " hit " + target.getCodename() + " (+10 points)");
+    
+            transmitEquipmentId(targetId);
         }
     }
 
-    // for red team
-    for (Player player : redTeam.getTeamList()) {
-        if (player.getEquipmentId() == equipmentId) {
-            return player;
-        }
-    }
-
-    return null;
-}
 
     public void startGame() {
         networking.transmit(202);
