@@ -1,4 +1,5 @@
 import javafx.collections.ObservableList;
+import javafx.collections.FXCollections;
 
 public class Model {
     private Networking networking;
@@ -11,6 +12,7 @@ public class Model {
     private int currentTeam; // 1 for green team, 2 for red team
     private Team redTeam = new Team();
     private Team greenTeam = new Team();
+    private ObservableList<String> gameActions = FXCollections.observableArrayList();
 
     public Model(PlayerDatabase playerDatabase, Networking networking) {
         this.playerDatabase = playerDatabase;
@@ -144,6 +146,13 @@ public class Model {
         }
 
         return true;
+    }
+    public ObservableList<String> getGameActions() {
+        return gameActions;
+    }
+    
+    public void addGameAction(String action) { //method for adding events
+        gameActions.add(action);
     }
 
     public void startGame() {
