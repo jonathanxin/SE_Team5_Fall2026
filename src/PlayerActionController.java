@@ -1,4 +1,4 @@
-import javafx.collections.FXCollections;
+import javafx.scene.control.Label;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
@@ -34,6 +34,12 @@ public class PlayerActionController {
     @FXML
     private TableView<Player> redTeamTableView;
 
+    @FXML
+    private Label greenTeamScoreLabel;
+    
+    @FXML
+    private Label redTeamScoreLabel;
+
     public void setModel(Model model) {
         this.model = model;
     }
@@ -48,6 +54,14 @@ public class PlayerActionController {
         sortedRedTeamList.setComparator((p1, p2) -> Integer.compare(p2.getScore(), p1.getScore()));
         greenTeamTableView.setItems(sortedGreenTeamList);
         redTeamTableView.setItems(sortedRedTeamList);
+
+        greenTeamScoreLabel.textProperty().bind(
+            model.getGreenTeamScoreProperty().asString("Total: %d")
+        );
+        
+        redTeamScoreLabel.textProperty().bind(
+            model.getRedTeamScoreProperty().asString("Total: %d")
+        );
 
         // cell factories:
         // cell value factories define what data is displayed in the table view
