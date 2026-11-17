@@ -31,4 +31,10 @@ public class Team {
     public int getTeamScore() {
         return teamScore.get();
     }
+    public void clearTeam() {
+        teamList.clear();
+        teamScore.set(0); //reset score from previous game
+    }
+    
+    
 }
