@@ -64,7 +64,7 @@ public class PlayerActionController {
         // create data model for the game actions list view
         //ObservableList<String> gameActions = FXCollections.observableArrayList(); //I moved this into model 
         gameActionsListView.setItems(model.getGameActions()); //changed this from gameActionsListView.setItems(gameActions); to connect it to model
-        gameActionsListView.scrollTo(gameActions.size() - 1); // scroll to the bottom of the list view when new items are added
+        gameActionsListView.scrollTo(model.getGameActions().size() - 1); // scroll to the bottom of the list view when new items are added
         // TODO: disable selection in the list view
         // TODO: check ScrollBar to respect the scroll position and only auto-scroll if the user is at the bottom of the list view
     }
