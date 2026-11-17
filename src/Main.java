@@ -27,6 +27,7 @@ public class Main extends Application {
         playerDatabase = new PlayerDatabase(); // initialize player database
 
         model = new Model(playerDatabase, networking); // initialize model with networking
+        networking.setModel(model); //give networking access to model
     }
 
     @Override 
