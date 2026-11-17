@@ -1,5 +1,7 @@
 import javafx.collections.ObservableList;
 import javafx.collections.FXCollections;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 public class Model {
     private Networking networking;
@@ -151,8 +153,11 @@ public class Model {
         return gameActions;
     }
     
-    public void addGameAction(String action) { //method for adding events
-        gameActions.add(action);
+    public void addGameAction(String action) { //method for adding events alongside the time they happened
+        String time = LocalTime.now().format(
+        DateTimeFormatter.ofPattern("HH:mm:ss"));
+
+        gameActions.add(time + " - " + action);
     }
 
     public void startGame() {
