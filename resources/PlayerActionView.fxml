@@ -19,8 +19,19 @@
             </HBox>
             <HBox alignment="CENTER">
                <children>
-                  <Label alignment="CENTER" focusTraversable="false" maxWidth="1.7976931348623157E308" prefWidth="300.0" text="GREEN TEAM" HBox.hgrow="ALWAYS" />
-                  <Label alignment="CENTER" focusTraversable="false" layoutX="10.0" layoutY="10.0" maxWidth="1.7976931348623157E308" prefWidth="300.0" text="RED TEAM" HBox.hgrow="ALWAYS" />
+                  <VBox alignment="CENTER" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label alignment="CENTER" text="GREEN TEAM" />
+                        <Label fx:id="greenTeamScoreLabel" text="Total: 0" />
+                     </children>
+                  </VBox>
+            
+                  <VBox alignment="CENTER" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label alignment="CENTER" text="RED TEAM" />
+                        <Label fx:id="redTeamScoreLabel" text="Total: 0" />
+                     </children>
+                  </VBox>
                </children>
             </HBox>
             <HBox VBox.vgrow="ALWAYS">
