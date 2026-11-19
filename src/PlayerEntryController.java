@@ -25,6 +25,9 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import java.util.Random;
 
 public class PlayerEntryController { 
     private Model model;
@@ -158,6 +161,19 @@ public class PlayerEntryController {
         }
     }
 
+    private void playRandomTrack() {
+        int track = new Random().nextInt(8) + 1; //1-8
+        String path = String.format("/resources/photon_tracks/Track%02d.wav", track);
+        var url = getClass().getResource(path);
+        if (url == null) {
+            System.err.println("missing music file: " + path);
+            return;
+        }
+        musicplayer = new MediaPlayer(new Media(url.toExternalForm()));
+        musicPlayer.play();
+        System.out.println("Playing track " + track);
+    }
+
     private void startCountdown(ImageView countdownImageView) {
         // Ignore additional F5 presses while counting down.
         if (countdownTimeline != null
@@ -187,6 +203,7 @@ public class PlayerEntryController {
         });
     
         countdownTimeline.play();
+        playRandomTrack();
     }
 
     private void showCountdownNumber(int seconds) {

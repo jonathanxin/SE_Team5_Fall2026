@@ -32,7 +32,7 @@ mkdir -p "$BIN_DIR"
 
 "$JDK_DIR/bin/javac" \
     --module-path "$JAVAFX_DIR" \
-    --add-modules javafx.controls,javafx.fxml \
+    --add-modules javafx.controls,javafx.fxml, javafx.media \
     -d "$BIN_DIR" \
     "$PROJECT_DIR"/src/*.java
 
@@ -40,6 +40,6 @@ mkdir -p "$BIN_DIR"
 
 "$JDK_DIR/bin/java" \
     --module-path "$JAVAFX_DIR" \
-    --add-modules javafx.controls,javafx.fxml \
+    --add-modules javafx.controls,javafx.fxml, javafx.media \
     -cp "$PROJECT_DIR:$BIN_DIR:$JDBC_JAR" \
     Main
