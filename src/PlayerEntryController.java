@@ -35,6 +35,7 @@ public class PlayerEntryController {
     private boolean enteringEquipment = false;
     private String currentNickname;
     private Timeline countdownTimeline;
+    private MediaPlayer musicPlayer
     
     public void setModel(Model model) {  
         this.model = model;
@@ -169,7 +170,7 @@ public class PlayerEntryController {
             System.err.println("missing music file: " + path);
             return;
         }
-        musicplayer = new MediaPlayer(new Media(url.toExternalForm()));
+        musicPlayer = new MediaPlayer(new Media(url.toExternalForm()));
         musicPlayer.play();
         System.out.println("Playing track " + track);
     }
