@@ -32,7 +32,7 @@ mkdir -p "$BIN_DIR"
 
 "$JDK_DIR/bin/javac" \
     --module-path "$JAVAFX_DIR" \
-    --add-modules javafx.controls,javafx.fxml, javafx.media \
+    --add-modules javafx.controls,javafx.fxml,javafx.media \
     -d "$BIN_DIR" \
     "$PROJECT_DIR"/src/*.java
 
