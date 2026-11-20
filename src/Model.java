@@ -258,15 +258,13 @@ public class Model {
         // red base
         if (targetId == 43) {
             if (hasEquipmentId(greenTeam, attackerId)) {
-            attacker.setScore(attacker.getScore() + 100);
-            addGameAction(attacker.getCodename()
-                    + " scored the red base (+100 points)");
+                attacker.setScore(attacker.getScore() + 100);
+                addGameAction(attacker.getCodename() + " scored the red base (+100 points)");
             } else {
-                addGameAction(attacker.getCodename()
-                        + " hit the red base");
+                addGameAction(attacker.getCodename() + " hit the red base");
             }
     
-            transmitEquipmentId(attackerId);
+            transmitEquipmentId(targetId);
             return;
         }
         //green base
@@ -280,7 +278,7 @@ public class Model {
                         + " hit the green base");
             }
     
-            transmitEquipmentId(attackerId);
+            transmitEquipmentId(targetId);
             return;
         }
     
@@ -300,7 +298,8 @@ public class Model {
             addGameAction("FRIENDLY FIRE: " + attacker.getCodename() + " hit " + target.getCodename() + " (-10 points each)");
             sendFriendlyFireReplies(attackerId, targetId);
 
-        } else { //normal hit on enemy team
+        } 
+        else { //normal hit on enemy team
             attacker.setScore(attacker.getScore() + 10); //add 10
     
             addGameAction(attacker.getCodename() + " hit " + target.getCodename() + " (+10 points)");

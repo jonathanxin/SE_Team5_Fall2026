@@ -28,9 +28,9 @@ public class Networking {
         return networkAddress;
     }
 
-    public void setModel(Model model) {
-        this.model = model;
-    }
+    // public void setModel(Model model) {
+    //     this.model = model;
+    // }
 
     // UDP socket methods
     public void setupUdpSockets() {
@@ -106,7 +106,7 @@ public class Networking {
 
                     System.out.println("Received: " + message);
 
-                    processReceivedData(message);
+                    model.processReceivedData(message);
 
                 } catch (SocketException e) {
                     if (listening) {
@@ -128,35 +128,35 @@ public class Networking {
         System.out.println("Receive thread is alive: " + receiveThread.isAlive()); // check if thread is alive
     }
 
-    private void processReceivedData(String message) {
-        // Process the received data here
-        int taggingID = -1;
-        int taggedID = -1;
-        message = message.trim(); // remove null-terminator 
-        String[] parts = message.split(":");
-        taggingID =Integer.parseInt(parts[0]);
-        taggedID = Integer.parseInt(parts[1]);
-        // check for base tagging
-        if (taggedID == 43 || taggedID == 53) {
-            System.out.println("Base tagging detected: " + taggingID + " tagged " + taggedID);
-            model.checkBaseTagging(taggingID, taggedID);
-            transmit(taggedID); // transmit the equipment ID of the base that was tagged
-            return; 
-        }
-        // check for friendly fire
-        if (model.sendFriendlyFireReplies(taggingID, taggedID)) {
-            System.out.println("Friendly fire detected: " + taggingID + " tagged " + taggedID);
-            // transmit(taggingID); // also transmit the equipment ID of the offending player
-            model.changePlayerScore(taggingID, -10); // subtract points from the tagging player
-            model.changePlayerScore(taggedID, -10); // subtract points from the tagged player
-        }
-        else {
-            // add points to the tagging player
-            model.changePlayerScore(taggingID, 10);
-            // transmit equipment ID of the player who got tagged to all players
-            transmit(taggedID);
-        }
-    }
+    // private void processReceivedData(String message) {
+    //     // Process the received data here
+    //     int taggingID = -1;
+    //     int taggedID = -1;
+    //     message = message.trim(); // remove null-terminator 
+    //     String[] parts = message.split(":");
+    //     taggingID =Integer.parseInt(parts[0]);
+    //     taggedID = Integer.parseInt(parts[1]);
+    //     // check for base tagging
+    //     if (taggedID == 43 || taggedID == 53) {
+    //         System.out.println("Base tagging detected: " + taggingID + " tagged " + taggedID);
+    //         model.checkBaseTagging(taggingID, taggedID);
+    //         transmit(taggedID); // transmit the equipment ID of the base that was tagged
+    //         return; 
+    //     }
+    //     // check for friendly fire
+    //     if (model.sendFriendlyFireReplies(taggingID, taggedID)) {
+    //         System.out.println("Friendly fire detected: " + taggingID + " tagged " + taggedID);
+    //         // transmit(taggingID); // also transmit the equipment ID of the offending player
+    //         model.changePlayerScore(taggingID, -10); // subtract points from the tagging player
+    //         model.changePlayerScore(taggedID, -10); // subtract points from the tagged player
+    //     }
+    //     else {
+    //         // add points to the tagging player
+    //         model.changePlayerScore(taggingID, 10);
+    //         // transmit equipment ID of the player who got tagged to all players
+    //         transmit(taggedID);
+    //     }
+    // }
 
     // close sockets
     public void closeUdpSockets() {

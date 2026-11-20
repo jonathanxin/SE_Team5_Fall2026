@@ -67,11 +67,11 @@
                         <Insets />
                      </GridPane.margin>
                      <padding>
-                        <Insets left="5.0" />
+                        <Insets left="7.0" />
                      </padding></Label>
                   <Label fx:id="redTeamScore" alignment="CENTER_RIGHT" focusTraversable="false" text="Total Score" GridPane.columnIndex="3" GridPane.rowIndex="2" GridPane.vgrow="NEVER">
                      <padding>
-                        <Insets left="5.0" />
+                        <Insets left="7.0" />
                      </padding></Label>
                   <Label text="Green Team Total:" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
                   <Label text="Red Team Total:" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
