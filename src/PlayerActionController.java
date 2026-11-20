@@ -6,12 +6,18 @@ import javafx.beans.binding.ObjectBinding;
 import javafx.beans.binding.When;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.WeakChangeListener;
+import javafx.application.Platform;
+import javafx.geometry.Orientation;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.collections.ObservableList;
+import javafx.collections.ListChangeListener;
 import javafx.collections.transformation.SortedList;
 import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
+import javafx.scene.control.ScrollBar;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -30,6 +36,8 @@ public class PlayerActionController {
     private Image baseIconImage;
     private ObjectBinding<Player> highestGreenScorePlayer;
     private ObjectBinding<Player> highestRedScorePlayer;
+    private boolean gameActionsAutoScroll = true;
+    private ScrollBar gameActionsScrollBar;
 
     @FXML
     private ListView<String> gameActionsListView;
@@ -99,7 +107,28 @@ public class PlayerActionController {
         gameActionsListView.setItems(model.getGameActions()); //changed this from gameActionsListView.setItems(gameActions); to connect it to model
         gameActionsListView.scrollTo(model.getGameActions().size() - 1); // scroll to the bottom of the list view when new items are added
         // TODO: disable selection in the list view
-        // TODO: check ScrollBar to respect the scroll position and only auto-scroll if the user is at the bottom of the list view
+        gameActionsListView.setSelectionModel(null);
+        // Track whether the user is at the bottom so new actions do not interrupt manual scrolling.
+        gameActionsListView.skinProperty().addListener((obs, oldSkin, newSkin) ->
+            Platform.runLater(this::configureGameActionsScrollBar));
+        Platform.runLater(this::configureGameActionsScrollBar);
+        gameActionsListView.addEventFilter(ScrollEvent.SCROLL, event -> {
+            if (event.getDeltaY() != 0) {
+                gameActionsAutoScroll = false;
+                Platform.runLater(this::updateGameActionsAutoScroll);
+            }
+        });
+        model.getGameActions().addListener((ListChangeListener<String>) change -> {
+            while (change.next()) {
+                if (change.wasAdded() && gameActionsAutoScroll) {
+                    Platform.runLater(() -> {
+                        if (gameActionsAutoScroll && !model.getGameActions().isEmpty()) {
+                            gameActionsListView.scrollTo(model.getGameActions().size() - 1);
+                        }
+                    });
+                }
+            }
+        });
 
         // bind team score labels to team score properties
         redTeamScore.textProperty().bind(model.getRedTeam().teamScore().asString());
@@ -130,6 +159,31 @@ public class PlayerActionController {
             }
             return highestPlayer;
         }, redTeamList);
+    }
+
+    private void configureGameActionsScrollBar() {
+        if (gameActionsScrollBar != null) {
+            return;
+        }
+
+        for (Node node : gameActionsListView.lookupAll(".scroll-bar")) {
+            if (node instanceof ScrollBar) {
+                ScrollBar scrollBar = (ScrollBar) node;
+                if (scrollBar.getOrientation() == Orientation.VERTICAL) {
+                    gameActionsScrollBar = scrollBar;
+                    updateGameActionsAutoScroll();
+                    scrollBar.valueProperty().addListener((obs, oldVal, newVal) ->
+                        updateGameActionsAutoScroll());
+                    return;
+                }
+            }
+        }
+    }
+
+    private void updateGameActionsAutoScroll() {
+        if (gameActionsScrollBar != null) {
+            gameActionsAutoScroll = gameActionsScrollBar.getValue() >= gameActionsScrollBar.getMax();
+        }
     }
 
     private void initializeBaseIcon() {

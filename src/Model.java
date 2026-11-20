@@ -256,10 +256,13 @@ public class Model {
         }
     
         // red base
-        if (targetId == 43) {
+        if (targetId == 53) {
             if (hasEquipmentId(greenTeam, attackerId) && !redTeam.getHitBase()) {
                 changePlayerScore(attackerId, 100); // attacker.setScore(attacker.getScore() + 100);
                 redTeam.setHitBase(true);
+                Platform.runLater(() -> {
+                    attacker.setHitBase(true);
+                });
                 addGameAction(attacker.getCodename() + " scored the red base (+100 points)");
             } else {
                 addGameAction(attacker.getCodename() + " hit the red base");
@@ -269,10 +272,13 @@ public class Model {
             return;
         }
         //green base
-        if (targetId == 53) {
+        if (targetId == 43) {
             if (hasEquipmentId(redTeam, attackerId) && !greenTeam.getHitBase()) {
             changePlayerScore(attackerId, 100); // attacker.setScore(attacker.getScore() + 100);
             greenTeam.setHitBase(true);
+            Platform.runLater(() -> {
+                attacker.setHitBase(true);
+            });
             addGameAction(attacker.getCodename()
                     + " scored the green base (+100 points)");
             } else {
