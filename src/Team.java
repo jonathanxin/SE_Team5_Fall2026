@@ -1,6 +1,8 @@
 import javafx.beans.binding.IntegerBinding;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 
 public class Team {
     private ObservableList<Player> teamList;
@@ -33,9 +35,10 @@ public class Team {
     public void addPlayer(Player player) {
         teamList.add(player);
     }
-
-    public int getTeamScore() {
-        return teamScore.get();
+    
+    public void clearTeam() {
+        teamList.clear();
+        teamScore.set(0); //reset score from previous game
     }
 
     public IntegerBinding teamScore() {

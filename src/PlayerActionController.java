@@ -6,12 +6,11 @@ import javafx.beans.binding.ObjectBinding;
 import javafx.beans.binding.When;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.WeakChangeListener;
-import javafx.collections.FXCollections;
+import javafx.scene.control.Label;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;
 import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -62,7 +61,7 @@ public class PlayerActionController {
     public void setModel(Model model) {
         this.model = model;
     }
-
+    
     public void initializeTeams() {
         greenTeam = model.getGreenTeam();
         redTeam = model.getRedTeam();
@@ -96,9 +95,10 @@ public class PlayerActionController {
         redTeamTableView.setMouseTransparent(true);
 
         // create data model for the game actions list view
-        ObservableList<String> gameActions = FXCollections.observableArrayList();
-        gameActionsListView.setItems(gameActions);
-        gameActionsListView.scrollTo(gameActions.size() - 1); // scroll to the bottom of the list view when new items are added
+        //ObservableList<String> gameActions = FXCollections.observableArrayList(); //I moved this into model 
+        gameActionsListView.setItems(model.getGameActions()); //changed this from gameActionsListView.setItems(gameActions); to connect it to model
+        gameActionsListView.scrollTo(model.getGameActions().size() - 1); // scroll to the bottom of the list view when new items are added
+        // TODO: disable selection in the list view
         // TODO: check ScrollBar to respect the scroll position and only auto-scroll if the user is at the bottom of the list view
 
         // bind team score labels to team score properties
