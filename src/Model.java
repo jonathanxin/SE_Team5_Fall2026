@@ -205,7 +205,7 @@ public class Model {
         String time = LocalTime.now().format(
         DateTimeFormatter.ofPattern("HH:mm:ss"));
 
-        gameActions.add(time + " - " + action);
+        Platform.runLater(() -> gameActions.add(time + " - " + action));
     }
     public Player findPlayerByEquipmentId(int equipmentId) {
         // for green team
@@ -257,8 +257,9 @@ public class Model {
     
         // red base
         if (targetId == 43) {
-            if (hasEquipmentId(greenTeam, attackerId)) {
-                attacker.setScore(attacker.getScore() + 100);
+            if (hasEquipmentId(greenTeam, attackerId) && !redTeam.getHitBase()) {
+                changePlayerScore(attackerId, 100); // attacker.setScore(attacker.getScore() + 100);
+                redTeam.setHitBase(true);
                 addGameAction(attacker.getCodename() + " scored the red base (+100 points)");
             } else {
                 addGameAction(attacker.getCodename() + " hit the red base");
@@ -269,8 +270,9 @@ public class Model {
         }
         //green base
         if (targetId == 53) {
-            if (hasEquipmentId(redTeam, attackerId)) {
-            attacker.setScore(attacker.getScore() + 100);
+            if (hasEquipmentId(redTeam, attackerId) && !greenTeam.getHitBase()) {
+            changePlayerScore(attackerId, 100); // attacker.setScore(attacker.getScore() + 100);
+            greenTeam.setHitBase(true);
             addGameAction(attacker.getCodename()
                     + " scored the green base (+100 points)");
             } else {
@@ -292,15 +294,15 @@ public class Model {
     
         // check for friendly fire
        if (isFriendlyFire(attackerId, targetId)) {
-            attacker.setScore(attacker.getScore() - 10); //removes 10 points from the person who hit their teammate
-            target.setScore(target.getScore() - 10); //removes 10 points from teammate
+            changePlayerScore(attackerId, -10); //removes 10 points from the person who hit their teammate
+            changePlayerScore(targetId, -10); //removes 10 points from teammate
 
             addGameAction("FRIENDLY FIRE: " + attacker.getCodename() + " hit " + target.getCodename() + " (-10 points each)");
             sendFriendlyFireReplies(attackerId, targetId);
 
         } 
         else { //normal hit on enemy team
-            attacker.setScore(attacker.getScore() + 10); //add 10
+            changePlayerScore(attackerId, 10); //add 10
     
             addGameAction(attacker.getCodename() + " hit " + target.getCodename() + " (+10 points)");
     
