@@ -4,7 +4,6 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.nio.charset.StandardCharsets;
-import javafx.application.Platform;
 
 public class Networking {
     // UDP socket constants

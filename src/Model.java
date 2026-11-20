@@ -1,8 +1,8 @@
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import javafx.beans.property.IntegerProperty;
 
 public class Model {
     private Networking networking;
@@ -48,16 +48,6 @@ public class Model {
         Player playerToUpdate = player;
         Platform.runLater(() -> playerToUpdate.setScore(newScore));
     }
-
-    // public Boolean checkFriendlyFire(int taggingID, int taggedID) {
-    //     // search the teams for the players with the given equipment IDs
-    //     Player taggingPlayer = greenTeam.getplayerByEquipmentId(taggingID);
-    //     Player taggedPlayer = greenTeam.getplayerByEquipmentId(taggedID);
-    //     if (taggingPlayer == null ^ taggedPlayer == null) {
-    //         return false;
-    //     }
-    //     return true;
-    // }
 
     public String findPlayerById(int playerId) {
         this.playerId = playerId; // store the player ID for later use
@@ -206,6 +196,7 @@ public class Model {
 
         return true;
     }
+    
     public ObservableList<String> getGameActions() {
         return gameActions;
     }
@@ -317,14 +308,6 @@ public class Model {
             transmitEquipmentId(targetId);
         }
     }
-    public IntegerProperty getGreenTeamScoreProperty() {
-        return greenTeam.teamScoreProperty();
-    }
-    
-    public IntegerProperty getRedTeamScoreProperty() {
-        return redTeam.teamScoreProperty();
-    }
-
 
     public void startGame() {
         networking.transmit(202);

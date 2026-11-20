@@ -35,10 +35,9 @@ public class Team {
     public void addPlayer(Player player) {
         teamList.add(player);
     }
-    
+
     public void clearTeam() {
         teamList.clear();
-        teamScore.set(0); //reset score from previous game
     }
 
     public IntegerBinding teamScore() {
