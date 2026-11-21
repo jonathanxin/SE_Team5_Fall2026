@@ -103,7 +103,7 @@ public class Networking {
 
                     System.out.println("Received: " + message);
                     if (model != null) {
-                         Platform.runLater(() -> model.processReceivedData(message); //added plaform.runLater to make sure model.processReceivedData runs on the JavaFX application thread rather than the UDP one
+                         Platform.runLater(() -> model.processReceivedData(message)); //added plaform.runLater to make sure model.processReceivedData runs on the JavaFX application thread rather than the UDP one
                     }
                     // processReceivedData(message);
 
