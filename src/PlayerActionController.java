@@ -1,5 +1,4 @@
 import java.net.URL;
-
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.IntegerBinding;
 import javafx.beans.binding.ObjectBinding;
@@ -17,6 +16,8 @@ import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollBar;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -38,6 +39,8 @@ public class PlayerActionController {
     private ObjectBinding<Player> highestRedScorePlayer;
     private boolean gameActionsAutoScroll = true;
     private ScrollBar gameActionsScrollBar;
+    private boolean following = true;
+    private boolean scrollPending = false;
 
     @FXML
     private ListView<String> gameActionsListView;
@@ -105,30 +108,11 @@ public class PlayerActionController {
         // create data model for the game actions list view
         //ObservableList<String> gameActions = FXCollections.observableArrayList(); //I moved this into model 
         gameActionsListView.setItems(model.getGameActions()); //changed this from gameActionsListView.setItems(gameActions); to connect it to model
-        gameActionsListView.scrollTo(model.getGameActions().size() - 1); // scroll to the bottom of the list view when new items are added
-        // TODO: disable selection in the list view
+        // gameActionsListView.scrollTo(model.getGameActions().size() - 1); // scroll to the bottom of the list view when new items are added
+        // disable selection in the list view
         gameActionsListView.setSelectionModel(null);
-        // Track whether the user is at the bottom so new actions do not interrupt manual scrolling.
-        gameActionsListView.skinProperty().addListener((obs, oldSkin, newSkin) ->
-            Platform.runLater(this::configureGameActionsScrollBar));
-        Platform.runLater(this::configureGameActionsScrollBar);
-        gameActionsListView.addEventFilter(ScrollEvent.SCROLL, event -> {
-            if (event.getDeltaY() != 0) {
-                gameActionsAutoScroll = false;
-                Platform.runLater(this::updateGameActionsAutoScroll);
-            }
-        });
-        model.getGameActions().addListener((ListChangeListener<String>) change -> {
-            while (change.next()) {
-                if (change.wasAdded() && gameActionsAutoScroll) {
-                    Platform.runLater(() -> {
-                        if (gameActionsAutoScroll && !model.getGameActions().isEmpty()) {
-                            gameActionsListView.scrollTo(model.getGameActions().size() - 1);
-                        }
-                    });
-                }
-            }
-        });
+        // setup auto-scroll behavior
+        setupAutoScroll();
 
         // bind team score labels to team score properties
         redTeamScore.textProperty().bind(model.getRedTeam().teamScore().asString());
@@ -161,29 +145,41 @@ public class PlayerActionController {
         }, redTeamList);
     }
 
-    private void configureGameActionsScrollBar() {
-        if (gameActionsScrollBar != null) {
-            return;
-        }
-
+    // check if the user is at the bottom of the game actions list view
+    private boolean atBottom() {
         for (Node node : gameActionsListView.lookupAll(".scroll-bar")) {
-            if (node instanceof ScrollBar) {
-                ScrollBar scrollBar = (ScrollBar) node;
-                if (scrollBar.getOrientation() == Orientation.VERTICAL) {
-                    gameActionsScrollBar = scrollBar;
-                    updateGameActionsAutoScroll();
-                    scrollBar.valueProperty().addListener((obs, oldVal, newVal) ->
-                        updateGameActionsAutoScroll());
-                    return;
-                }
+            if (node instanceof ScrollBar sb && sb.getOrientation() == Orientation.VERTICAL) {
+                double distanceToBottom = sb.getMax() - sb.getValue();
+                return !sb.isVisible() || distanceToBottom <= 0.001; // use a small threshold to account for floating-point precision issues
             }
         }
+        return true; // if no vertical scroll bar is found, treat as at bottom (skin not ready)
     }
 
-    private void updateGameActionsAutoScroll() {
-        if (gameActionsScrollBar != null) {
-            gameActionsAutoScroll = gameActionsScrollBar.getValue() >= gameActionsScrollBar.getMax();
-        }
+    private void setupAutoScroll() {
+        // Only user input can change whether we're following.
+        gameActionsListView.addEventFilter(ScrollEvent.ANY, e -> updateFollowingLater());
+        gameActionsListView.addEventFilter(MouseEvent.MOUSE_DRAGGED, e -> updateFollowingLater());
+        gameActionsListView.addEventFilter(MouseEvent.MOUSE_RELEASED, e -> updateFollowingLater());
+        gameActionsListView.addEventFilter(KeyEvent.KEY_PRESSED, e -> updateFollowingLater());
+
+        model.getGameActions().addListener((ListChangeListener<String>) change -> {
+            if (scrollPending || !following) {
+                return;
+            }
+            scrollPending = true; 
+            Platform.runLater(() -> { // runLater to ensure the scroll happens after layout pass (cells are laid out)
+                    scrollPending = false; 
+                    gameActionsListView.scrollTo(model.getGameActions().size() - 1);
+            });
+        });
+    }
+
+    private void updateFollowingLater() {
+        Platform.runLater(() -> { // filters run before handlers, so evalute later
+            gameActionsListView.layout(); // sync scroll bar with new position (lags behind user input until layout pass)
+            following = atBottom();
+        });
     }
 
     private void initializeBaseIcon() {
