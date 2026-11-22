@@ -60,16 +60,6 @@
                   </TableView>
                </children>
             </HBox>
-            <HBox alignment="CENTER" spacing="40.0">
-               <children>
-                  <Label fx:id="greenTeamScoreLabel"
-                        focusTraversable="false"
-                        text="Total: 0" />
-                  <Label fx:id="redTeamScoreLabel"
-                        focusTraversable="false"
-                        text="Total: 0" />
-               </children>
-            </HBox>
             <ListView fx:id="gameActionsListView" focusTraversable="false" VBox.vgrow="ALWAYS" />
          </children>
       </VBox>

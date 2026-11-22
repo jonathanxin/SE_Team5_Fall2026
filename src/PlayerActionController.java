@@ -86,7 +86,7 @@ public class PlayerActionController {
         // TODO: check ScrollBar to respect the scroll position and only auto-scroll if the user is at the bottom of the list view
 
     }
-    public void UpdateGameTimer(int secondsRemaining){
+    public void updateGameTimer(int secondsRemaining){
         int minutes = secondsRemaining/60;
         int seconds = secondsRemaining%60;
 

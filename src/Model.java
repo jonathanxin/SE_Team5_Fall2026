@@ -187,7 +187,7 @@ public class Model {
     }
     
     public void processReceivedData(String message) {
-        if(gameRunning){
+        if(!gameRunning){
             return;
         }
         // Separate attacker target IDs
