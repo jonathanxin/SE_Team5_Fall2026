@@ -40,6 +40,9 @@ public class PlayerActionController {
     @FXML
     private Label redTeamScoreLabel;
 
+    @FXML
+    private Label gameTimerLabel;
+
     public void setModel(Model model) {
         this.model = model;
     }
@@ -81,5 +84,12 @@ public class PlayerActionController {
         gameActionsListView.scrollTo(model.getGameActions().size() - 1); // scroll to the bottom of the list view when new items are added
         // TODO: disable selection in the list view
         // TODO: check ScrollBar to respect the scroll position and only auto-scroll if the user is at the bottom of the list view
+
+    }
+    public void updateGameTimer(int secondsRemaining){
+        int minutes = secondsRemaining/60;
+        int seconds = secondsRemaining%60;
+
+        gameTimerLabel.setText(String.format("Time Remaining: %d:%02d", minutes, seconds));
     }
 }

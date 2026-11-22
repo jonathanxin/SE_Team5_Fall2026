@@ -12,9 +12,13 @@
    <children>
       <VBox layoutX="250.0" layoutY="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <HBox alignment="CENTER">
+            <HBox alignment="CENTER" spacing="30.0">
                <children>
-                  <Label focusTraversable="false" text="Current Player Action" />
+                  <Label focusTraversable="false"
+                        text="Current Player Action" />
+                  <Label fx:id="gameTimerLabel"
+                        focusTraversable="false"
+                        text="Time Remaining: 6:00" />
                </children>
             </HBox>
             <HBox alignment="CENTER">
