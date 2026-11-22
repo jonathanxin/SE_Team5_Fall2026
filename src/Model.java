@@ -3,6 +3,9 @@ import javafx.collections.FXCollections;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import javafx.beans.property.IntegerProperty;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.util.Duration;
 
 public class Model {
     private Networking networking;
@@ -16,6 +19,9 @@ public class Model {
     private Team redTeam = new Team();
     private Team greenTeam = new Team();
     private ObservableList<String> gameActions = FXCollections.observableArrayList();
+    private Timeline gameTimer;
+    private int gameSecondsRemaining;
+    private boolean gameRunning = false;
 
     public Model(PlayerDatabase playerDatabase, Networking networking) {
         this.playerDatabase = playerDatabase;
@@ -181,6 +187,9 @@ public class Model {
     }
     
     public void processReceivedData(String message) {
+        if(gameRunning){
+            return;
+        }
         // Separate attacker target IDs
         String[] ids = message.split(":");
     
@@ -273,7 +282,50 @@ public class Model {
 
 
     public void startGame() {
-        networking.transmit(202);
+        // Prevent starting another timer during an active game.
+        if (gameRunning) {
+            return;
+        }
+    
         changeToPlayerActionScreen();
+    
+        gameSecondsRemaining = 6 * 60;
+        playerActionController.updateGameTimer(gameSecondsRemaining);
+    
+        gameRunning = true;
+        networking.transmit(202);
+    
+        gameTimer = new Timeline(
+            new KeyFrame(Duration.seconds(1), event -> {
+                gameSecondsRemaining--;
+                playerActionController.updateGameTimer(gameSecondsRemaining);
+            })
+        );
+    
+        gameTimer.setCycleCount(6 * 60);
+        gameTimer.setOnFinished(event -> endGame());
+        gameTimer.play();
+    }
+    
+    public void endGame() {
+        // Prevent sending the end signal multiple times accidentally.
+        if (!gameRunning) {
+            return;
+        }
+    
+        gameRunning = false;
+    
+        if (gameTimer != null) {
+            gameTimer.stop();
+        }
+    
+        gameSecondsRemaining = 0;
+        playerActionController.updateGameTimer(0);
+    
+        for (int i = 0; i < 3; i++) {
+            networking.transmit(221);
+        }
+    
+        addGameAction("Game over!");
     }
 }
