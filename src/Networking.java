@@ -4,6 +4,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.nio.charset.StandardCharsets;
+import javafx.application.Platform;
 
 public class Networking {
     // UDP socket constants
@@ -14,6 +15,7 @@ public class Networking {
     private DatagramSocket receiveSocket; 
     private String networkAddress = "127.0.0.1";
     private volatile boolean listening = false;
+    private Model model;
 
     // UDP getter and setter
     public void setNetworkAddress(String networkAddress) {
@@ -21,6 +23,10 @@ public class Networking {
     }
     public String getNetworkAddress() {
         return networkAddress;
+    }
+
+    public void setModel(Model model) {
+        this.model = model;
     }
 
     // UDP socket methods
@@ -96,7 +102,9 @@ public class Networking {
                     );
 
                     System.out.println("Received: " + message);
-
+                    if (model != null) {
+                         Platform.runLater(() -> model.processReceivedData(message)); //added plaform.runLater to make sure model.processReceivedData runs on the JavaFX application thread rather than the UDP one
+                    }
                     // processReceivedData(message);
 
                 } catch (SocketException e) {
