@@ -69,6 +69,9 @@ public class PlayerActionController {
     private Label greenTeamScore;
 
 
+    @FXML
+    private Label gameTimerLabel;
+
     public void setModel(Model model) {
         this.model = model;
     }
