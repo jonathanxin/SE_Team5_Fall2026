@@ -308,7 +308,6 @@ public class Model {
             return;
         }
     
-        // check for friendly fire
         // Ignore self-hits so players cannot gain points by hitting themselves
         if (attackerId == targetId) {
         System.out.println("Self-hit ignored: " + attackerId);
