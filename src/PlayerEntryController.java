@@ -250,6 +250,10 @@ public class PlayerEntryController {
 
         countdownImageView.setVisible(false);
         countdownImageView.setImage(null);
+
+        StackPane parent = (StackPane) countdownImageView.getParent();
+        parent.getChildren().getFirst().setVisible(true);
+        parent.setStyle("");
         
         for (Node node : playerGrid.getChildren()) {
             if (node instanceof TextField playerField) {
