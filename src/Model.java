@@ -46,15 +46,23 @@ public class Model {
     }
 
     public void changePlayerScore(int equipmentId, int scoreChange) {
-        // determine
         Player player = greenTeam.getplayerByEquipmentId(equipmentId);
+
         if (player == null) {
-            player = redTeam.getplayerByEquipmentId(equipmentId);
+        player = redTeam.getplayerByEquipmentId(equipmentId);
         }
-        int newScore = player.getScore() + scoreChange;
+
+        if (player == null) {
+        System.out.println("Player not found: " + equipmentId);
+        return;
+        }
+
         Player playerToUpdate = player;
-        Platform.runLater(() -> playerToUpdate.setScore(newScore));
-    }
+
+        Platform.runLater(() -> {
+            playerToUpdate.setScore(playerToUpdate.getScore() + scoreChange);
+        });
+     }
 
     public String findPlayerById(int playerId) {
         this.playerId = playerId; // store the player ID for later use
