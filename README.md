@@ -86,6 +86,8 @@ If the required project dependencies have not been installed, the build script w
 
 # Player Entry Controls
 
+Players can be added to either team by clicking the next available player entry field under Green Team or Red Team. Players do not need to alternate between teams.
+
 Enter a Player ID and press Tab.
 
 Follow the on-screen prompts to enter a nickname for a new player and an equipment ID.
@@ -93,6 +95,8 @@ Follow the on-screen prompts to enter a nickname for a new player and an equipme
 Press F5 to start the game countdown.
 
 Press F12 to clear all player entries.
+
+The default network address is 127.0.0.1. To use a different network address, enter it in the network field and click Change Network.
 
 
 
@@ -108,6 +112,8 @@ Launch Photon and enter two players on each team using their database player IDs
 | Red | Player 2 | 22 |
 
 Open a second terminal and download the instructor's traffic generator:
+
+*Python 3 is required to run the instructor's traffic generator, the generator is only needed for testing gameplay, not for launching Photon*
 
 ```bash
 curl -fL https://raw.githubusercontent.com/jstrother123/photon-main/main/udp_files/python_trafficgenarator_v2.py -o /tmp/python_trafficgenarator_v2.py
