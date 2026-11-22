@@ -94,3 +94,41 @@ Press F5 to start the game countdown.
 
 Press F12 to clear all player entries.
 
+
+
+# Testing Gameplay
+
+Launch Photon and enter two players on each team using their database player IDs. Assign the following equipment IDs:
+
+| Team | Player | Equipment ID |
+|---|---|---|
+| Green | Player 1 | 11 |
+| Green | Player 2 | 12 |
+| Red | Player 1 | 21 |
+| Red | Player 2 | 22 |
+
+Open a second terminal and download the instructor's traffic generator:
+
+```bash
+curl -fL https://raw.githubusercontent.com/jstrother123/photon-main/main/udp_files/python_trafficgenarator_v2.py -o /tmp/python_trafficgenarator_v2.py
+```
+
+Run the generator:
+
+```bash
+python3 /tmp/python_trafficgenarator_v2.py
+```
+
+When prompted, enter the equipment IDs in this order:
+
+1. Red player 1: 21
+2. Red player 2: 22
+3. Green player 1: 11
+4. Green player 2: 12
+
+Wait until the generator displays "waiting for start from game_software", then return to Photon and press F5.
+
+After the 30-second countdown, the generator sends gameplay events. Player scores and team totals update as hits are received, including friendly fire and base hits.
+
+The game runs for six minutes and sends the stop code (221) when it ends.
+
