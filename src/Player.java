@@ -1,5 +1,7 @@
 import javafx.beans.Observable;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -10,6 +12,7 @@ public class Player {
     private int ID = -1;
 	private int equipmentId = -1;
     private IntegerProperty score = new SimpleIntegerProperty(this, "score", 0);
+    private BooleanProperty hitBase = new SimpleBooleanProperty(this, "hitBase", false);
 
     public Player(int ID, String codename, int equipmentId) {
         this.ID = ID;
@@ -55,6 +58,18 @@ public class Player {
 
     public IntegerProperty scoreProperty() {
         return score;
+    }
+
+    public void setHitBase(boolean hitBase) {
+        this.hitBase.set(hitBase);
+    }
+
+    public boolean getHitBase() {
+        return hitBase.get();
+    }
+
+    public BooleanProperty hitBaseProperty() {
+        return hitBase;
     }
 
     // extractor for the ObservableList to listen to changes in the score property so that the wrapping SortedList updates on score changes

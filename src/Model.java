@@ -1,5 +1,6 @@
-import javafx.collections.ObservableList;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import javafx.beans.property.IntegerProperty;
@@ -23,8 +24,11 @@ public class Model {
     private int gameSecondsRemaining;
     private boolean gameRunning = false;
 
-    public Model(PlayerDatabase playerDatabase, Networking networking) {
+    public Model(PlayerDatabase playerDatabase) {
         this.playerDatabase = playerDatabase;
+    }
+
+    public void setNetworking(Networking networking) {
         this.networking = networking;
     }
 
@@ -39,6 +43,17 @@ public class Model {
     public void setNetworkAddress(String networkAddress) {
         // forward the network address to the networking class
         networking.setNetworkAddress(networkAddress);
+    }
+
+    public void changePlayerScore(int equipmentId, int scoreChange) {
+        // determine
+        Player player = greenTeam.getplayerByEquipmentId(equipmentId);
+        if (player == null) {
+            player = redTeam.getplayerByEquipmentId(equipmentId);
+        }
+        int newScore = player.getScore() + scoreChange;
+        Player playerToUpdate = player;
+        Platform.runLater(() -> playerToUpdate.setScore(newScore));
     }
 
     public String findPlayerById(int playerId) {
@@ -79,18 +94,18 @@ public class Model {
         }
     }
 
-    public int calculateTeam(int playerIndex) {
+    public int calculateTeam(int col) {
         // calculate the team based on the player index
-        if (playerIndex % 2 == 0) {
+        if (col == 1) {
             return 1; // green team
         } else {
             return 2; // red team
         }
     }
 
-    public void addSessionPlayer(int playerIndex, int equipmentId) {
+    public void addSessionPlayer(int col, int equipmentId) {
         Player player = new Player(playerId, codename, equipmentId);
-        currentTeam = calculateTeam(playerIndex);
+        currentTeam = calculateTeam(col);
         if (currentTeam == 1) {
             greenTeam.addPlayer(player);
         } else if (currentTeam == 2) {
@@ -105,12 +120,44 @@ public class Model {
         //redTeam.getTeamList().clear();
     }
 
-    public ObservableList<Player> getGreenTeamList() {
-        return greenTeam.getTeamList();
+    public Team getGreenTeam() {
+        return greenTeam;
     }
 
-    public ObservableList<Player> getRedTeamList() {
-        return redTeam.getTeamList();
+    public Team getRedTeam() {
+        return redTeam;
+    }
+
+    public void checkBaseTagging(int taggingID, int taggedID) {
+        // check if the tagging player is on the green team
+        Player greenPlayer = greenTeam.getplayerByEquipmentId(taggingID);
+        if (greenPlayer != null) {
+            // tagging player is on the green team
+            // check if taggedID is the red base and base has not been hit yet
+            if (taggedID == 53 && !greenTeam.getHitBase()) {
+                System.out.println("Green team tagged the red base!");
+                changePlayerScore(taggingID, 100);
+                Platform.runLater(() -> {
+                    greenPlayer.setHitBase(true);
+                });
+                greenTeam.setHitBase(true);  
+                return;
+            }
+        }
+        else {
+            // tagging player is on the red team
+            Player redPlayer = redTeam.getplayerByEquipmentId(taggingID);
+            // check if taggedID is the green base and base has not been hit yet
+            if (taggedID == 43 && !redTeam.getHitBase()) {
+                System.out.println("Red team tagged the green base!");
+                changePlayerScore(taggingID, 100); 
+                Platform.runLater(() -> {
+                    redPlayer.setHitBase(true);
+                });
+                redTeam.setHitBase(true);
+                return;
+            }
+        }
     }
 
     public boolean isFriendlyFire(int attackerEquipmentId, int targetEquipmentId) {
@@ -128,10 +175,8 @@ public class Model {
 
     private boolean hasEquipmentId(Team team, int equipmentId) {
         // Check the current team roster by equipment ID, not database player ID.
-        for (Player player : team.getTeamList()) {
-            if (player.getEquipmentId() == equipmentId) {
-                return true;
-            }
+        if (team.getplayerByEquipmentId(equipmentId) != null) {
+            return true;
         }
         return false;
     }
@@ -158,6 +203,7 @@ public class Model {
 
         return true;
     }
+    
     public ObservableList<String> getGameActions() {
         return gameActions;
     }
@@ -166,7 +212,7 @@ public class Model {
         String time = LocalTime.now().format(
         DateTimeFormatter.ofPattern("HH:mm:ss"));
 
-        gameActions.add(time + " - " + action);
+        Platform.runLater(() -> gameActions.add(time + " - " + action));
     }
     public Player findPlayerByEquipmentId(int equipmentId) {
         // for green team
@@ -220,23 +266,29 @@ public class Model {
         }
     
         // red base
-        if (targetId == 43) {
-            if (hasEquipmentId(greenTeam, attackerId)) {
-            attacker.setScore(attacker.getScore() + 100);
-            addGameAction(attacker.getCodename()
-                    + " scored the red base (+100 points)");
+        if (targetId == 53) {
+            if (hasEquipmentId(greenTeam, attackerId) && !redTeam.getHitBase()) {
+                changePlayerScore(attackerId, 100); // attacker.setScore(attacker.getScore() + 100);
+                redTeam.setHitBase(true);
+                Platform.runLater(() -> {
+                    attacker.setHitBase(true);
+                });
+                addGameAction(attacker.getCodename() + " scored the red base (+100 points)");
             } else {
-                addGameAction(attacker.getCodename()
-                        + " hit the red base");
+                addGameAction(attacker.getCodename() + " hit the red base");
             }
     
-            transmitEquipmentId(attackerId);
+            transmitEquipmentId(targetId);
             return;
         }
         //green base
-        if (targetId == 53) {
-            if (hasEquipmentId(redTeam, attackerId)) {
-            attacker.setScore(attacker.getScore() + 100);
+        if (targetId == 43) {
+            if (hasEquipmentId(redTeam, attackerId) && !greenTeam.getHitBase()) {
+            changePlayerScore(attackerId, 100); // attacker.setScore(attacker.getScore() + 100);
+            greenTeam.setHitBase(true);
+            Platform.runLater(() -> {
+                attacker.setHitBase(true);
+            });
             addGameAction(attacker.getCodename()
                     + " scored the green base (+100 points)");
             } else {
@@ -244,7 +296,7 @@ public class Model {
                         + " hit the green base");
             }
     
-            transmitEquipmentId(attackerId);
+            transmitEquipmentId(targetId);
             return;
         }
     
@@ -258,28 +310,21 @@ public class Model {
     
         // check for friendly fire
        if (isFriendlyFire(attackerId, targetId)) {
-            attacker.setScore(attacker.getScore() - 10); //removes 10 points from the person who hit their teammate
-            target.setScore(target.getScore() - 10); //removes 10 points from teammate
+            changePlayerScore(attackerId, -10); //removes 10 points from the person who hit their teammate
+            changePlayerScore(targetId, -10); //removes 10 points from teammate
 
             addGameAction("FRIENDLY FIRE: " + attacker.getCodename() + " hit " + target.getCodename() + " (-10 points each)");
             sendFriendlyFireReplies(attackerId, targetId);
 
-        } else { //normal hit on enemy team
-            attacker.setScore(attacker.getScore() + 10); //add 10
+        } 
+        else { //normal hit on enemy team
+            changePlayerScore(attackerId, 10); //add 10
     
             addGameAction(attacker.getCodename() + " hit " + target.getCodename() + " (+10 points)");
     
             transmitEquipmentId(targetId);
         }
     }
-    public IntegerProperty getGreenTeamScoreProperty() {
-        return greenTeam.teamScoreProperty();
-    }
-    
-    public IntegerProperty getRedTeamScoreProperty() {
-        return redTeam.teamScoreProperty();
-    }
-
 
     public void startGame() {
         // Prevent starting another timer during an active game.

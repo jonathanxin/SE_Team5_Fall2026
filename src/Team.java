@@ -1,4 +1,4 @@
-// TODO: add a way to store team score and make it observable so that the GUI can update when the score changes
+import javafx.beans.binding.IntegerBinding;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.beans.property.IntegerProperty;
@@ -6,11 +6,26 @@ import javafx.beans.property.SimpleIntegerProperty;
 
 public class Team {
     private ObservableList<Player> teamList;
-    private IntegerProperty teamScore = new SimpleIntegerProperty(0);
-    
+    private IntegerBinding teamScore;
+    private boolean hitBase;
+
     public Team() {
         teamList = FXCollections.observableArrayList(Player.extractor);
-        
+        teamScore = new IntegerBinding() {
+            {
+                super.bind(teamList);
+            }
+
+            @Override 
+            protected int computeValue() {
+                int totalScore = 0;
+                for (Player player : teamList) {
+                    totalScore += player.getScore();
+                }
+                return totalScore;
+            }
+        };
+        hitBase = false;
     }
 
     public ObservableList<Player> getTeamList() {
@@ -19,26 +34,30 @@ public class Team {
 
     public void addPlayer(Player player) {
         teamList.add(player);
-        
-        teamScore.set(teamScore.get() + player.getScore());
-
-        //listen for changes in player score and update the teamscore accordingly
-        player.scoreProperty().addListener((observable, oldValue, newValue) -> {
-            int difference = newValue.intValue() - oldValue.intValue();
-            teamScore.set(teamScore.get() + difference);
-        });
     }
-    public IntegerProperty teamScoreProperty() {
+
+    public void clearTeam() {
+        teamList.clear();
+    }
+
+    public IntegerBinding teamScore() {
         return teamScore;
     }
 
-    public int getTeamScore() {
-        return teamScore.get();
+    public Player getplayerByEquipmentId(int equipmentId) {
+        for (Player player : teamList) {
+            if (player.getEquipmentId() == equipmentId) {
+                return player;
+            }
+        }
+        return null; // player not found
     }
-    public void clearTeam() {
-        teamList.clear();
-        teamScore.set(0); //reset score from previous game
+
+    public boolean getHitBase() {
+        return hitBase;
     }
-    
-    
+
+    public void setHitBase(boolean hitBase) {
+        this.hitBase = hitBase;
+    }
 }

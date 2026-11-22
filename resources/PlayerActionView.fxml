@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@Styles.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="PlayerActionController">
@@ -23,26 +27,15 @@
             </HBox>
             <HBox alignment="CENTER">
                <children>
-                  <VBox alignment="CENTER" HBox.hgrow="ALWAYS">
-                     <children>
-                        <Label alignment="CENTER" text="GREEN TEAM" />
-                        <Label fx:id="greenTeamScoreLabel" text="Total: 0" />
-                     </children>
-                  </VBox>
-            
-                  <VBox alignment="CENTER" HBox.hgrow="ALWAYS">
-                     <children>
-                        <Label alignment="CENTER" text="RED TEAM" />
-                        <Label fx:id="redTeamScoreLabel" text="Total: 0" />
-                     </children>
-                  </VBox>
+                  <Label alignment="CENTER" focusTraversable="false" maxWidth="1.7976931348623157E308" prefWidth="300.0" text="GREEN TEAM" HBox.hgrow="ALWAYS" />
+                  <Label alignment="CENTER" focusTraversable="false" layoutX="10.0" layoutY="10.0" maxWidth="1.7976931348623157E308" prefWidth="300.0" text="RED TEAM" HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
             <HBox VBox.vgrow="ALWAYS">
                <children>
                   <TableView fx:id="greenTeamTableView" focusTraversable="false" HBox.hgrow="ALWAYS">
                     <columns>
-                      <TableColumn fx:id="greenTeamMemeberCol" editable="false" prefWidth="75.0" sortable="false" text="Memeber" />
+                      <TableColumn fx:id="greenTeamMemberCol" editable="false" prefWidth="75.0" sortable="false" text="Memeber" />
                       <TableColumn fx:id="greenTeamMemberScore" editable="false" prefWidth="75.0" sortable="false" text="Score" />
                     </columns>
                      <columnResizePolicy>
@@ -60,6 +53,34 @@
                   </TableView>
                </children>
             </HBox>
+            <GridPane VBox.vgrow="NEVER">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" percentWidth="25.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" percentWidth="25.0" />
+                <ColumnConstraints hgrow="SOMETIMES" percentWidth="25.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" percentWidth="25.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints vgrow="NEVER" />
+              </rowConstraints>
+               <children>
+                  <Label fx:id="greenTeamScore" alignment="CENTER_RIGHT" focusTraversable="false" text="Total Score" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.vgrow="NEVER">
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
+                     <padding>
+                        <Insets left="7.0" />
+                     </padding></Label>
+                  <Label fx:id="redTeamScore" alignment="CENTER_RIGHT" focusTraversable="false" text="Total Score" GridPane.columnIndex="3" GridPane.rowIndex="2" GridPane.vgrow="NEVER">
+                     <padding>
+                        <Insets left="7.0" />
+                     </padding></Label>
+                  <Label text="Green Team Total:" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+                  <Label text="Red Team Total:" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+               </children>
+            </GridPane>
             <ListView fx:id="gameActionsListView" focusTraversable="false" VBox.vgrow="ALWAYS" />
          </children>
       </VBox>

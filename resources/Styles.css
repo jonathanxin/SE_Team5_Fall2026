@@ -4,6 +4,8 @@
 .text-field:focused:invalid-data {
     -fx-focus-color: red;
 }
-
+.table-cell:highest-score {
+    -fx-background-color: yellow; /* TODO: add better styling for highest score player */
+}
 
 

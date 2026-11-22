@@ -4,7 +4,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
 import javafx.beans.value.ChangeListener;
 
@@ -15,24 +14,34 @@ public class Main extends Application {
     PlayerDatabase playerDatabase;
     Stage stage;
 
+
+    double initW = 0.0;
+    double initH = 0.0;
+    double[] decor = {0.0, 0.0};
+
     @Override 
     public void init() throws Exception {
-        // called before start() and before the GUI is initialized (runs on background thread)
-        // setup ntworking
-        networking = new Networking(); // initialize networking
-        networking.setupUdpSockets(); // setup UDP sockets
-        networking.startListening(); // start listening for incoming packets
+        // called before start() and before the GUI is initialized (called on launcher thread, not JavaFX application thread)
 
         // setup database
         playerDatabase = new PlayerDatabase(); // initialize player database
 
-        model = new Model(playerDatabase, networking); // initialize model with networking
-        networking.setModel(model); //give networking access to model
+        model = new Model(playerDatabase); // initialize model with the database
+
+        // setup networking
+        networking = new Networking(model); // initialize networking
+        model.setNetworking(networking); // set networking in model
+        networking.setupUdpSockets(); // setup UDP sockets
+        networking.startListening(); // start listening for incoming packets
     }
 
     @Override 
     public void stop() throws Exception {
         // called when the application is shutting down
+        // transmit shutdown code three times
+        networking.transmit(221);
+        networking.transmit(221);
+        networking.transmit(221);
         networking.closeUdpSockets(); // close UDP sockets
     }
 
@@ -47,31 +56,42 @@ public class Main extends Application {
         model.setApp(this); // set the main application in the model
         Scene scene = new Scene(root); // initialize scene (container for all content) with root node (can access scene now (not null))
 
-
         // stage (window) information
         stage.setTitle("Photon"); // title bar
         stage.setScene(scene); // set the scene on the stage (can access stage (window) now (not null))
         stage.show();  // real sizes of the scene and stage are now available (can access stage (window) now (not null))
         // set minumum window size to the that of the splash screen
-        // caluclate window decoration sizes (title bar, borders, etc.) and add to the scene size to get the minimum window size
-        // TODO: fix minimum Height being too small on Linux
+        initW = scene.getWidth();
+        initH = scene.getHeight();
+        System.out.println("Scene initial size: " + initW + " x " + initH);
         Runnable updateMinSize = () -> {
-            double decorW = stage.getWidth() - scene.getWidth();
-            double decorH = stage.getHeight() - scene.getHeight();
-            stage.setMinWidth(scene.getWidth() + decorW);
-            stage.setMinHeight(scene.getHeight() + decorH);
+            stage.setMinWidth(initW + decor[0]);
+            stage.setMinHeight(initH + decor[1]);
         };
-        updateMinSize.run();
-        // run the code again after a short delay to ensure that the window decorations have been applied
-        stage.heightProperty().addListener(new ChangeListener<>() {
-            @Override 
-            public void changed(ObservableValue<? extends Number> obs, Number oldValue, Number newValue) {
-                if (stage.getHeight() - scene.getHeight() > 0) {
-                    updateMinSize.run();
-                    stage.heightProperty().removeListener(this); // remove the listener after it has run once
+        // caluclate window decoration sizes (title bar, borders, etc.) and add to the scene size to get the minimum window size
+        // Windows (decorations exist after stage.show() is called)
+        double decorTemp = stage.getHeight() - scene.getHeight();
+        if (decorTemp > 0) {
+            System.out.println("Decorations exist after stage.show() is called (Windows)");
+            decor[0] = stage.getWidth() - scene.getWidth();
+            decor[1] = decorTemp;
+            updateMinSize.run();
+        }
+        else {
+            // Linux (decorations are applied asynchronously after stage.show() is called, so we need to wait for the height to change)
+            stage.heightProperty().addListener(new ChangeListener<>() {
+                @Override 
+                public void changed(ObservableValue<? extends Number> obs, Number oldValue, Number newValue) {
+                    if (stage.getHeight() - scene.getHeight() > 0) {
+                        System.out.println("Decorations exist after stage.show() is called (Linux)");
+                        decor[0] = stage.getWidth() - scene.getWidth();
+                        decor[1] = stage.getHeight() - scene.getHeight();
+                        updateMinSize.run();
+                        stage.heightProperty().removeListener(this); // remove the listener after it has run once
+                    }
                 }
-            }
-        });
+            });
+        }
         // code below runs after GUI is fully initialized and displayed
         playerEntryController.setModel(model); // set model in controller
         playerEntryController.onSceneReady(); // update controller state after window is initialized

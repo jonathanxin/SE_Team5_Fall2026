@@ -31,3 +31,4 @@ replay_pid*
 .javafx/
 bin/
 .*
+python_trafficgenarator*.py
