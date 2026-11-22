@@ -234,4 +234,12 @@ public class PlayerActionController {
             }
         };
     }
-}
+    public void updateGameTimer(int secondsRemaining) {
+            int minutes = secondsRemaining / 60;
+            int seconds = secondsRemaining % 60;
+        
+            gameTimerLabel.setText(
+                String.format("Time Remaining: %d:%02d", minutes, seconds)
+            );
+        }
+    }

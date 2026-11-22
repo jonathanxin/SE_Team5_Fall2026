@@ -39,15 +39,23 @@ public class Model {
     }
 
     public void changePlayerScore(int equipmentId, int scoreChange) {
-        // determine
         Player player = greenTeam.getplayerByEquipmentId(equipmentId);
+
         if (player == null) {
-            player = redTeam.getplayerByEquipmentId(equipmentId);
+        player = redTeam.getplayerByEquipmentId(equipmentId);
         }
-        int newScore = player.getScore() + scoreChange;
+
+        if (player == null) {
+        System.out.println("Player not found: " + equipmentId);
+        return;
+        }
+
         Player playerToUpdate = player;
-        Platform.runLater(() -> playerToUpdate.setScore(newScore));
-    }
+
+        Platform.runLater(() -> {
+            playerToUpdate.setScore(playerToUpdate.getScore() + scoreChange);
+        });
+     }
 
     public String findPlayerById(int playerId) {
         this.playerId = playerId; // store the player ID for later use
@@ -298,7 +306,13 @@ public class Model {
             return;
         }
     
-        // check for friendly fire
+        // Ignore self-hits so players cannot gain points by hitting themselves
+        if (attackerId == targetId) {
+        System.out.println("Self-hit ignored: " + attackerId);
+        transmitEquipmentId(targetId);
+        return;
+        }
+        
        if (isFriendlyFire(attackerId, targetId)) {
             changePlayerScore(attackerId, -10); //removes 10 points from the person who hit their teammate
             changePlayerScore(targetId, -10); //removes 10 points from teammate
