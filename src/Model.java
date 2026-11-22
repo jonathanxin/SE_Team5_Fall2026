@@ -309,6 +309,13 @@ public class Model {
         }
     
         // check for friendly fire
+        // Ignore self-hits so players cannot gain points by hitting themselves
+        if (attackerId == targetId) {
+        System.out.println("Self-hit ignored: " + attackerId);
+        transmitEquipmentId(targetId);
+        return;
+        }
+        
        if (isFriendlyFire(attackerId, targetId)) {
             changePlayerScore(attackerId, -10); //removes 10 points from the person who hit their teammate
             changePlayerScore(targetId, -10); //removes 10 points from teammate
