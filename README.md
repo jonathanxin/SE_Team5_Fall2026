@@ -29,6 +29,7 @@ The install script sets up these project dependencies:
 - JDK 21
 - JavaFX 21
 - PostgreSQL JDBC driver
+- FFmpeg (installed automatically by install.sh for music conversion)
 
 The application uses the `photon` database already provided in the course VM.
 The install script does not configure PostgreSQL or modify the database.
@@ -72,6 +73,8 @@ Download the correct JavaFX 21 files for the VM architecture.
 
 Download the PostgreSQL JDBC driver.
 
+The install script also installs FFmpeg and converts the included MP3 music tracks into WAV files for JavaFX playback.
+
 # Run the Application
 
 After installation is complete, run:
@@ -98,6 +101,9 @@ Press F12 to clear all player entries.
 
 The default network address is 127.0.0.1. To use a different network address, enter it in the network field and click Change Network.
 
+Equipment IDs must be unique across both teams. If an equipment ID is already assigned to another player, the application rejects it and asks for a different one.
+
+Press F5 to start the 30-second countdown before gameplay. Press F12 to clear player entries before starting. Clearing entries is disabled while the countdown is running.
 
 
 # Testing Gameplay
@@ -139,3 +145,21 @@ After the 30-second countdown, the generator sends gameplay events. Player score
 The game runs for six minutes and sends the stop code (221) when it ends.
 
 After the game ends, a button appears at the bottom of the screen that lets you go back to the entry screen.
+
+# Gameplay Features
+
+After the 30-second countdown, the game begins and runs for six minutes. A random music track starts playing during the countdown.
+
+Player scores update automatically as gameplay events are received. Players earn 10 points for hitting an opponent. Friendly fire deducts 10 points from both teammates involved. Hitting the opposing team's base awards 100 points once per base per game, and a base icon appears beside the player who scored it.
+
+Players on each team are automatically sorted from highest to lowest individual score.
+
+The team with the higher total score has its total score flashing during gameplay. Flashing switches when the lead changes and stops when both teams have the same score.
+
+# Game Ending and Restart
+
+When the six-minute timer reaches zero, the game ends and sends stop code 221 three times. The final scores remain visible, and the flashing animation stops.
+
+A Back to Player Entry button appears when the game ends. Clicking this button returns to the player entry screen and clears the previous session's players and gameplay events.
+
+A new game can then be started. Player scores and base-hit status reset for the next game.
