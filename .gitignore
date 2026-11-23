@@ -32,4 +32,4 @@ replay_pid*
 bin/
 .*
 python_trafficgenarator*.py
-Ignore generated WAV music files
+resources/photon_tracks/*.wav
