@@ -335,11 +335,13 @@ public class PlayerEntryController {
             invalidDataBooleanProperty.setValue(true);
             return;
             }
+
+            model.transmitEquipmentId(equipmentId);
+            playerField.setText(currentNickname);
             enteringEquipment.set(false);
-            model.addSessionPlayer(col, equipmentId); // add player to session's list with the current index
+            model.addSessionPlayer(col, equipmentId);
             changePlayerFieldFocus(playerField);
             return;
-        }
     
         // New player: save their nickname before requesting equipment.
         if (addingPlayer.get()) {
