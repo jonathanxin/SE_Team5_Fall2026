@@ -21,6 +21,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollBar;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.control.TableCell;
@@ -75,6 +76,12 @@ public class PlayerActionController {
     @FXML 
     private Label greenTeamScore;
 
+    @FXML private Button backButton;
+
+    @FXML
+    void backButtonAction() {
+        model.returnToPlayerEntry();
+    }
 
     @FXML
     private Label gameTimerLabel;
@@ -300,4 +307,11 @@ public class PlayerActionController {
                 flashDimmed = false;
             }
         }
+    public void showBackButton() {
+        backButton.setVisible(true);
+        backButton.setManaged(true);
+    }   
+     
     }
+
+

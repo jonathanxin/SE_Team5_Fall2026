@@ -34,7 +34,7 @@ public class Main extends Application {
         networking.setupUdpSockets(); // setup UDP sockets
         networking.startListening(); // start listening for incoming packets
     }
-
+    
     @Override 
     public void stop() throws Exception {
         // called when the application is shutting down
@@ -43,6 +43,18 @@ public class Main extends Application {
         networking.transmit(221);
         networking.transmit(221);
         networking.closeUdpSockets(); // close UDP sockets
+    }
+
+
+    public void switchToEntryScene() throws Exception {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/PlayerEntryView.fxml"));
+        Parent root = loader.load();
+        playerEntryController = loader.getController();
+        model.setplayerEntryController(playerEntryController);
+        playerEntryController.setModel(model);
+        Scene scene = new Scene(root, stage.getScene().getWidth(), stage.getScene().getHeight());
+        stage.setScene(scene);
+        playerEntryController.onSceneReady();
     }
 
     @Override

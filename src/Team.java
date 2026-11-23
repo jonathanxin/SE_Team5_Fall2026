@@ -38,6 +38,7 @@ public class Team {
 
     public void clearTeam() {
         teamList.clear();
+        hitBase = false;
     }
 
     public IntegerBinding teamScore() {

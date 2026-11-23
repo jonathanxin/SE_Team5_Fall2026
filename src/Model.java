@@ -386,5 +386,16 @@ public class Model {
         }
     
         addGameAction("Game over!");
+        playerActionController.showBackButton();
     }
+
+    public void returnToPlayerEntry() {
+    clearSessionPlayers();
+    gameActions.clear();
+    try {
+        application.switchToEntryScene();
+    } catch (Exception e) {
+        throw new IllegalStateException("Could not return to the Player Entry screen.", e);
+    }
+}
 }
