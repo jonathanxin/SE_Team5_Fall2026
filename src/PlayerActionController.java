@@ -1,6 +1,7 @@
 import java.net.URL;
 import javafx.animation.Animation;
-import javafx.animation.FadeTransition;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.util.Duration;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.IntegerBinding;
@@ -30,8 +31,9 @@ import javafx.scene.image.ImageView;
 
 public class PlayerActionController {
     private Model model;
-    private FadeTransition leadingScoreFlash;
+    private Timeline leadingScoreFlash;
     private Label currentlyFlashing;
+    private boolean flashDimmed = false;
     private ObservableList<Player> greenTeamList;
     private ObservableList<Player> redTeamList;
     private SortedList<Player> sortedGreenTeamList;
@@ -87,12 +89,12 @@ public class PlayerActionController {
         greenTeamList = greenTeam.getTeamList();
         redTeamList = redTeam.getTeamList();
         // using SortedList to respond to changes in the underlying ObservableList and sort by score in descending order (comparator)
-        // sortedGreenTeamList = new SortedList<>(greenTeamList);
-        // sortedGreenTeamList.setComparator((p1, p2) -> Integer.compare(p2.getScore(), p1.getScore()));
-        // sortedRedTeamList = new SortedList<>(redTeamList);
-        // sortedRedTeamList.setComparator((p1, p2) -> Integer.compare(p2.getScore(), p1.getScore()));
-        greenTeamTableView.setItems(greenTeamList);
-        redTeamTableView.setItems(redTeamList);
+        sortedGreenTeamList = new SortedList<>(greenTeamList);
+        sortedGreenTeamList.setComparator((p1, p2) -> Integer.compare(p2.getScore(), p1.getScore()));
+        sortedRedTeamList = new SortedList<>(redTeamList);
+        sortedRedTeamList.setComparator((p1, p2) -> Integer.compare(p2.getScore(), p1.getScore()));
+        greenTeamTableView.setItems(sortedGreenTeamList);
+        redTeamTableView.setItems(sortedRedTeamList);
 
         initializeBaseIcon();
 
@@ -127,15 +129,12 @@ public class PlayerActionController {
         greenTeamScore.textProperty().bind(model.getGreenTeam().teamScore().asString());
 
         // Flash whichever team has the higher total score.
-        leadingScoreFlash = new FadeTransition(Duration.millis(450));
-        leadingScoreFlash.setFromValue(1.0);
-        leadingScoreFlash.setToValue(0.25);
-        leadingScoreFlash.setAutoReverse(true);
+        // Check the totals regularly so score updates do not depend on extra listeners.
+        leadingScoreFlash = new Timeline(
+            new KeyFrame(Duration.millis(400), event -> updateLeadingScoreFlash())
+        );
         leadingScoreFlash.setCycleCount(Animation.INDEFINITE);
-
-        greenTeam.teamScore().addListener((obs, oldValue, newValue) -> updateLeadingScoreFlash());
-        redTeam.teamScore().addListener((obs, oldValue, newValue) -> updateLeadingScoreFlash());
-        updateLeadingScoreFlash();
+        leadingScoreFlash.play();
 
         // create bindings for the highest score pseudo-class for each team table view
         highestGreenScorePlayer = Bindings.createObjectBinding(() -> {
@@ -265,18 +264,22 @@ public class PlayerActionController {
             leadingLabel = redTeamScore;
         }
 
-        if (leadingLabel == currentlyFlashing) {
-            return;
+        // Reset both scores when the leader changes or the scores become tied.
+        if (leadingLabel != currentlyFlashing) {
+            greenTeamScore.setOpacity(1.0);
+            redTeamScore.setOpacity(1.0);
+            currentlyFlashing = leadingLabel;
+            flashDimmed = false;
+
+            System.out.println("Flashing team score: " +
+                (currentlyFlashing == greenTeamScore ? "GREEN" :
+                 currentlyFlashing == redTeamScore ? "RED" : "NONE"));
         }
 
-        leadingScoreFlash.stop();
-        greenTeamScore.setOpacity(1.0);
-        redTeamScore.setOpacity(1.0);
-        currentlyFlashing = leadingLabel;
-
+        // Alternate the leading score between fully visible and hidden.
         if (currentlyFlashing != null) {
-            leadingScoreFlash.setNode(currentlyFlashing);
-            leadingScoreFlash.playFromStart();
+            flashDimmed = !flashDimmed;
+            currentlyFlashing.setOpacity(flashDimmed ? 0.0 : 1.0);
         }
     }
 
@@ -294,6 +297,7 @@ public class PlayerActionController {
                 greenTeamScore.setOpacity(1.0);
                 redTeamScore.setOpacity(1.0);
                 currentlyFlashing = null;
+                flashDimmed = false;
             }
         }
     }
