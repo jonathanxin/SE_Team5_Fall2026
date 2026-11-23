@@ -397,13 +397,18 @@ public class PlayerEntryController {
                     otherTeamPlayerField = previousCurrentTeamPlayerField;
                     otherTeamPlayerField.mouseTransparentProperty().bind(addingPlayer.or(enteringEquipment));
                 }
+                else
+                {
+                    currentTeamPlayerField = playerField;
+                    otherTeamPlayerField = previousCurrentTeamPlayerField;
+                }
             }
         }
         else // changing focus away from a player Field
         {
             if (networkAddressField.isFocused()) // focus in on networkAddressField
             {
-                if (!currentTeamPlayerField.isMouseTransparent()) // other team is not complete
+                if (!currentTeamPlayerField.isMouseTransparent()) // a team is not complete
                 {
                     currentTeamPlayerField.clear();
                     currentTeamPlayerField.setPromptText("Enter Player ID");
