@@ -1,4 +1,7 @@
 import java.net.URL;
+import javafx.animation.Animation;
+import javafx.animation.FadeTransition;
+import javafx.util.Duration;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.IntegerBinding;
 import javafx.beans.binding.ObjectBinding;
@@ -27,6 +30,8 @@ import javafx.scene.image.ImageView;
 
 public class PlayerActionController {
     private Model model;
+    private FadeTransition leadingScoreFlash;
+    private Label currentlyFlashing;
     private ObservableList<Player> greenTeamList;
     private ObservableList<Player> redTeamList;
     private SortedList<Player> sortedGreenTeamList;
@@ -120,6 +125,17 @@ public class PlayerActionController {
         // bind team score labels to team score properties
         redTeamScore.textProperty().bind(model.getRedTeam().teamScore().asString());
         greenTeamScore.textProperty().bind(model.getGreenTeam().teamScore().asString());
+
+        // Flash whichever team has the higher total score.
+        leadingScoreFlash = new FadeTransition(Duration.millis(450));
+        leadingScoreFlash.setFromValue(1.0);
+        leadingScoreFlash.setToValue(0.25);
+        leadingScoreFlash.setAutoReverse(true);
+        leadingScoreFlash.setCycleCount(Animation.INDEFINITE);
+
+        greenTeam.teamScore().addListener((obs, oldValue, newValue) -> updateLeadingScoreFlash());
+        redTeam.teamScore().addListener((obs, oldValue, newValue) -> updateLeadingScoreFlash());
+        updateLeadingScoreFlash();
 
         // create bindings for the highest score pseudo-class for each team table view
         highestGreenScorePlayer = Bindings.createObjectBinding(() -> {
@@ -237,6 +253,33 @@ public class PlayerActionController {
             }
         };
     }
+    // Keep the flashing indicator on the leading team, or stop it for a tie.
+    private void updateLeadingScoreFlash() {
+        int greenScore = greenTeam.teamScore().get();
+        int redScore = redTeam.teamScore().get();
+
+        Label leadingLabel = null;
+        if (greenScore > redScore) {
+            leadingLabel = greenTeamScore;
+        } else if (redScore > greenScore) {
+            leadingLabel = redTeamScore;
+        }
+
+        if (leadingLabel == currentlyFlashing) {
+            return;
+        }
+
+        leadingScoreFlash.stop();
+        greenTeamScore.setOpacity(1.0);
+        redTeamScore.setOpacity(1.0);
+        currentlyFlashing = leadingLabel;
+
+        if (currentlyFlashing != null) {
+            leadingScoreFlash.setNode(currentlyFlashing);
+            leadingScoreFlash.playFromStart();
+        }
+    }
+
     public void updateGameTimer(int secondsRemaining) {
             int minutes = secondsRemaining / 60;
             int seconds = secondsRemaining % 60;
@@ -244,5 +287,13 @@ public class PlayerActionController {
             gameTimerLabel.setText(
                 String.format("Time Remaining: %d:%02d", minutes, seconds)
             );
+
+            // Leave the final scores visible when the game ends.
+            if (secondsRemaining == 0 && leadingScoreFlash != null) {
+                leadingScoreFlash.stop();
+                greenTeamScore.setOpacity(1.0);
+                redTeamScore.setOpacity(1.0);
+                currentlyFlashing = null;
+            }
         }
     }
