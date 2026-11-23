@@ -243,9 +243,8 @@ public class PlayerEntryController {
     }
 
     private void clearPlayerEntries() {
-
-        if (countdownTimeline != null) {
-            countdownTimeline.stop();
+        if (countdownTimeline.getStatus() == Animation.Status.RUNNING) {
+            return; // don't clear entries if countdown is running
         }
 
         countdownImageView.setVisible(false);
