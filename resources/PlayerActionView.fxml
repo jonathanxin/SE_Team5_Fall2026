@@ -44,7 +44,7 @@
                <children>
                   <TableView fx:id="greenTeamTableView" focusTraversable="false" HBox.hgrow="ALWAYS">
                     <columns>
-                      <TableColumn fx:id="greenTeamMemberCol" editable="false" prefWidth="75.0" sortable="false" text="Memeber" />
+                      <TableColumn fx:id="greenTeamMemberCol" editable="false" prefWidth="75.0" sortable="false" text="Member" />
                       <TableColumn fx:id="greenTeamMemberScore" editable="false" prefWidth="75.0" sortable="false" text="Score" />
                     </columns>
                      <columnResizePolicy>
@@ -53,7 +53,7 @@
                   </TableView>
                   <TableView fx:id="redTeamTableView" focusTraversable="false" HBox.hgrow="ALWAYS">
                     <columns>
-                      <TableColumn fx:id="redTeamMemberCol" editable="false" prefWidth="75.0" sortable="false" text="Memeber" />
+                      <TableColumn fx:id="redTeamMemberCol" editable="false" prefWidth="75.0" sortable="false" text="Member" />
                       <TableColumn fx:id="redTeamMemberScore" editable="false" prefWidth="75.0" sortable="false" text="Score" />
                     </columns>
                      <columnResizePolicy>
