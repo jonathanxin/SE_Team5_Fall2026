@@ -138,3 +138,4 @@ After the 30-second countdown, the generator sends gameplay events. Player score
 
 The game runs for six minutes and sends the stop code (221) when it ends.
 
+After the game ends, a button appears at the bottom of the screen that lets you go back to the entry screen.
