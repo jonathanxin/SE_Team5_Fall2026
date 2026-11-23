@@ -328,8 +328,13 @@ public class PlayerEntryController {
                 return;
             }
     
-            model.transmitEquipmentId(equipmentId);
-            playerField.setText(currentNickname);
+                // Prevent two players from using the same equipment ID.
+            if (model.findPlayerByEquipmentId(equipmentId) != null) {
+            playerField.clear();
+            playerField.setPromptText("Equipment ID already in use");
+            invalidDataBooleanProperty.setValue(true);
+            return;
+            }
             enteringEquipment.set(false);
             model.addSessionPlayer(col, equipmentId); // add player to session's list with the current index
             changePlayerFieldFocus(playerField);
