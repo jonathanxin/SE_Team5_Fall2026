@@ -46,7 +46,6 @@ public class Main extends Application {
     }
 
 
-    @Override
     public void switchToEntryScene() throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/PlayerEntryView.fxml"));
         Parent root = loader.load();

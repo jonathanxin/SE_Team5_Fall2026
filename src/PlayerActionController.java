@@ -252,9 +252,11 @@ public class PlayerActionController {
                 String.format("Time Remaining: %d:%02d", minutes, seconds)
             );
         }
+    public void showBackButton() {
+        backButton.setVisible(true);
+        backButton.setManaged(true);
+    }   
+     
     }
 
-    public void showBackButton() {
-    backButton.setVisible(true);
-    backButton.setManaged(true);
-    }
+
