@@ -272,6 +272,9 @@ public class PlayerEntryController {
         
         for (Node node : playerGrid.getChildren()) {
             if (node instanceof TextField playerField) {
+                playerField.mouseTransparentProperty().unbind(); // unbind mouse transparency to allow setting it
+                playerField.setFocusTraversable(false); // prevent default Tab behavior of moving focus to the next field
+                playerField.setMouseTransparent(true); // prevent mouse clicks from stealing focus
                 playerField.clear();
                 playerField.setPromptText("");
             }
