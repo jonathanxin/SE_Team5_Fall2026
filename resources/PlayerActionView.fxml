@@ -16,15 +16,24 @@
    <children>
       <VBox layoutX="250.0" layoutY="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <HBox alignment="CENTER" spacing="30.0">
+            <GridPane>
+               <columnConstraints>
+                  <ColumnConstraints percentWidth="33.33" />
+                  <ColumnConstraints percentWidth="33.33" />
+                  <ColumnConstraints percentWidth="33.33" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints />
+               </rowConstraints>
                <children>
-                  <Label focusTraversable="false"
-                        text="Current Player Action" />
-                  <Label fx:id="gameTimerLabel"
-                        focusTraversable="false"
-                        text="Time Remaining: 6:00" />
+                  <Label alignment="CENTER" focusTraversable="false" text="Current Player Action" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
+                  <Label fx:id="gameTimerLabel" focusTraversable="false" text="Time Remaining: 6:00" GridPane.columnIndex="2" GridPane.halignment="RIGHT">
+                     <GridPane.margin>
+                        <Insets right="7.0" />
+                     </GridPane.margin>
+                  </Label>
                </children>
-            </HBox>
+            </GridPane>
             <HBox alignment="CENTER">
                <children>
                   <Label alignment="CENTER" focusTraversable="false" maxWidth="1.7976931348623157E308" prefWidth="300.0" text="GREEN TEAM" HBox.hgrow="ALWAYS" />
