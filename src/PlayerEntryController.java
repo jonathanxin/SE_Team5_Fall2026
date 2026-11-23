@@ -243,7 +243,7 @@ public class PlayerEntryController {
     }
 
     private void clearPlayerEntries() {
-        if (countdownTimeline.getStatus() == Animation.Status.RUNNING) {
+        if (countdownTimeline != null && countdownTimeline.getStatus() == Animation.Status.RUNNING) {
             return; // don't clear entries if countdown is running
         }
 
