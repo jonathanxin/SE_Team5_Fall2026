@@ -122,4 +122,14 @@ curl -fL -o "$JDBC_TEMP" \
 
 mv "$JDBC_TEMP" "$JDBC_JAR"
 
+
+#=======================converting music to WAV========================#
+echo "Converting music to WAV"
+sudo apt-get install -y ffmpeg
+for f in "$PROJECT_DIR"/resources/photon_tracks/*.mp3; do
+    [ -e "$f" ] || continue
+    out="${f%.mp3}.wav"
+    [ -f "$out" ] || ffmpeg -loglevel error -i "$f" -ac 1 -ar 22050 -c:a pcm_s16le "$out"
+done
+
 echo "Install script finished successfully"
