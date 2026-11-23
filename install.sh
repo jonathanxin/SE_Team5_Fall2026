@@ -89,7 +89,7 @@ echo "Setting up JavaFX $JAVAFX_VERSION for $ARCH"
 
 mkdir -p "$JAVAFX_DIR"
 
-for MODULE in base graphics controls fxml; do
+for MODULE in base graphics controls fxml media; do
 
     JAR="$JAVAFX_DIR/javafx-$MODULE-$JAVAFX_VERSION-$JAVAFX_PLATFORM.jar"
 
