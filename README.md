@@ -95,10 +95,6 @@ Enter a Player ID and press Tab.
 
 Follow the on-screen prompts to enter a nickname for a new player and an equipment ID.
 
-Press F5 to start the game countdown.
-
-Press F12 to clear all player entries.
-
 The default network address is 127.0.0.1. To use a different network address, enter it in the network field and click Change Network.
 
 Equipment IDs must be unique across both teams. If an equipment ID is already assigned to another player, the application rejects it and asks for a different one.
@@ -143,8 +139,6 @@ Wait until the generator displays "waiting for start from game_software", then r
 After the 30-second countdown, the generator sends gameplay events. Player scores and team totals update as hits are received, including friendly fire and base hits.
 
 The game runs for six minutes and sends the stop code (221) when it ends.
-
-After the game ends, a button appears at the bottom of the screen that lets you go back to the entry screen.
 
 # Gameplay Features
 
