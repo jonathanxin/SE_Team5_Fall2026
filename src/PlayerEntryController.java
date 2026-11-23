@@ -342,6 +342,7 @@ public class PlayerEntryController {
             model.addSessionPlayer(col, equipmentId);
             changePlayerFieldFocus(playerField);
             return;
+        }
     
         // New player: save their nickname before requesting equipment.
         if (addingPlayer.get()) {
