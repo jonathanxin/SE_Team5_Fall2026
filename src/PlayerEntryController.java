@@ -243,9 +243,8 @@ public class PlayerEntryController {
     }
 
     private void clearPlayerEntries() {
-
-        if (countdownTimeline != null) {
-            countdownTimeline.stop();
+        if (countdownTimeline != null && countdownTimeline.getStatus() == Animation.Status.RUNNING) {
+            return; // don't clear entries if countdown is running
         }
 
         countdownImageView.setVisible(false);
@@ -374,6 +373,7 @@ public class PlayerEntryController {
         TextField nextField = playerFields[currentRow + 1][currentCol];
         nextField.setPromptText("Enter Player ID");
         nextField.requestFocus(); 
+        nextField.setMouseTransparent(false); // allow mouse clicks to focus the next field
         currentTeamPlayerField = nextField;
         playerField.setMouseTransparent(true); // remove mouse transparency for completed fields
     }
@@ -388,7 +388,7 @@ public class PlayerEntryController {
                 // swap currentTeamPlayerField and otherTeamPlayerField to allow for proper focus handling and mouse transparency
                 otherTeamPlayerField.mouseTransparentProperty().unbind();
                 TextField previousCurrentTeamPlayerField = currentTeamPlayerField;
-                if (GridPane.getRowIndex(playerField) != 19 || !currentTeamPlayerField.isMouseTransparent()) // other team is not complete
+                if (!currentTeamPlayerField.isMouseTransparent()) // other team is not complete
                 {
                     previousCurrentTeamPlayerField.clear();
                     previousCurrentTeamPlayerField.setPromptText("Enter Player ID");
@@ -396,13 +396,18 @@ public class PlayerEntryController {
                     otherTeamPlayerField = previousCurrentTeamPlayerField;
                     otherTeamPlayerField.mouseTransparentProperty().bind(addingPlayer.or(enteringEquipment));
                 }
+                else
+                {
+                    currentTeamPlayerField = playerField;
+                    otherTeamPlayerField = previousCurrentTeamPlayerField;
+                }
             }
         }
         else // changing focus away from a player Field
         {
             if (networkAddressField.isFocused()) // focus in on networkAddressField
             {
-                if (GridPane.getRowIndex(playerField) != 19 || !currentTeamPlayerField.isMouseTransparent()) // other team is not complete
+                if (!currentTeamPlayerField.isMouseTransparent()) // a team is not complete
                 {
                     currentTeamPlayerField.clear();
                     currentTeamPlayerField.setPromptText("Enter Player ID");
